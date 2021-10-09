@@ -37,20 +37,28 @@
             </RelativeLayout>
         </com.google.android.material.appbar.MaterialToolbar>
 
-        <TextView
-            android:id="@+id/main_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="35dp"
-            android:layout_marginLeft="35dp"
-            android:layout_marginTop="135dp"
-            android:text="쉽게 검색하고\n믿음가는 리뷰를 찾으세요"/>
+
 
     </LinearLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/main_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="35dp"
+            android:layout_marginLeft="35dp"
+            android:layout_marginTop="24dp"
+            android:text="쉽게 검색하고\n"
+            android:textSize="26dp"
+            android:textColor="@color/black"
+            android:fontFamily="@font/notosanskr_medium"
+            app:layout_constraintBottom_toTopOf="@+id/search"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"            />
 
         <EditText
             android:id="@+id/search"
@@ -62,9 +70,119 @@
             app:layout_constraintLeft_toLeftOf="parent"
             android:background="@drawable/edittext_rounded_corner_rectangle"
             android:elevation="6dp"
-            android:hint="검색어를 입력하세요"
-            android:drawableRight="@drawable/outline_search_24"
-            />
+            android:drawableRight="@drawable/outline_search_24" />
+
+        <HorizontalScrollView
+            android:id="@+id/horizontalScrollView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:scrollbars="none"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/search">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp">
+
+                <TextView
+                    android:id="@+id/history1"
+                    style="@style/history_list"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="35dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@drawable/history_list_box"
+                    android:elevation="6dp"
+                    android:textIsSelectable="true"
+                    android:includeFontPadding="false"/>
+
+                <TextView
+                    android:id="@+id/history2"
+                    style="@style/history_list"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:background="@drawable/history_list_box"
+                    android:elevation="6dp"
+                    android:textIsSelectable="true"
+                    android:includeFontPadding="false"/>
+
+                <TextView
+                    android:id="@+id/history3"
+                    style="@style/history_list"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:background="@drawable/history_list_box"
+                    android:elevation="6dp"
+                    android:textIsSelectable="true"
+                    android:includeFontPadding="false"/>
+
+                <TextView
+                    android:id="@+id/history4"
+                    style="@style/history_list"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:background="@drawable/history_list_box"
+                    android:elevation="6dp"
+                    android:textIsSelectable="true"
+                    android:includeFontPadding="false"/>
+
+                <TextView
+                    android:id="@+id/history5"
+                    style="@style/history_list"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:background="@drawable/history_list_box"
+                    android:elevation="6dp"
+                    android:textIsSelectable="true"
+                    android:includeFontPadding="false"/>
+
+                <TextView
+                    android:id="@+id/history6"
+                    style="@style/history_list"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:background="@drawable/history_list_box"
+                    android:elevation="6dp"
+                    android:textIsSelectable="true"
+                    android:includeFontPadding="false"/>
+
+                <TextView
+                    android:id="@+id/history7"
+                    style="@style/history_list"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:background="@drawable/history_list_box"
+                    android:elevation="6dp"
+                    android:textIsSelectable="true"
+                    android:includeFontPadding="false"/>
+            </LinearLayout>
+        </HorizontalScrollView>
+
+        <Button
+            android:id="@+id/info_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/info_button"
+            android:fontFamily="@font/notosanskr_medium"
+            android:includeFontPadding="false"
+            android:letterSpacing="0"
+            android:minWidth="0dp"
+            android:minHeight="0dp"
+            android:onClick="onClickShowAlert"
+            android:text="신뢰도 구분은 어떻게 하나요?"
+            android:textSize="12.5dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/horizontalScrollView"
+            app:layout_constraintVertical_bias="0.89" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
