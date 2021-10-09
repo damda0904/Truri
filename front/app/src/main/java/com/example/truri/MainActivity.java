@@ -9,10 +9,13 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 
+import com.google.android.material.appbar.MaterialToolbar;
+
 public class MainActivity extends AppCompatActivity {
 
     private DrawerLayout drawerLayout;
     private View drawerView;
+    private MaterialToolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,13 +25,21 @@ public class MainActivity extends AppCompatActivity {
         drawerLayout = (DrawerLayout)findViewById(R.id.drawer);
         drawerView = (View)findViewById(R.id.menu);
 
-        Button btn_open = (Button)findViewById(R.id.menu_btn);
-        btn_open.setOnClickListener(new View.OnClickListener(){
+        toolbar = (MaterialToolbar)findViewById(R.id.toolbar);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
                 drawerLayout.openDrawer(drawerView);
             }
         });
+//
+//        Button btn_open = (Button)findViewById(R.id.menu_btn);
+//        btn_open.setOnClickListener(new View.OnClickListener(){
+//            @Override
+//            public void onClick(View v) {
+//                drawerLayout.openDrawer(drawerView);
+//            }
+//        });
 
         drawerLayout.setDrawerListener(listener);
         drawerView.setOnTouchListener(new View.OnTouchListener() {
