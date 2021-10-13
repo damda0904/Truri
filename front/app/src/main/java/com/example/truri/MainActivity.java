@@ -3,18 +3,25 @@ package com.example.truri;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.view.ActionMode;
+import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.ForegroundColorSpan;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.google.android.material.appbar.MaterialToolbar;
@@ -22,22 +29,25 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import org.w3c.dom.Text;
 
+import static androidx.appcompat.view.ActionMode.*;
+
 public class MainActivity extends AppCompatActivity {
 
     private DrawerLayout drawerLayout;
     private View drawerView;
-    private MaterialToolbar toolbar;
+    private Toolbar toolbar;
     private TextView main_text;
     private TextView[] historyList = new TextView[7];
     private Button info_btn;
     private Button signin_out, signUp;
+    private ImageButton search_btn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
+        //drawer 설정
         drawerLayout = (DrawerLayout)findViewById(R.id.drawer);
         drawerView = (View)findViewById(R.id.menu);
 
@@ -50,15 +60,15 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-
+        //메인 텍스트 설정
         main_text = findViewById(R.id.main_text);
         SpannableStringBuilder builder = new SpannableStringBuilder("믿음가는 리뷰를 찾으세요");
         builder.setSpan(new ForegroundColorSpan(Color.parseColor("#13A6BA")), 0, 7, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         main_text.append(builder);
 
 
-
-        toolbar = (MaterialToolbar)findViewById(R.id.toolbar);
+        //drawer 열기 기능 설정
+        toolbar = (Toolbar)findViewById(R.id.toolbar);
         toolbar.setNavigationOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
@@ -67,7 +77,21 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
+        //로그인 버튼
+        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                startActivity(new Intent(MainActivity.this, LoginPage.class));
+                return false;
+            }
+        });
 
+
+        //서치 버튼 설정
+        search_btn = (ImageButton)findViewById(R.id.search_btn);
+
+
+        //검색기록 설정
         historyList[0] = findViewById(R.id.history1);
         historyList[1] = findViewById(R.id.history2);
         historyList[2] = findViewById(R.id.history3);
@@ -81,6 +105,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
+        //설명 버튼 설정
         info_btn = (Button)findViewById(R.id.info_btn);
 
 
