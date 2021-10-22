@@ -24,6 +24,7 @@ public class SignUpPage extends AppCompatActivity {
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolbar.setTitle("");
 
         //제출 버튼
         //추후 백엔드 연결

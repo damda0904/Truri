@@ -24,6 +24,7 @@ public class LoginPage extends AppCompatActivity {
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolbar.setTitle("");
 
         //로그인 버튼
         signIn = findViewById(R.id.signIn_btn);

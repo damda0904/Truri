@@ -4,10 +4,14 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 public class UserPage extends AppCompatActivity {
@@ -18,6 +22,7 @@ public class UserPage extends AppCompatActivity {
     TextView[] review_titles = new TextView[5];
     ImageView[] circles = new ImageView[5];
     TextView[] review_contents = new TextView[5];
+    RelativeLayout bookmark_layout, review_layout;
 
     int blue = Color.parseColor("#13A6BA");
     int yellow = Color.parseColor("#FBB743");
@@ -33,11 +38,22 @@ public class UserPage extends AppCompatActivity {
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolbar.setTitle("");
 
         //아이디 표시
         userId = findViewById(R.id.userId);
         userId.setText("@maratang01");  //데이터베이스에서 실제 유저 아이디 가져오기
 
+
+        //북마크 레이아웃(클릭으로 더보기 들어가기)
+        bookmark_layout = (RelativeLayout)findViewById(R.id.bookmark_layout);
+        bookmark_layout.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(UserPage.this, BookmarkPage.class));
+            }
+        });
 
         //북마크 수량
         //추후 백엔드에서 받아오기
@@ -63,6 +79,16 @@ public class UserPage extends AppCompatActivity {
         bookmarks[4].setText("강아지사료 추천 하림 눈물사료");
         bookmarks[4].setTextColor(blue);
 
+
+        //리뷰 레이아웃
+        review_layout = findViewById(R.id.review_layout);
+        review_layout.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(UserPage.this, ReviewPage.class));
+            }
+        });
 
         //리뷰 수량
         //추후 백엔드에서 받아오기

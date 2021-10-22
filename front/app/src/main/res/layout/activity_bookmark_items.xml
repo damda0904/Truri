@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:context=".Bookmark_items"
+    android:padding="20dp"
+    android:layout_margin="20dp"
+    android:elevation="6dp"
+    android:orientation="vertical"
+    android:background="@drawable/result_background_box">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp">
+
+        <ImageView
+            android:id="@+id/reliability_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/baseline_dangerous_24"
+            android:layout_marginRight="10dp"
+            android:layout_gravity="center"
+            android:layout_centerVertical="true"/>
+
+        <TextView
+            android:id="@+id/url"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="http://www.naver.com"
+            android:textSize="12dp"
+            android:fontFamily="@font/notosanskr_light"
+            android:includeFontPadding="false"
+            android:textColor="#ACACAC"
+            android:layout_gravity="center"
+            android:layout_toRightOf="@+id/reliability_icon"
+            android:layout_centerVertical="true"/>
+
+        <ImageView
+            android:id="@+id/close"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/baseline_close_36"
+            android:layout_alignParentRight="true"/>
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="굳이 또 찾아가는 나의 서울 맛집 리스트"
+        android:fontFamily="@font/notosanskr_regular"
+        android:textSize="18dp"
+        android:includeFontPadding="false"
+        android:textColor="@color/main_color"
+        android:layout_marginBottom="20dp"/>
+
+    <TextView
+        android:id="@+id/content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="블라블라블라블라블라블라블라블라블라블라블라블라블라블라"
+        android:textSize="15dp"
+        android:textColor="@color/black"
+        android:fontFamily="@font/notosanskr_light"
+        android:includeFontPadding="false"/>
+</LinearLayout>
