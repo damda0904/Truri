@@ -1,23 +1,104 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="270dp"
     android:layout_height="match_parent"
     android:id="@+id/menu"
     android:layout_gravity="start"
     android:orientation="vertical"
-    android:background="@color/white">
+    android:background="@color/white"
+    android:paddingLeft="20dp">
 
-    <Button
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@android:color/transparent"
+        android:text="설정"
+        android:textSize="25dp"
+        android:fontFamily="@font/notosanskr_medium"
+        android:textColor="@color/main_color"/>
+
+
+    <Button
+        android:id="@+id/bookmark"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:textColor="@color/black"
-        android:text="test"/>
+        android:text="북마크 관리"
+        android:textSize="18dp"
+        android:letterSpacing="0"
+        android:fontFamily="@font/notosanskr_regular"
+        android:includeFontPadding="false"
+        android:gravity="left"
+        android:background="@drawable/menu_btn"
+        android:layout_marginBottom="10dp"/>
+
+    <Button
+        android:id="@+id/opinion"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:text="평가 관리"
+        android:textSize="18dp"
+        android:letterSpacing="0"
+        android:fontFamily="@font/notosanskr_regular"
+        android:includeFontPadding="false"
+        android:gravity="left"
+        android:background="@drawable/menu_btn"
+        android:layout_marginBottom="10dp"/>
+
+    <Button
+        android:id="@+id/view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:text="화면 설정"
+        android:textSize="18dp"
+        android:letterSpacing="0"
+        android:fontFamily="@font/notosanskr_regular"
+        android:includeFontPadding="false"
+        android:gravity="left"
+        android:background="@drawable/menu_btn"
+        android:layout_marginBottom="10dp"/>
+
     <TextView
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:gravity="center"
-    android:text="text test"/>
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:textColor="@color/black"
+        android:text="버전 1.0.0"
+        android:textSize="18dp"
+        android:letterSpacing="0"
+        android:fontFamily="@font/notosanskr_regular"
+        android:includeFontPadding="false"
+        android:gravity="left"
+        android:background="@drawable/menu_btn"/>
+
+    <Button
+        android:id="@+id/signin_out"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:textSize="18dp"
+        android:letterSpacing="0"
+        android:fontFamily="@font/notosanskr_regular"
+        android:includeFontPadding="false"
+        android:gravity="left"
+        android:background="@drawable/menu_btn"
+        android:layout_marginBottom="10dp"/>
+
+    <Button
+        android:id="@+id/signUp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="회원가입"
+        android:textColor="@color/black"
+        android:textSize="18dp"
+        android:letterSpacing="0"
+        android:fontFamily="@font/notosanskr_regular"
+        android:includeFontPadding="false"
+        android:gravity="left"
+        android:background="@drawable/menu_btn"
+        android:layout_marginBottom="10dp"/>
+
 
 </LinearLayout>
