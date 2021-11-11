@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Truri</string>
+    <string-array name="search_sort">
+        <item>정확도순</item>
+        <item>신뢰도순</item>
+        <item>최신순</item>
+    </string-array>
 </resources>
