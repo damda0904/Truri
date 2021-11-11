@@ -22,9 +22,6 @@ import android.widget.Spinner;
 
 public class SearchPage extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
-    private DrawerLayout drawerLayout;
-    private View drawerView;
-    private Toolbar toolbar;
     private Spinner spinner;
     private ImageButton bookmark_icon;
     private ImageButton grade_icon;
@@ -35,27 +32,6 @@ public class SearchPage extends AppCompatActivity implements AdapterView.OnItemS
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_page);
-
-        //drawer 설정
-        drawerLayout = (DrawerLayout)findViewById(R.id.drawer);
-        drawerView = (View)findViewById(R.id.menu);
-
-        drawerLayout.setDrawerListener(listener);
-        drawerView.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                return true;
-            }
-        });
-
-        //drawer 열기 기능 설정
-        toolbar = (Toolbar)findViewById(R.id.toolbar);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                drawerLayout.openDrawer(drawerView);
-            }
-        });
 
 
         // 검색 정렬순 설정
@@ -107,27 +83,6 @@ public class SearchPage extends AppCompatActivity implements AdapterView.OnItemS
         });
     }
 
-    DrawerLayout.DrawerListener listener = new DrawerLayout.DrawerListener() {
-        @Override
-        public void onDrawerSlide(@NonNull View drawerView, float slideOffset) {
-
-        }
-
-        @Override
-        public void onDrawerOpened(@NonNull View drawerView) {
-
-        }
-
-        @Override
-        public void onDrawerClosed(@NonNull View drawerView) {
-
-        }
-
-        @Override
-        public void onDrawerStateChanged(int newState) {
-
-        }
-    };
 
 
 
