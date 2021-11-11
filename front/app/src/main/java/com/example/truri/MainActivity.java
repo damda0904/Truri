@@ -11,7 +11,7 @@ import android.widget.Button;
 
 import com.google.android.material.appbar.MaterialToolbar;
 
-public class MainActivity extends AppCompatActivity {
+public class  MainActivity extends AppCompatActivity {
 
     private DrawerLayout drawerLayout;
     private View drawerView;
