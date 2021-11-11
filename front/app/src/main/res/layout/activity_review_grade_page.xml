@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context=".ReviewGradePage">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/top_text"
+        style="@style/gradePage_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="31dp"
+        android:text="해당 게시물의 신뢰도는\n"
+        app:layout_constraintBottom_toTopOf="@+id/item"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+
+    //추후에 recylerview로 수정
+    <LinearLayout
+        android:id="@+id/item"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:context=".Grade_items"
+        android:padding="20dp"
+        android:layout_margin="20dp"
+        android:elevation="6dp"
+        android:orientation="vertical"
+        android:background="@drawable/result_background_box"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="45dp"
+        app:layout_constraintBottom_toTopOf="@id/textView4"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/top_text">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp">
+
+            <ImageView
+                android:id="@+id/reliability_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center"
+                android:layout_marginRight="10dp"
+                android:src="@drawable/baseline_dangerous_24" />
+
+            <TextView
+                android:id="@+id/url"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="http://www.naver.com"
+                android:textSize="12dp"
+                android:fontFamily="@font/notosanskr_light"
+                android:includeFontPadding="false"
+                android:textColor="#ACACAC"
+                android:layout_gravity="center"
+                android:layout_toRightOf="@+id/reliability_icon"
+                android:layout_centerVertical="true"/>
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="감각적인 경복궁 맛집 소개"
+            android:fontFamily="@font/notosanskr_regular"
+            android:textSize="18dp"
+            android:includeFontPadding="false"
+            android:textColor="@color/red"
+            android:layout_marginBottom="5dp"/>
+
+        <TextView
+            android:id="@+id/date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="2021.5.18"
+            android:textSize="11dp"
+            android:textColor="@color/black"
+            android:fontFamily="@font/notosanskr_light"
+            android:includeFontPadding="false"/>
+
+        <HorizontalScrollView
+            android:id="@+id/horizontalScrollView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scrollbars="none"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/editText">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/search_img1"
+                    android:layout_width="74dp"
+                    android:layout_height="74dp"
+                    style="@style/search_image"
+                    android:src="@drawable/food_image" />
+
+                <ImageView
+                    android:id="@+id/search_img2"
+                    style="@style/search_image"
+                    android:layout_width="74dp"
+                    android:layout_height="74dp"
+                    android:src="@drawable/food_image" />
+
+                <ImageView
+                    android:id="@+id/search_img3"
+                    android:layout_width="74dp"
+                    android:layout_height="74dp"
+                    style="@style/search_image"
+                    android:src="@drawable/food_image" />
+
+                <ImageView
+                    android:id="@+id/search_img4"
+                    android:layout_width="74dp"
+                    android:layout_height="74dp"
+                    style="@style/search_image"
+                    android:src="@drawable/food_image" />
+
+                <ImageView
+                    android:id="@+id/search_img5"
+                    android:layout_width="74dp"
+                    android:layout_height="74dp"
+                    style="@style/search_image"
+                    android:src="@drawable/food_image" />
+
+                <ImageView
+                    android:id="@+id/search_img6"
+                    android:layout_width="74dp"
+                    android:layout_height="74dp"
+                    style="@style/search_image"
+                    android:src="@drawable/food_image" />
+
+                <ImageView
+                    android:id="@+id/search_img7"
+                    android:layout_width="74dp"
+                    android:layout_height="74dp"
+                    style="@style/search_image"
+                    android:src="@drawable/food_image" />
+
+                <ImageView
+                    android:id="@+id/search_img8"
+                    android:layout_width="74dp"
+                    android:layout_height="74dp"
+                    style="@style/search_image"
+                    android:src="@drawable/food_image" />
+
+                <ImageView
+                    android:id="@+id/search_img9"
+                    android:layout_width="74dp"
+                    android:layout_height="74dp"
+                    style="@style/search_image"
+                    android:src="@drawable/food_image" />
+
+            </LinearLayout>
+        </HorizontalScrollView>
+
+
+        <TextView
+            android:id="@+id/content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="요즘 날씨가 따뜻해서 친구랑 데이트 나갔다가 경복궁 맛집으로 발길이 닿았네요, 몸에 좋은 재료로 만든 음식이 퀄리티도 높았던 곳이라 아직까지도 기억에 남아있어요."
+            android:textSize="13dp"
+            android:textColor="@color/black"
+            android:fontFamily="@font/notosanskr_light"
+            android:includeFontPadding="false"
+            android:maxLines="2"
+            android:ellipsize="end" />
+    </LinearLayout>
+
+
+
+
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:fontFamily="@font/notosanskr_medium"
+        android:includeFontPadding="false"
+        android:text="직접 평가하신 신뢰도를 알려주세요"
+        android:textColor="@color/black"
+        android:textSize="18dp"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/item" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/next_btn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView4">
+
+        <Button
+            android:id="@+id/button"
+            style="@style/btn_grade"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/grade_btn"
+            android:drawableTop="@drawable/baseline_dangerous_24"
+            android:text="신뢰 불가" />
+
+        <Button
+            android:id="@+id/button2"
+            style="@style/btn_grade"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/grade_btn"
+            android:drawableTop="@drawable/baseline_report_problem_24"
+            android:text="약간 신뢰" />
+
+        <Button
+            android:id="@+id/button3"
+            style="@style/btn_grade"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/grade_btn"
+            android:drawableTop="@drawable/baseline_verified_20"
+            android:text="신뢰 가능" />
+    </LinearLayout>
+
+
+    <Button
+        android:id="@+id/next_btn"
+        android:layout_width="280dp"
+        android:layout_height="38dp"
+        android:background="@drawable/grade_next_btn"
+        style="@style/grade_next_btn"
+        android:text="다음"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
+        android:layout_marginTop="40dp" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
