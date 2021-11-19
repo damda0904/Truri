@@ -31,7 +31,7 @@ import org.w3c.dom.Text;
 
 import static androidx.appcompat.view.ActionMode.*;
 
-public class MainActivity extends AppCompatActivity {
+public class  MainActivity extends AppCompatActivity {
 
     private DrawerLayout drawerLayout;
     private View drawerView;
@@ -89,6 +89,13 @@ public class MainActivity extends AppCompatActivity {
 
         //서치 버튼 설정
         search_btn = (ImageButton)findViewById(R.id.search_btn);
+        search_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), SearchPage.class);
+                startActivity(intent);
+            }
+        });
 
 
         //검색기록 설정
