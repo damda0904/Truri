@@ -7,6 +7,7 @@ from selenium.webdriver.support import expected_conditions as EC
 def crawling(query) :
     URL = 'https://search.naver.com/search.naver?query=' + query + '&nso=&where=blog&sm=tab_opt'
 
+    #크롬드라이브 링크(경로에 한글 불가)
     driver = webdriver.Chrome(executable_path='C:\Truri\AI\chromedriver.exe')
     driver.get(url=URL)
 
