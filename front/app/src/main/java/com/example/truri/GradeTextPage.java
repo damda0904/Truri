@@ -34,7 +34,7 @@ public class GradeTextPage extends AppCompatActivity {
 
         //상단 텍스트 '신뢰도' 설정
         top_text = findViewById(R.id.top_text);
-        SpannableStringBuilder sp = new SpannableStringBuilder("신뢰 가능으로 평가하신 \n 이유를 알려주세요");
+        SpannableStringBuilder sp = new SpannableStringBuilder("신뢰 가능으로 평가하신 \n이유를 알려주세요");
 
         ForegroundColorSpan color = new ForegroundColorSpan(Color.parseColor("#13A6BA"));
         sp.setSpan(color, 0, 5, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
