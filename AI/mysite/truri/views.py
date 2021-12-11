@@ -4,10 +4,12 @@ from django.shortcuts import render
 
 from django.http import HttpResponse
 from . import crawling
+from . import runModel
 
 def index(request, query):
-    texts = crawling.crawling(query)
-    for text in texts:
-        print("test")
+    contents = crawling.crawling(query)
+    result = runModel.runModel(contents)
+
+    print(result)
 
     return HttpResponse("Hello World! This is Django test")
