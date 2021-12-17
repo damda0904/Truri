@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="99d714ac-9fe9-432a-b574-bc97b8262249" name="Default Changelist" comment="">
+    <list default="true" id="99d714ac-9fe9-432a-b574-bc97b8262249" name="Default Changelist" comment="server 수정">
       <change afterPath="$PROJECT_DIR$/../front/app/src/main/java/com/example/truri/ApiConnector.java" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/../front/app/src/main/java/com/example/truri/Search_Adapter.java" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/../front/app/src/main/java/com/example/truri/Search_data.java" afterDir="false" />
@@ -94,6 +94,7 @@
       <workItem from="1637827635817" duration="1490000" />
       <workItem from="1638630263852" duration="66000" />
       <workItem from="1639569211610" duration="20282000" />
+      <workItem from="1639738669102" duration="302000" />
     </task>
     <task id="LOCAL-00001" summary="django init / crawling">
       <created>1637300992661</created>
@@ -130,7 +131,14 @@
       <option name="project" value="LOCAL" />
       <updated>1637302738933</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="server 수정">
+      <created>1639738981323</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1639738981323</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -152,7 +160,8 @@
     <MESSAGE value="django init / crawling" />
     <MESSAGE value="init" />
     <MESSAGE value="chromedriver 설명 추가" />
-    <option name="LAST_COMMIT_MESSAGE" value="chromedriver 설명 추가" />
+    <MESSAGE value="server 수정" />
+    <option name="LAST_COMMIT_MESSAGE" value="server 수정" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/AI$main.coverage" NAME="main Coverage Results" MODIFIED="1639600816465" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
