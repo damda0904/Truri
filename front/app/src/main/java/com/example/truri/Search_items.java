@@ -56,8 +56,5 @@ public class Search_items extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
-        
-        
     }
 }

@@ -55,12 +55,12 @@
             android:textSize="26dp"
             android:textColor="@color/black"
             android:fontFamily="@font/notosanskr_medium"
-            app:layout_constraintBottom_toTopOf="@+id/editText"
+            app:layout_constraintBottom_toTopOf="@+id/search"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>
 
         <EditText
-            android:id="@+id/editText"
+            android:id="@+id/search"
             android:layout_width="348dp"
             android:layout_height="64dp"
             android:background="@drawable/edittext_rounded_corner_rectangle"
@@ -81,7 +81,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.89"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/editText" />
+            app:layout_constraintTop_toTopOf="@+id/search" />
 
 
 
@@ -92,7 +92,7 @@
             android:layout_marginTop="20dp"
             android:scrollbars="none"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editText">
+            app:layout_constraintTop_toBottomOf="@+id/search">
 
             <LinearLayout
                 android:layout_width="match_parent"

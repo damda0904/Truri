@@ -25,8 +25,8 @@ def runModel(content) :
         model = load_model("../resource/best_model.h5")  # 모델불러오기
         score = float(model.predict(pad_new))
         if (score > 0.5):
-            result.append("{:.2f}% 확률로 광고 리뷰입니다.\n".format(score * 100))
+            result.append(round(score * 100, 0))
         else:
-            result.append("{:.2f}% 확률로 광고가 아닌 리뷰입니다.\n".format((1 - score) * 100))
+            result.append(round((1 - score) * 100, 0))
 
     return result

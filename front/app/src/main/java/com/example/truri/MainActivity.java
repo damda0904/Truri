@@ -21,6 +21,7 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -41,6 +42,7 @@ public class  MainActivity extends AppCompatActivity {
     private Button info_btn;
     private Button signin_out, signUp;
     private ImageButton search_btn;
+    private EditText search;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,7 +94,11 @@ public class  MainActivity extends AppCompatActivity {
         search_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                search = findViewById(R.id.search);
+                String keyword = search.getText().toString();
+
                 Intent intent = new Intent(getApplicationContext(), SearchPage.class);
+                intent.putExtra("keyword", keyword);
                 startActivity(intent);
             }
         });
@@ -117,11 +123,11 @@ public class  MainActivity extends AppCompatActivity {
 
 
         signin_out = (Button)findViewById(R.id.signin_out);
-        //추후 if문으로 로그인/로그아웃 상태에 따라 텍스트 변화주기
+        //TODO: 추후 if문으로 로그인/로그아웃 상태에 따라 텍스트 변화주기
         signin_out.setText("로그아웃");
 
         signUp = (Button)findViewById(R.id.signUp);
-        signUp.setVisibility(View.VISIBLE);   //추후 로그인 상태의 역우 INVISIBLE로 바꾸기
+        signUp.setVisibility(View.VISIBLE);   //TODO: 추후 로그인 상태의 경우 INVISIBLE로 바꾸기
     }
 
     DrawerLayout.DrawerListener listener = new DrawerLayout.DrawerListener() {

@@ -3,6 +3,7 @@ package com.truri.truri.security.service;
 import com.truri.truri.DTO.MemberDTO;
 import com.truri.truri.entity.Member;
 import com.truri.truri.repository.MemberRepository;
+import com.truri.truri.security.util.JWTUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +16,9 @@ import java.util.Optional;
 @Log4j2
 @RequiredArgsConstructor
 public class MemberServiceImpl implements MemberService{
+
     private final MemberRepository memberRepository;
+    private final JWTUtil jwtUtil;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -39,7 +42,20 @@ public class MemberServiceImpl implements MemberService{
 
         memberRepository.save(member);
 
-        return member.getUserId();
+        String userId = member.getUserId();
+
+        if(userId == null) {
+            return null;
+        }
+
+        String token = null;
+        try{
+            token = jwtUtil.generateToken(userId);
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+
+        return token;
     }
 
     @Override

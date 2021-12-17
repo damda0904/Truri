@@ -1,30 +1,44 @@
 package com.example.truri;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.appcompat.widget.SearchView;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
-import android.graphics.Color;
+import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.text.Spannable;
-import android.text.SpannableStringBuilder;
-import android.text.style.ForegroundColorSpan;
-import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
+
 import android.widget.Spinner;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 public class SearchPage extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     private Spinner spinner;
     private ImageButton bookmark_icon;
     private ImageButton grade_icon;
+    private SearchView search;
+    private RecyclerView recyclerView;
+    private LinearLayoutManager linearLayoutManager;
+    private ArrayList<Search_data> data;
+    private Search_Adapter adapter;
+
     int bookmark_click = 0;
     int grade_click = 0;
 
@@ -33,54 +47,167 @@ public class SearchPage extends AppCompatActivity implements AdapterView.OnItemS
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_page);
 
+        //검색 키워드 가져오기
+        Intent intent = getIntent();
+        String keyword = intent.getStringExtra("keyword");
+        System.out.println(keyword);
+        search = findViewById(R.id.search);
+        search.setQueryHint(keyword);
+
 
         // 검색 정렬순 설정
         spinner= (Spinner)findViewById(R.id.spinner);
 
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.search_sort, R.layout.search_sort_items);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
+        ArrayAdapter<CharSequence> arrayAdapter = ArrayAdapter.createFromResource(this, R.array.search_sort, R.layout.search_sort_items);
+        arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(arrayAdapter);
 
         spinner.setOnItemSelectedListener(this);
 
 
-        // 추후에 수정
-        // 북마크버튼 클릭 설정
-        bookmark_icon = (ImageButton)findViewById(R.id.bookmark_icon);
-        bookmark_icon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        // 리사이클러뷰 설정
+        recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+        linearLayoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(linearLayoutManager);
 
-                if(bookmark_click == 0)
-                {
-                    bookmark_icon.setSelected(true);
-                    bookmark_click = 1;
+        data = new ArrayList<>();
+
+        adapter = new Search_Adapter(data);
+        recyclerView.setAdapter(adapter);
+
+        //더미 데이터
+        for (int i = 0; i < 1; i++) {
+            Search_data dummy = new Search_data(R.drawable.baseline_verified_20,
+                    "http://localhost:8080",
+                    "이것은 더미입니다",
+                    "2021.12.16",
+                    "더미더미더미더미더미더미더미더미더미더미더미더미더미더미더미더미더미더미더미더미...",
+                    "#13A6BA");
+            data.add(dummy);
+        }
+
+        //데이터 불러오기
+        AsyncTask.execute(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    URL url = new URL("http://10.0.2.2:8000/truri/search/" + keyword+"/");
+
+                    HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+
+                    //헤더 설정
+                    conn.setRequestProperty("User-Agent", "truri-v0.1");
+                    conn.setRequestMethod("GET");
+
+                    //응답
+                    if (conn.getResponseCode() == 200) {
+                        InputStream responseBody = conn.getInputStream();
+                        StringBuilder builder = new StringBuilder();
+
+                        BufferedReader reader = new BufferedReader(new InputStreamReader(responseBody, "UTF-8"));
+                        String line;
+                        while ((line = reader.readLine()) != null) {
+                            builder.append(line);
+                        }
+
+                        String response = builder.toString();
+                        System.out.println(response);
+                        String[] res_list = response.split(", [{]");
+                        System.out.println(res_list[1]);
+                        List<JSONObject> item_list = new ArrayList<>();
+                        for(String item : res_list){
+                            System.out.println("------------");
+                            System.out.println(item.indexOf(0));
+                            if(item.indexOf("{") < 0){
+                                item = "{" + item;
+                            }
+                            JSONObject tmp = new JSONObject(item);
+                            item_list.add(tmp);
+                            System.out.println(tmp);
+                        }
+
+                        System.out.println("Connection is Successful");
+                        System.out.println(builder);
+
+                        //데이터 View에 추가
+                        List<Search_data> newItem_list = new ArrayList<>();
+                        for (JSONObject item: item_list) {
+                            int icon;
+                            String color;
+
+                            //score에 따른 아이콘, 색상 변화
+                            if(Double.parseDouble(item.get("score").toString()) > 70) {
+                                icon = R.drawable.baseline_verified_20;
+                                color = "#13A6BA";
+                            } else if(Double.parseDouble(item.get("score").toString()) < 40) {
+                                icon = R.drawable.baseline_dangerous_24;
+                                color= "#F33362";
+                            } else {
+                                icon = R.drawable.baseline_report_problem_24;
+                                color = "#FF9F3E";
+                            }
+
+
+                            Search_data newItem = new Search_data(icon,
+                                    item.get("link").toString(),
+                                    item.get("title").toString(),
+                                    item.get("date").toString(),
+                                    item.get("preview").toString(),
+                                    color);
+                            data.add(newItem);
+                            newItem_list.add(newItem);
+                        }
+
+                        adapter.addItem(newItem_list, adapter.position);
+
+                    } else {
+                        System.out.println("-----------------connector error");
+                        System.out.println(conn.getResponseCode());
+                    }
+
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
-                else
-                {
-                    bookmark_icon.setSelected(false);
-                    bookmark_click = 0;
-                }
             }
         });
 
-        //평가버튼 클릭 설정
-        grade_icon = (ImageButton)findViewById(R.id.grade_icon);
-        grade_icon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-            }
-        });
 
-        //평가버튼 페이지 이동
-        grade_icon = findViewById(R.id.grade_icon);
-        grade_icon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), ReviewGradePage.class);
-                startActivity(intent);
-            }
-        });
+//        // 북마크버튼 클릭 설정
+//        bookmark_icon = (ImageButton)findViewById(R.id.bookmark_icon);
+//        bookmark_icon.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//                if(bookmark_click == 0)
+//                {
+//                    bookmark_icon.setSelected(true);
+//                    bookmark_click = 1;
+//                }
+//                else
+//                {
+//                    bookmark_icon.setSelected(false);
+//                    bookmark_click = 0;
+//                }
+//            }
+//        });
+//
+//        //평가버튼 클릭 설정
+//        grade_icon = (ImageButton)findViewById(R.id.grade_icon);
+//        grade_icon.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//            }
+//        });
+//
+//        //평가버튼 페이지 이동
+//        grade_icon = findViewById(R.id.grade_icon);
+//        grade_icon.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(getApplicationContext(), ReviewGradePage.class);
+//                startActivity(intent);
+//            }
+//        });
     }
 
 
