@@ -9,8 +9,8 @@ import json
 from .runModel import runModel
 
 
-def index(request, query):
-    items = crawling.crawling(query)
+def index(request, query, page):
+    items = crawling.crawling(query, page)
 
     #본문 목록만 뽑기
     contents = []

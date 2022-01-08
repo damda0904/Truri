@@ -84,6 +84,8 @@ public class SearchPage extends AppCompatActivity implements AdapterView.OnItemS
                     "더미더미더미더미더미더미더미더미더미더미더미더미더미더미더미더미더미더미더미더미...",
                     "#13A6BA");
             data.add(dummy);
+
+
         }
 
         //데이터 불러오기

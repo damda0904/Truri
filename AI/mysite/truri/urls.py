@@ -5,5 +5,5 @@ from . import views
 #터미널 : python manage.py runserver
 #링크 : http://localhost:8000/truri/search/검색어/
 urlpatterns = [
-    path('search/<query>/', views.index, name='search'),
+    path('search/<query>/<page>', views.index, name='search'),
 ]
