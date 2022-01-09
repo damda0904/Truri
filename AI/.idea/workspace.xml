@@ -1,14 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="99d714ac-9fe9-432a-b574-bc97b8262249" name="Default Changelist" comment="server 수정">
+    <list default="true" id="99d714ac-9fe9-432a-b574-bc97b8262249" name="Default Changelist" comment="페이지단위 크롤링 구현">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/mysite/truri/crawling.py" beforeDir="false" afterPath="$PROJECT_DIR$/mysite/truri/crawling.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mysite/truri/tests.py" beforeDir="false" afterPath="$PROJECT_DIR$/mysite/truri/tests.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mysite/truri/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/mysite/truri/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mysite/truri/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/mysite/truri/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../front/app/src/main/java/com/example/truri/SearchPage.java" beforeDir="false" afterPath="$PROJECT_DIR$/../front/app/src/main/java/com/example/truri/SearchPage.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -83,7 +78,8 @@
       <workItem from="1639569211610" duration="20282000" />
       <workItem from="1639738669102" duration="302000" />
       <workItem from="1641026531109" duration="51000" />
-      <workItem from="1641628728662" duration="6476000" />
+      <workItem from="1641628728662" duration="9145000" />
+      <workItem from="1641746245199" duration="3744000" />
     </task>
     <task id="LOCAL-00001" summary="django init / crawling">
       <created>1637300992661</created>
@@ -127,7 +123,14 @@
       <option name="project" value="LOCAL" />
       <updated>1639738981323</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="페이지단위 크롤링 구현">
+      <created>1641636963113</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1641636963113</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -150,9 +153,10 @@
     <MESSAGE value="init" />
     <MESSAGE value="chromedriver 설명 추가" />
     <MESSAGE value="server 수정" />
-    <option name="LAST_COMMIT_MESSAGE" value="server 수정" />
+    <MESSAGE value="페이지단위 크롤링 구현" />
+    <option name="LAST_COMMIT_MESSAGE" value="페이지단위 크롤링 구현" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/AI$main.coverage" NAME="main Coverage Results" MODIFIED="1641636722381" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/AI$main.coverage" NAME="main Coverage Results" MODIFIED="1641748766472" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>

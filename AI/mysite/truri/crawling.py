@@ -2,7 +2,6 @@ from selenium import webdriver
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
-from time import sleep
 import time
 
 def crawling(query, page) :
@@ -23,20 +22,20 @@ def crawling(query, page) :
     try:
 
         #검색 결과가 나올 때까지 대기
-        WebDriverWait(driver, 5).until(
+        WebDriverWait(driver, 2).until(
             EC.presence_of_element_located((By.CLASS_NAME, 'thumb_single'))
         )
 
 
         #1페이지 이외라면 추가 스크롤 및 대기
         if page > 1 :
-            for i in range(page - 1):
+            for i in range(1, page):
                 try :
                     driver.execute_script("window.scrollTo(0, document.body.scrollHeight)")
-                    sleep(1)
-                    #그냥 물리적으로 1초 기다림
-                    #implicitly wait - 화면이 이미 떴기 때문에 사용해봤자 기다리지 않고 바로 다음 코드 진행
-                    #explicitly wait - n번째 요소가 떴는지 기다리는 코드는 없어서 사용하지 않음
+                    length = 30 + (30*i)
+                    WebDriverWait(driver, 2).until(
+                        lambda browser: len(browser.find_elements(By.CLASS_NAME, 'thumb_single')) == int(length)
+                    )
                 except Exception as e:
                     print("스크롤 에러")
                     print(e)
