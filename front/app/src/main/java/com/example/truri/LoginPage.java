@@ -34,6 +34,13 @@ public class LoginPage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_page);
 
+        //이미 로그인된 상태라면 리디렉션
+        SharedPreferences prefs = getSharedPreferences("JWT", MODE_PRIVATE);
+        String token = prefs.getString("token", "");
+        if(!token.equals("")){
+            startActivity(new Intent(LoginPage.this, MainActivity.class));
+        }
+
         //뒤로가기 버튼 설정
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

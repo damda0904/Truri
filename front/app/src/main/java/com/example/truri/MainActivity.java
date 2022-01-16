@@ -10,8 +10,10 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.ForegroundColorSpan;
@@ -40,7 +42,7 @@ public class  MainActivity extends AppCompatActivity {
     private TextView main_text;
     private TextView[] historyList = new TextView[7];
     private Button info_btn;
-    private Button signin_out, signUp;
+    private Button signin_out, member;
     private ImageButton search_btn;
     private EditText search;
 
@@ -121,13 +123,52 @@ public class  MainActivity extends AppCompatActivity {
         //설명 버튼 설정
         info_btn = (Button)findViewById(R.id.info_btn);
 
+        //토큰 불러오기
+        Context context = this;
+        SharedPreferences prefs =  getSharedPreferences("JWT", MODE_PRIVATE);
+        String token = prefs.getString("token", "");
 
+        //토큰이 있을 경우 로그인, 없을 경우 로그아웃 버튼으로 전환
         signin_out = (Button)findViewById(R.id.signin_out);
-        //TODO: 추후 if문으로 로그인/로그아웃 상태에 따라 텍스트 변화주기
-        signin_out.setText("로그아웃");
+        if(token.equals("")) {
+            signin_out.setText("로그인");
+        } else {
+            signin_out.setText("로그아웃");
+        }
 
-        signUp = (Button)findViewById(R.id.signUp);
-        signUp.setVisibility(View.VISIBLE);   //TODO: 추후 로그인 상태의 경우 INVISIBLE로 바꾸기
+        signin_out.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(token.equals("")) {
+                    startActivity(new Intent(MainActivity.this, LoginPage.class));
+                } else {
+                    SharedPreferences.Editor editor = prefs.edit();
+                    editor.remove("token");
+                    editor.commit();
+                    startActivity(new Intent(MainActivity.this, MainActivity.class));
+                }
+            }
+        });
+
+        //토큰이 있을 경우 회원가입, 없을 경우 회원탈퇴 버튼으로 전환
+        member = (Button)findViewById(R.id.member);
+        if(token.equals("")) {
+            member.setText("회원가입");
+        } else {
+            member.setText("회원탈퇴");
+        }
+        member.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(token.equals("")) {
+                    startActivity(new Intent(MainActivity.this, SignUpPage.class));
+                } else {
+                    //TODO:회원탈퇴 구현
+                    //startActivity(new Intent(MainActivity.this, SignUpPage.class));
+                }
+            }
+        });
+
     }
 
     DrawerLayout.DrawerListener listener = new DrawerLayout.DrawerListener() {
