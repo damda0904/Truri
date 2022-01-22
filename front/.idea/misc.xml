@@ -6,13 +6,18 @@
         <entry key="../../../../../layout/custom_preview.xml" value="0.31574074074074077" />
         <entry key="..\:/Truri/front/app/src/main/res/drawable/baseline_dangerous_24.xml" value="0.12387387387387387" />
         <entry key="..\:/Truri/front/app/src/main/res/drawable/baseline_feedback_24.xml" value="0.12387387387387387" />
+        <entry key="..\:/Truri/front/app/src/main/res/drawable/baseline_person_24.xml" value="0.32622222222222225" />
         <entry key="..\:/Truri/front/app/src/main/res/drawable/baseline_report_problem_24.xml" value="0.12387387387387387" />
         <entry key="..\:/Truri/front/app/src/main/res/drawable/baseline_verified_20.xml" value="0.22666666666666666" />
+        <entry key="..\:/Truri/front/app/src/main/res/drawable/menu_btn.xml" value="0.32622222222222225" />
+        <entry key="..\:/Truri/front/app/src/main/res/drawable/outline_more_horiz_24.xml" value="0.32622222222222225" />
+        <entry key="..\:/Truri/front/app/src/main/res/drawable/signup_btn.xml" value="0.32622222222222225" />
         <entry key="..\:/Truri/front/app/src/main/res/layout/activity_bookmark_items.xml" value="0.15602605863192182" />
         <entry key="..\:/Truri/front/app/src/main/res/layout/activity_bookmark_page.xml" value="0.15602605863192182" />
         <entry key="..\:/Truri/front/app/src/main/res/layout/activity_login_page.xml" value="0.16799999999999998" />
         <entry key="..\:/Truri/front/app/src/main/res/layout/activity_main.xml" value="0.264" />
         <entry key="..\:/Truri/front/app/src/main/res/layout/activity_menu.xml" value="0.264" />
+        <entry key="..\:/Truri/front/app/src/main/res/layout/activity_review_grade_page.xml" value="0.31666666666666665" />
         <entry key="..\:/Truri/front/app/src/main/res/layout/activity_review_items.xml" value="0.15602605863192182" />
         <entry key="..\:/Truri/front/app/src/main/res/layout/activity_review_page.xml" value="0.15602605863192182" />
         <entry key="..\:/Truri/front/app/src/main/res/layout/activity_search_items.xml" value="0.264" />

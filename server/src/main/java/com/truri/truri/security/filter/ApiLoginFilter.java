@@ -99,7 +99,7 @@ public class ApiLoginFilter extends AbstractAuthenticationProcessingFilter {
             response.setContentType("text/plain");
             response.getOutputStream().write(token.getBytes());
 
-            log.info(token);
+            log.info("token : " + token);
         } catch(Exception e) {
             e.printStackTrace();
         }

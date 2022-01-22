@@ -107,6 +107,8 @@ public class SignUpPage extends AppCompatActivity {
                             //파싱 후 전송
                             conn.getOutputStream().write(body_string.getBytes());
 
+                            //TODO: 예외처리 - 서버연결불가
+
                             //응답
                             String response = null;
                             if (conn.getResponseCode() == 200) {

@@ -55,7 +55,7 @@ public class ApiConnector {
                         result = builder.toString();
 
                         System.out.println("Connection is Successful");
-                        System.out.println(result);
+                        //System.out.println(result);
 
                     } else {
                         System.out.println("-----------------connector error");
@@ -67,7 +67,7 @@ public class ApiConnector {
             }
         });
 
-        System.out.println(result);
+        System.out.println("result : " + result);
 
         return result;
     }
