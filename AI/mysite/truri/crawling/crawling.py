@@ -16,7 +16,7 @@ def crawling(query, page) :
     webdriver_options.add_argument('headless')
 
     #크롬드라이브 링크(경로에 한글 불가)
-    driver = webdriver.Chrome(executable_path='C:\Truri\AI\chromedriver.exe', options=webdriver_options)
+    driver = webdriver.Chrome(executable_path='/chromedriver.exe', options=webdriver_options)
     driver.get(url=URL)
 
     try:

@@ -2,7 +2,18 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="99d714ac-9fe9-432a-b574-bc97b8262249" name="Default Changelist" comment="크롤링 일부 수정">
+      <change afterPath="$PROJECT_DIR$/mysite/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mysite/truri/crawling/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mysite/truri/crawling/naverAPI_crawling.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mysite/truri/crawling/scrapy_crawling.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mysite/truri/crawling/selenium_crawling.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mysite/mysite/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/mysite/mysite/settings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mysite/truri/crawling.py" beforeDir="false" afterPath="$PROJECT_DIR$/mysite/truri/crawling/crawling.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mysite/truri/runModel.py" beforeDir="false" afterPath="$PROJECT_DIR$/mysite/truri/runModel.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mysite/truri/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/mysite/truri/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mysite/truri/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/mysite/truri/views.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -29,7 +40,13 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../Flask assignment" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Truri\AI\mysite\truri\crawling" />
+      <recent name="C:\Truri\AI\mysite\truri" />
+    </key>
   </component>
   <component name="RunManager">
     <configuration name="main" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
@@ -80,6 +97,19 @@
       <workItem from="1641628728662" duration="9145000" />
       <workItem from="1641746245199" duration="3863000" />
       <workItem from="1642139112873" duration="261000" />
+      <workItem from="1643296279831" duration="3478000" />
+      <workItem from="1643359510412" duration="7477000" />
+      <workItem from="1643429271987" duration="1180000" />
+      <workItem from="1643725633776" duration="593000" />
+      <workItem from="1643728368980" duration="1946000" />
+      <workItem from="1643776043795" duration="12075000" />
+      <workItem from="1643806043900" duration="1771000" />
+      <workItem from="1643974848885" duration="439000" />
+      <workItem from="1643982168278" duration="296000" />
+      <workItem from="1643987853724" duration="10534000" />
+      <workItem from="1644062663212" duration="802000" />
+      <workItem from="1644674921611" duration="3026000" />
+      <workItem from="1644750091421" duration="16181000" />
     </task>
     <task id="LOCAL-00001" summary="django init / crawling">
       <created>1637300992661</created>
@@ -165,6 +195,6 @@
     <option name="LAST_COMMIT_MESSAGE" value="크롤링 일부 수정" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/AI$main.coverage" NAME="main Coverage Results" MODIFIED="1641748766472" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/AI$main.coverage" NAME="main Coverage Results" MODIFIED="1644769703617" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>

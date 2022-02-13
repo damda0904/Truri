@@ -13,6 +13,7 @@ def runModel(content) :
     okt = Okt()
 
     result = []
+    test = 0    #테스트용 변수
     for s in content:
         with open('../resource/wordIndex.json', 'r') as f:  # 저장한 워드인벡스 호출
             json_data = json.load(f)
@@ -28,5 +29,7 @@ def runModel(content) :
             result.append(round(score * 100, 0))
         else:
             result.append(round((1 - score) * 100, 0))
+        print(str(test) + "---------------------------------------")
+        test += 1
 
     return result
