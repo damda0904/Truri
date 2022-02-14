@@ -1,19 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="99d714ac-9fe9-432a-b574-bc97b8262249" name="Default Changelist" comment="크롤링 일부 수정">
-      <change afterPath="$PROJECT_DIR$/mysite/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mysite/truri/crawling/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mysite/truri/crawling/naverAPI_crawling.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mysite/truri/crawling/scrapy_crawling.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mysite/truri/crawling/selenium_crawling.py" afterDir="false" />
+    <list default="true" id="99d714ac-9fe9-432a-b574-bc97b8262249" name="Default Changelist" comment="Scrapy - naver, google crawling 진행중">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mysite/mysite/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/mysite/mysite/settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mysite/truri/crawling.py" beforeDir="false" afterPath="$PROJECT_DIR$/mysite/truri/crawling/crawling.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mysite/truri/runModel.py" beforeDir="false" afterPath="$PROJECT_DIR$/mysite/truri/runModel.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mysite/truri/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/mysite/truri/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mysite/truri/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/mysite/truri/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mysite/truri/crawling/scrapy_crawling.py" beforeDir="false" afterPath="$PROJECT_DIR$/mysite/truri/crawling/scrapy_crawling.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -109,7 +99,9 @@
       <workItem from="1643987853724" duration="10534000" />
       <workItem from="1644062663212" duration="802000" />
       <workItem from="1644674921611" duration="3026000" />
-      <workItem from="1644750091421" duration="16181000" />
+      <workItem from="1644750091421" duration="16280000" />
+      <workItem from="1644814755242" duration="1307000" />
+      <workItem from="1644822784502" duration="332000" />
     </task>
     <task id="LOCAL-00001" summary="django init / crawling">
       <created>1637300992661</created>
@@ -167,7 +159,14 @@
       <option name="project" value="LOCAL" />
       <updated>1641750047865</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="Scrapy - naver, google crawling 진행중">
+      <created>1644769786361</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1644769786361</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -192,9 +191,10 @@
     <MESSAGE value="server 수정" />
     <MESSAGE value="페이지단위 크롤링 구현" />
     <MESSAGE value="크롤링 일부 수정" />
-    <option name="LAST_COMMIT_MESSAGE" value="크롤링 일부 수정" />
+    <MESSAGE value="Scrapy - naver, google crawling 진행중" />
+    <option name="LAST_COMMIT_MESSAGE" value="Scrapy - naver, google crawling 진행중" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/AI$main.coverage" NAME="main Coverage Results" MODIFIED="1644769703617" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/AI$main.coverage" NAME="main Coverage Results" MODIFIED="1644823089181" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>
