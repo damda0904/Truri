@@ -2,8 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="99d714ac-9fe9-432a-b574-bc97b8262249" name="Default Changelist" comment="Scrapy - naver, google crawling 진행중">
+      <change afterPath="$PROJECT_DIR$/mysite/truri/checkText.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mysite/truri/image_text.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/mysite/truri/crawling/scrapy_crawling.py" beforeDir="false" afterPath="$PROJECT_DIR$/mysite/truri/crawling/scrapy_crawling.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mysite/truri/runModel.py" beforeDir="false" afterPath="$PROJECT_DIR$/mysite/truri/runModel.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mysite/truri/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/mysite/truri/views.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -15,6 +20,17 @@
       <list>
         <option value="Python Script" />
       </list>
+    </option>
+  </component>
+  <component name="FlaskConsoleOptions" custom-start-script="import sys&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;from flask.cli import ScriptInfo&#10;locals().update(ScriptInfo(create_app=None).load_app().make_shell_context())&#10;print(&quot;Python %s on %s\nApp: %s [%s]\nInstance: %s&quot; % (sys.version, sys.platform, app.import_name, app.env, app.instance_path))">
+    <envs>
+      <env key="FLASK_APP" value="app" />
+    </envs>
+    <option name="myCustomStartScript" value="import sys&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;from flask.cli import ScriptInfo&#10;locals().update(ScriptInfo(create_app=None).load_app().make_shell_context())&#10;print(&quot;Python %s on %s\nApp: %s [%s]\nInstance: %s&quot; % (sys.version, sys.platform, app.import_name, app.env, app.instance_path))" />
+    <option name="myEnvs">
+      <map>
+        <entry key="FLASK_APP" value="app" />
+      </map>
     </option>
   </component>
   <component name="Git.Settings">
@@ -31,6 +47,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="settings.editor.selected.configurable" value="project.propVCSSupport.Mappings" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
@@ -101,7 +118,11 @@
       <workItem from="1644674921611" duration="3026000" />
       <workItem from="1644750091421" duration="16280000" />
       <workItem from="1644814755242" duration="1307000" />
-      <workItem from="1644822784502" duration="332000" />
+      <workItem from="1644822784502" duration="353000" />
+      <workItem from="1645348262787" duration="11828000" />
+      <workItem from="1645440711450" duration="1072000" />
+      <workItem from="1645442830224" duration="2442000" />
+      <workItem from="1645534131645" duration="4787000" />
     </task>
     <task id="LOCAL-00001" summary="django init / crawling">
       <created>1637300992661</created>
@@ -166,7 +187,14 @@
       <option name="project" value="LOCAL" />
       <updated>1644769786361</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="Scrapy - naver, google crawling 진행중">
+      <created>1644823123389</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1644823123389</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -195,6 +223,6 @@
     <option name="LAST_COMMIT_MESSAGE" value="Scrapy - naver, google crawling 진행중" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/AI$main.coverage" NAME="main Coverage Results" MODIFIED="1644823089181" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/AI$main.coverage" NAME="main Coverage Results" MODIFIED="1645544437392" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>

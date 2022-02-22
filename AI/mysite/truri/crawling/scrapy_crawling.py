@@ -4,7 +4,6 @@ from scrapy.linkextractors import LinkExtractor
 from scrapy.utils.log import configure_logging
 from twisted.internet import reactor
 
-###네이버 카페는 iframe url이 안가져와지는 문제 발생
 ###구글은 프리뷰를 가져오지 못하는 문제 발생
 
 #네이버 spider
@@ -19,7 +18,7 @@ class NaverSpider(scrapy.Spider):
 
 
     def parse(self, response):
-        print("Naver : response!")
+        #print("Naver : response!")
 
         #링크 크롤링
         link_data = response.css('.api_txt_lines').xpath("@href").extract()
@@ -53,13 +52,13 @@ class NaverSpider(scrapy.Spider):
             yield scrapy.Request(url=url, callback=self.parse_detail)
 
     def parse_detail(self, response):
-        print("Naver : parse_detail!")
+        #print("Naver : parse_detail!")
 
         iframe = response.css('#mainFrame::attr(src)').extract()
         yield scrapy.Request(url="https://blog.naver.com/" + iframe[0], callback=self.parse_iframe)
 
     def parse_iframe(self, response):
-        print("Blog : in iframe")
+        #print("Blog : in iframe")
         image = response.css(".se-image-resource").xpath("@src").extract()
 
         # 이미지가 있을 경우/ 없을 경우
@@ -78,7 +77,6 @@ class NaverSpider(scrapy.Spider):
         for line in content_data:
             if line != "\u200b" :
                 one_content = one_content + line + " "
-        print(one_content)
         content.append(one_content)
 
 
@@ -94,7 +92,7 @@ class TistorySpider(scrapy.Spider):
 
 
     def parse(self, response):
-        print("Tistory : response!")
+        #print("Tistory : response!")
 
         # 링크 크롤링
         extractor = LinkExtractor()
@@ -112,7 +110,7 @@ class TistorySpider(scrapy.Spider):
                 yield scrapy.Request(url=link.url, callback=self.parse_detail)
 
     def parse_detail(self, response):
-        print("Tistory : parse_detail!")
+        #print("Tistory : parse_detail!")
 
         # 제목 크롤링
         title_data = response.css(".jb-content-title").xpath('./h2/a/text()').get()
@@ -172,7 +170,7 @@ result_naver = []
 result_t = []
 
 def scrapy_crawling(query, page) :
-    print("scrapy start---------------------")
+    #print("scrapy start---------------------")
 
     naver_page = (int(page) - 1) * 30 + 1
 
@@ -184,7 +182,7 @@ def scrapy_crawling(query, page) :
     Google_page = (int(page) - 1) * 10
 
     # 티스토리 검색결과 url(10개씩)
-    url.append("https://www.google.com/search?q=" + query +
+    url.append("https://www.google.com/search?q=" + "site:tistory.com " + query +
                "&newwindow=1&rlz=1C1AVFC_koKR881KR881&ei=uQwJYsqzFcOm1e8PgJOw4As&start=" + str(Google_page) +
                "&sa=N&ved=2ahUKEwiK9Jyz6fz1AhVDU_UHHYAJDLwQ8tMDegQIARA-&biw=823&bih=722&dpr=1.25")
 
@@ -209,7 +207,6 @@ def scrapy_crawling(query, page) :
         result_naver[idx] = item
 
     result = result_naver + result_t
-    print(result)
 
     return result
 
