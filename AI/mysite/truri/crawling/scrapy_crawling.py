@@ -3,8 +3,7 @@ from scrapy.crawler import CrawlerRunner
 from scrapy.linkextractors import LinkExtractor
 from scrapy.utils.log import configure_logging
 from twisted.internet import reactor
-
-###구글은 프리뷰를 가져오지 못하는 문제 발생
+import asyncio
 
 #네이버 spider
 class NaverSpider(scrapy.Spider):
@@ -98,10 +97,6 @@ class TistorySpider(scrapy.Spider):
         extractor = LinkExtractor()
         link_data = extractor.extract_links(response)
 
-        # 프리뷰 크롤링
-        # preview_data = response.css(".total_dsc").xpath("string(./div)").getall()
-        # # print(preview_data[0])
-
         # 테스트용
         # yield scrapy.Request(url=link_data[0], callback=self.parse_detail)
 
@@ -114,9 +109,8 @@ class TistorySpider(scrapy.Spider):
 
         # 제목 크롤링
         title_data = response.css(".jb-content-title").xpath('./h2/a/text()').get()
-        # print(title_data)
 
-        #날짜 크롤링
+        # 날짜 크롤링
         date_data = response.css(".jb-article-information").xpath('./ul/li[2]/span/text()').get()
         date_data = date_data.replace("\n", "")
         date_data = date_data.replace("\t", "")
@@ -149,7 +143,8 @@ class TistorySpider(scrapy.Spider):
             item['preview_image'] = ""
             item['last_images'] = ["", ""]
 
-
+        # 본문으로 프리뷰 만들기
+        item['preview'] = content_data[0][:51]
 
         result_t.append(item)
 
@@ -170,7 +165,6 @@ result_naver = []
 result_t = []
 
 def scrapy_crawling(query, page) :
-    #print("scrapy start---------------------")
 
     naver_page = (int(page) - 1) * 30 + 1
 
@@ -189,13 +183,11 @@ def scrapy_crawling(query, page) :
     configure_logging({'LOG_FORMAT': '%(levelname)s: %(message)s'})
     runner = CrawlerRunner()
     runner.crawl(NaverSpider)
-    runner.crawl(TistorySpider)
+    #runner.crawl(TistorySpider)
     crawler = runner.join()
     crawler.addBoth(lambda _: reactor.stop())
     reactor.run()  # the script will block here until the crawling is finished
 
-    # print(len(content))
-    #
     # 네이버 아이템 별로 데이터 정리
     for idx in range(0, 30):
         item = result_naver[idx]

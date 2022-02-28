@@ -1,3 +1,5 @@
+from flask import Flask, request
+
 import re
 from konlpy.tag import Okt
 from tensorflow.keras.preprocessing.text import Tokenizer
@@ -6,10 +8,13 @@ import tensorflow as tf
 import os
 import json
 
+app = Flask(__name__)
+
+
 class multiHeadAttention(tf.keras.layers.Layer):
     def __init__(self, embedding_dim, num_heads=8):
         super(multiHeadAttention, self).__init__()
-        self.embedding_dim = embedding_dim # d_model
+        self.embedding_dim = embedding_dim  # d_model
         self.num_heads = num_heads
 
         assert embedding_dim % self.num_heads == 0
@@ -55,6 +60,7 @@ class multiHeadAttention(tf.keras.layers.Layer):
         outputs = self.dense(concat_attention)
         return outputs
 
+
 class TransformerBlock(tf.keras.layers.Layer):
     def __init__(self, embedding_dim, num_heads, dff, rate=0.1):
         super(TransformerBlock, self).__init__()
@@ -76,6 +82,7 @@ class TransformerBlock(tf.keras.layers.Layer):
         ffn_output = self.dropout2(ffn_output, training=training)
         return self.layernorm2(out1 + ffn_output)  # Add & Norm
 
+
 class TokenAndPositionEmbedding(tf.keras.layers.Layer):
     def __init__(self, max_len, vocab_size, embedding_dim):
         super(TokenAndPositionEmbedding, self).__init__()
@@ -89,7 +96,12 @@ class TokenAndPositionEmbedding(tf.keras.layers.Layer):
         x = self.token_emb(x)
         return x + positions
 
-def runModel(content) :
+@app.route("/", methods=['POST'])
+def runModel():
+
+    content = request.get_json()['content']
+    print(content)
+
     print(">>>runModel start ------------------------------------------")
 
     vocab_size = 30000  # 빈도수 상위 2만개의 단어만 사용
@@ -111,13 +123,13 @@ def runModel(content) :
     outputs = tf.keras.layers.Dense(2, activation="softmax")(x)
     my_model = tf.keras.Model(inputs=inputs, outputs=outputs)
 
-    my_model.load_weights(os.path.join('..\\resource\dacon_try', 'tf_chkpoint.ckpt'))
+    my_model.load_weights(os.path.join('./resource/dacon_try', 'tf_chkpoint.ckpt'))
 
     print(">>>runModel finish ------------------------------------------")
 
     okt = Okt()
 
-    my_model.load_weights(os.path.join('..\\resource\dacon_try', 'tf_chkpoint.ckpt'))  # 모델 로드(폴더 경로를 넣어줘)
+    my_model.load_weights(os.path.join('./resource/dacon_try', 'tf_chkpoint.ckpt'))  # 모델 로드(폴더 경로를 넣어줘)
 
     s = content
     stopwords = ['의', '가', '이', '은', '들', '는', '좀', '잘', '걍', '과', '도', '를', '으로', '자', '에', '와', '한', '하다']
@@ -125,7 +137,7 @@ def runModel(content) :
     s = okt.morphs(s, stem=True)  # 토큰화
     s = [word for word in s if not word in stopwords]  # 불용어 제거: 리스트로 반환
 
-    with open('../resource/wordIndex.json', 'r') as f:  # 저장한 워드인벡스 호출
+    with open('./resource/wordIndex.json', 'r') as f:  # 저장한 워드인벡스 호출
         json_data = json.load(f)
 
     tokenizer = Tokenizer(num_words=28789)  # 피클데이터에서 가장 빈도가 높은 28789개의 단어만 선택하도록하는 Tokenizer 객체
@@ -135,8 +147,9 @@ def runModel(content) :
 
     score = float(my_model.predict(pad_new)[0][0])  # 소프트맥스를 통해 출력된 확률값
     if (score > 0.5):
-        return round(score * 100, 0)
+        return str(round(score * 100, 0))
     else:
-        return round((1 - score) * 100, 0)
+        return str(round((1 - score) * 100, 0))
 
-
+if __name__ == '__main__':
+    app.run(debug=True)

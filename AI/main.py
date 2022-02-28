@@ -1,15 +1,13 @@
-# This is a sample Python script.
-
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
-#from mysite.truri.crawling import crawling
-from mysite.truri.crawling.scrapy_crawling import scrapy_crawling
 from mysite.truri.runModel import runModel
 from mysite.truri.image_text import detect_text
+from mysite.truri.crawling.naver_crawling import naver_crwaling
+from mysite.truri.crawling.tistory_crawling import tistory_crawling
 
 import time
 import asyncio
 import threading
+
+loop = asyncio.get_event_loop()
 
 def test():
     print("Let's start!")
@@ -17,7 +15,9 @@ def test():
     start = time.time()
 
     # 크롤링 테스트 코드
-    # scrapy_result = scrapy_crawling("대전 맛집", 1)
+    # crawlingTest()
+    # result = tistory_crawling("맛집", 1)
+    # print(result)
 
     # 모델 멀티스레드 테스트코드
     # modelTest()
@@ -35,40 +35,21 @@ async def find_users_async(n):
         await asyncio.sleep(1)
     print(f'> 총 {n} 명 사용자 동기 조회 완료!')
 
+async def runningModel(content):
+    result = await loop.run_in_executor(None, runModel, content)
+    return result
+
+
 def modelTest() :
     # 해당 모델을 테스트할 때, 모델 내 주소는 ../주소 가 아닌 ./주소 로 바꿔야 동작한다.
-    content = ['test content', 'test content', 'test content', 'test content', 'test content']
-    # for url in urls:
-    #     runModel(url)
-
-    # futures = [asyncio.ensure_future(runModel(url)) for url in urls]
-    # result = await asyncio.gather(*futures)
-
-    # start1 = time.time()
-    #
-    # for c in content:
-    #     runModel(c)
-    #
-    # end1 = time.time()
-    #
-    # print(f'>>> 비동기 처리 총 소요 시간: {end1 - start1}')
+    content = ['test content', 'test content', 'test content', 'test content', 'test content', 'test content', 'test content', 'test content', 'test content', 'test content']
 
     start = time.time()
 
-    loop = asyncio.get_event_loop()
-    tasks = [
-        loop.create_task(runModel(content)),
-        loop.create_task(runModel(content)),
-        loop.create_task(runModel(content)),
-        loop.create_task(runModel(content)),
-        loop.create_task(runModel(content)),
-    ]
+    tasks = []
+    for c in content:
+        tasks.append(runningModel(c))
 
-    # tasks = [
-    #     loop.create_task(find_users_async(3)),
-    #     loop.create_task(find_users_async(2)),
-    #     loop.create_task(find_users_async(1)),
-    # ]
     result = loop.run_until_complete(asyncio.gather(*tasks))
     print(result)
     loop.close()
@@ -78,29 +59,38 @@ def modelTest() :
 
 def OCRTest() :
     uri = [
-        "https://storep-phinf.pstatic.net/ogq_5a558da2e2a83/original_15.png?type=p50_50"
+        "https://postfiles.pstatic.net/MjAyMjAxMjVfMTE1/MDAxNjQzMDY0MzU5MjIz.RgVAxil5jRSw70a-vz_1c8LqXTAbfKKuLedsU62SnG8g.IATk5CJrO5RvLpDm_IZ6u7ahTPDzv4P34DMTTeZD46Qg.JPEG.nadiatour/SE-16801df9-07e0-4a71-9693-49588cb4bc0f.jpg?type=w80_blur"
         ]
-
 
     loop = asyncio.get_event_loop()
     tasks = []
 
-    nums = [3, 2, 1]
     for u in uri:
-        tasks.append(detect_text(u))
+        tasks.append(detect_text(loop, u, 0))
 
-
-    # tasks = [
-    #     loop.create_task(find_users_async(3)),
-    #     loop.create_task(find_users_async(2)),
-    #     loop.create_task(find_users_async(1)),
-    # ]
     result = loop.run_until_complete(asyncio.gather(*tasks))
     print(result)
 
+async def naver(loop, query, page):
+    return await loop.run_in_executor(None, naver_crwaling, query, page)
+
+async def tistory(loop, query, page):
+    return await loop.run_in_executor(None, tistory_crawling, query, page)
+
+def crawlingTest():
+    query = "맛집"
+    page = 1
+
+    loop = asyncio.get_event_loop()
+    result = loop.run_until_complete(asyncio.gather(naver(loop, query, page), tistory(loop, query, page)))
+    print(len(result))
+
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-    test()
+    #test()
+    test = [False]
+    test.append([False])
+    print(test)
 
 
 
