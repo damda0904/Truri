@@ -1,16 +1,36 @@
-from flask import Flask
+from flask import Flask, request
 import time
 import asyncio
 import json
+import requests
 
-from .naver_crawling import naver_crwaling
-from .detect_text import detect_text
+from naver_crawling import naver_crwaling
+from detect_text import detect_text
+from runModel import runModel
 
 app = Flask(__name__)
 
-@app.route('/test')
+@app.route('/test', methods=['GET', 'POST'])
 def test():
+    if(request.method == 'POST'):
+        print(request.get_json())
+        return 'post connected!'
     return 'connected!'
+
+@app.route('/runModel', methods=['POST'])
+def runModelBridge():
+    content = json.loads(request.get_json())
+    result = runModel(content['content'])
+    print("---------------------------------------")
+    print(result)
+    print(type(result))
+    return str(result)
+
+# search 함수에서 멀티스레딩을 수행할 용도의 함수
+async def asyncRun(loop, content) :
+    payload = json.dumps({'content': content})
+    result = await loop.run_in_executor(None, requests.post, 'http://127.0.0.1:5000/runModel', None, payload)
+    return result.text
 
 @app.route('/search/<query>/<page>')
 def search(query, page):
@@ -32,8 +52,19 @@ def search(query, page):
                 tasks.append(detect_text(loop, url, idx))
         idx += 1
 
-    result = []
+    # image_result = loop.run_until_complete(asyncio.gather(*tasks)) # 멀티 스레드 수행
+    #
+    # for i in image_result:
+    #     if 'detect_result' not in items[i[0]]:
+    #         items[i[0]]['detect_result'] = [i[1]]
+    #     else: items[i[0]]['detect_result'].append([i[1][0]])
+
+    # 모듈 수행
+    tasks_model = []
+    result=[]
     for item in items:
+
+        # 이미지 확인 후 이미 광고로 판명이 났다면 모듈 수행x
         if ('detect_result' in item):
             if (True in item['detect_result']):
                 result.append(0.0)
@@ -41,7 +72,17 @@ def search(query, page):
 
         result.append(runModel(item['content']))
 
-    size = len(items)
+    #task_result = loop.run_until_complete(asyncio.gather(*tasks_model)) # 멀티 스레드 수행
+
+    # idx = 0
+    size = len(result)
+    # # result 중 -1인 경우, 멀티 스레드를 수행했다는 뜻으로 결과값으로 바꿔 저장
+    # for i in range(0, size):
+    #     if(result[i] < 0) :
+    #         result[i] = task_result[idx]
+    #         idx += 1
+
+    # items에 score 결과값 저장 및 response 용으로 정리
     for i in range(0, size):
         items[i]['score'] = result[i]
         items[i].pop('content')
@@ -57,4 +98,4 @@ def search(query, page):
     return response
 
 if __name__ == '__main__':
-    app.run(debug=True, port=5001)
+    app.run(debug=True)

@@ -2,10 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="99d714ac-9fe9-432a-b574-bc97b8262249" name="Default Changelist" comment="Scrapy - naver, google crawling 진행중">
-      <change afterPath="$PROJECT_DIR$/../runModel/model.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../flask_server/runModel.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../flask_server/controller.py" beforeDir="false" afterPath="$PROJECT_DIR$/../flask_server/controller.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../runModel/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/../runModel/app.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../flask_server/detect_text.py" beforeDir="false" afterPath="$PROJECT_DIR$/../flask_server/detect_text.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -128,7 +128,8 @@
       <workItem from="1646064155707" duration="301000" />
       <workItem from="1646064583507" duration="41000" />
       <workItem from="1646064752697" duration="1780000" />
-      <workItem from="1646104406807" duration="1670000" />
+      <workItem from="1646104406807" duration="3443000" />
+      <workItem from="1646188682169" duration="196000" />
     </task>
     <task id="LOCAL-00001" summary="django init / crawling">
       <created>1637300992661</created>

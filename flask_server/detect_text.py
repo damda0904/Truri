@@ -2,7 +2,7 @@ import io
 import os
 
 from google.cloud import vision
-from .check_text import check_text
+from check_text import check_text
 
 # Set environment variable
 os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "C:\DOWNLOAD\\automatic-opus-332907-8ec3f6a577b7.json"
