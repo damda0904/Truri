@@ -27,27 +27,28 @@ public class JWTUtil {
     }
 
     public String validateAndExtract(String tokenStr) throws Exception {
-        String contentValue = null;
+        String contentValue;
 
         try{
             DefaultJws defaultJws = (DefaultJws) Jwts.parser()
                     .setSigningKey(secretKey.getBytes("UTF-8"))
                     .parseClaimsJws(tokenStr);
 
-            log.info(defaultJws);
-
-            log.info(defaultJws.getBody().getClass());
+            //log.info(defaultJws.getBody().getClass());
 
             DefaultClaims claims = (DefaultClaims) defaultJws.getBody();
 
-            log.info("------------------------");
-
             contentValue = claims.getSubject();
+            log.info(claims);
+            log.info(claims.get("userId"));
+
         } catch(Exception e) {
             e.printStackTrace();
             log.error(e.getMessage());
             contentValue = null;
         }
+
+        log.info(contentValue);
 
         return contentValue;
     }

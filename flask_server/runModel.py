@@ -5,6 +5,8 @@ from tensorflow.keras.preprocessing.sequence import pad_sequences
 import tensorflow as tf
 import os
 import json
+import jpype
+import asyncio
 
 class multiHeadAttention(tf.keras.layers.Layer):
     def __init__(self, embedding_dim, num_heads=8):
@@ -89,8 +91,9 @@ class TokenAndPositionEmbedding(tf.keras.layers.Layer):
         x = self.token_emb(x)
         return x + positions
 
+
+
 def runModel(content) :
-    print(">>>runModel start ------------------------------------------")
 
     vocab_size = 30000  # 빈도수 상위 2만개의 단어만 사용
     max_len = 1000  # 문장의 최대 길이
@@ -112,28 +115,38 @@ def runModel(content) :
     my_model = tf.keras.Model(inputs=inputs, outputs=outputs)
 
     my_model.load_weights(os.path.join('./resource/dacon_try', 'tf_chkpoint.ckpt'))
-
-    print(">>>runModel finish ------------------------------------------")
+    my_model.load_weights(os.path.join('./resource/dacon_try', 'tf_chkpoint.ckpt'))  # 모델 로드(폴더 경로를 넣어줘)
+    with open('./resource/wordIndex.json', 'r') as f:  # 저장한 워드인벡스 호출
+        json_data = json.load(f)
+    tokenizer = Tokenizer(num_words=28789)  # 피클데이터에서 가장 빈도가 높은 28789개의 단어만 선택하도록하는 Tokenizer 객체
+    tokenizer.word_index = json_data
 
     okt = Okt()
 
-    my_model.load_weights(os.path.join('./resource/dacon_try', 'tf_chkpoint.ckpt'))  # 모델 로드(폴더 경로를 넣어줘)
+    #스레드 처리
+    loop = asyncio.new_event_loop()
+    asyncio.set_event_loop(loop)
 
-    s = content
-    stopwords = ['의', '가', '이', '은', '들', '는', '좀', '잘', '걍', '과', '도', '를', '으로', '자', '에', '와', '한', '하다']
-    s = re.sub(r'[^ㄱ-ㅎㅏ-ㅣ가-힣 ]', '', s)
-    s = okt.morphs(s, stem=True)  # 토큰화
-    s = [word for word in s if not word in stopwords]  # 불용어 제거: 리스트로 반환
+    tasks = []
+    for c in content :
+        tasks.append(bridge(loop, okt, tokenizer, my_model, c))
 
-    with open('./resource/wordIndex.json', 'r') as f:  # 저장한 워드인벡스 호출
-        json_data = json.load(f)
+    return loop.run_until_complete(asyncio.gather(*tasks))
 
-    tokenizer = Tokenizer(num_words=28789)  # 피클데이터에서 가장 빈도가 높은 28789개의 단어만 선택하도록하는 Tokenizer 객체
-    tokenizer.word_index = json_data
+
+async def bridge(loop, okt, tokenizer, my_model, content) :
+    return await loop.run_in_executor(None, do_morphs, okt, tokenizer, my_model, content)
+
+
+def do_morphs(okt, tokenizer, my_model, s):
+    jpype.attachThreadToJVM()
+    stopwords = ['의','가','이','은','들','는','좀','잘','걍','과','도','를','으로','자','에','와','한','하다']
+    s = re.sub(r'[^ㄱ-ㅎㅏ-ㅣ가-힣 ]','', s)
+    s = okt.morphs(s, stem=True) # 토큰화
+    s = [word for word in s if not word in stopwords] # 불용어 제거: 리스트로 반환
     s = tokenizer.texts_to_sequences([s])
-    pad_new = pad_sequences(s, maxlen=1000)  # 패딩
-
-    score = float(my_model.predict(pad_new)[0][0])  # 소프트맥스를 통해 출력된 확률값
+    pad_new = pad_sequences(s, maxlen = 1000) #패딩
+    score=float(my_model.predict(pad_new)[0][0]) #소프트맥스를 통해 출력된 확률값
     if (score > 0.5):
         return round(score * 100, 0)
     else:

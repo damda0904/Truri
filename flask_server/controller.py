@@ -17,20 +17,6 @@ def test():
         return 'post connected!'
     return 'connected!'
 
-@app.route('/runModel', methods=['POST'])
-def runModelBridge():
-    content = json.loads(request.get_json())
-    result = runModel(content['content'])
-    print("---------------------------------------")
-    print(result)
-    print(type(result))
-    return str(result)
-
-# search 함수에서 멀티스레딩을 수행할 용도의 함수
-async def asyncRun(loop, content) :
-    payload = json.dumps({'content': content})
-    result = await loop.run_in_executor(None, requests.post, 'http://127.0.0.1:5000/runModel', None, payload)
-    return result.text
 
 @app.route('/search/<query>/<page>')
 def search(query, page):
@@ -57,22 +43,27 @@ def search(query, page):
     # for i in image_result:
     #     if 'detect_result' not in items[i[0]]:
     #         items[i[0]]['detect_result'] = [i[1]]
-    #     else: items[i[0]]['detect_result'].append([i[1][0]])
+    #     else: items[i[0]]['detect_result'].append(i[1])
 
     # 모듈 수행
-    tasks_model = []
     result=[]
+    content_list = []
     for item in items:
 
         # 이미지 확인 후 이미 광고로 판명이 났다면 모듈 수행x
         if ('detect_result' in item):
             if (True in item['detect_result']):
-                result.append(0.0)
+                result.append(100.0)
                 continue
 
-        result.append(runModel(item['content']))
+        result.append(-1.0)
+        content_list.append(item['content'])
 
-    #task_result = loop.run_until_complete(asyncio.gather(*tasks_model)) # 멀티 스레드 수행
+    scores = runModel(content_list)
+
+    print(scores)
+
+    return "complete"
 
     # idx = 0
     size = len(result)
