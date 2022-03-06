@@ -30,9 +30,7 @@ import java.util.List;
 
 public class SearchPage extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
-    private Spinner spinner;
-    private ImageButton bookmark_icon;
-    private ImageButton grade_icon;
+
     private SearchView search;
     private RecyclerView recyclerView;
     private LinearLayoutManager linearLayoutManager;
@@ -53,16 +51,6 @@ public class SearchPage extends AppCompatActivity implements AdapterView.OnItemS
         System.out.println(keyword);
         search = findViewById(R.id.search);
         search.setQueryHint(keyword);
-
-
-        // 검색 정렬순 설정
-        spinner= (Spinner)findViewById(R.id.spinner);
-
-        ArrayAdapter<CharSequence> arrayAdapter = ArrayAdapter.createFromResource(this, R.array.search_sort, R.layout.search_sort_items);
-        arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(arrayAdapter);
-
-        spinner.setOnItemSelectedListener(this);
 
 
         // 리사이클러뷰 설정
@@ -174,42 +162,6 @@ public class SearchPage extends AppCompatActivity implements AdapterView.OnItemS
         });
 
 
-//        // 북마크버튼 클릭 설정
-//        bookmark_icon = (ImageButton)findViewById(R.id.bookmark_icon);
-//        bookmark_icon.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-//                if(bookmark_click == 0)
-//                {
-//                    bookmark_icon.setSelected(true);
-//                    bookmark_click = 1;
-//                }
-//                else
-//                {
-//                    bookmark_icon.setSelected(false);
-//                    bookmark_click = 0;
-//                }
-//            }
-//        });
-//
-//        //평가버튼 클릭 설정
-//        grade_icon = (ImageButton)findViewById(R.id.grade_icon);
-//        grade_icon.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//            }
-//        });
-//
-//        //평가버튼 페이지 이동
-//        grade_icon = findViewById(R.id.grade_icon);
-//        grade_icon.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(getApplicationContext(), ReviewGradePage.class);
-//                startActivity(intent);
-//            }
-//        });
     }
 
 
