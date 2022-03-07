@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -24,20 +25,74 @@ public class Search_Adapter extends RecyclerView.Adapter<Search_Adapter.CustomVi
     int grade_click = 0;
     int position=0;
 
-    public Search_Adapter(ArrayList<Search_data> arrayList) {
-        this.arrayList = arrayList;
+    private final int VIEW_TYPE_ITEM = 0;
+    private final int VIEW_TYPE_LOADING = 1;
+
+    private List<String> data;
+
+    public Search_Adapter(List<String> data) {
+        this.data = data;
     }
+
 
     @NonNull
     @Override
     public Search_Adapter.CustomViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.activity_search_items, parent, false);
-        Search_Adapter.CustomViewHolder holder = new Search_Adapter.CustomViewHolder(view);
-
-        return holder;
+        if (viewType == VIEW_TYPE_ITEM) {
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.activity_search_items, parent, false);
+            return new ItemViewHolder(view);
+        } else {
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_loading, parent, false);
+            return new LoadingViewHolder(view);
+        }
     }
 
+    //infinite-scroll
+
+    @Override
+    public int getItemViewType(int position) {
+        return data.get(position) == null ? VIEW_TYPE_LOADING : VIEW_TYPE_ITEM;
+    }
+
+    @Override
+    public int getItemCount() {
+        return data == null ? 0 : data.size();
+    }
+
+    private void showLoadingView(LoadingViewHolder holder, int position) {
+
+    }
+
+    private void populateItemRows(ItemViewHolder holder, int position) {
+        String item = data.get(position);
+        holder.setItem(item);
+    }
+
+    private class ItemViewHolder extends RecyclerView.ViewHolder {
+        private TextView title;
+
+        public ItemViewHolder(@NonNull View itemView) {
+            super(itemView);
+            title = itemView.findViewById(R.id.title);
+        }
+
+        public void setItem(String item) {
+            title.setText(item);
+        }
+    }
+
+    private class LoadingViewHolder extends RecyclerView.ViewHolder {
+        private ProgressBar progressBar;
+
+        public LoadingViewHolder(@NonNull View itemView) {
+            super(itemView);
+            progressBar = itemView.findViewById(R.id.progressBar);
+        }
+    }
+
+
+
+    //adapter
     @Override
     public void onBindViewHolder(@NonNull Search_Adapter.CustomViewHolder holder, int position) {
         holder.reliability_icon.setImageResource(arrayList.get(position).getReliability_icon());
