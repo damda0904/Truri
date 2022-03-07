@@ -40,7 +40,7 @@ public class Search_Adapter extends RecyclerView.Adapter<Search_Adapter.CustomVi
     public Search_Adapter.CustomViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         if (viewType == VIEW_TYPE_ITEM) {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.activity_search_items, parent, false);
-            return new ItemViewHolder(view);
+            return new CustomViewHolder(view);
         } else {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_loading, parent, false);
             return new LoadingViewHolder(view);
@@ -48,7 +48,6 @@ public class Search_Adapter extends RecyclerView.Adapter<Search_Adapter.CustomVi
     }
 
     //infinite-scroll
-
     @Override
     public int getItemViewType(int position) {
         return data.get(position) == null ? VIEW_TYPE_LOADING : VIEW_TYPE_ITEM;
@@ -60,26 +59,13 @@ public class Search_Adapter extends RecyclerView.Adapter<Search_Adapter.CustomVi
     }
 
     private void showLoadingView(LoadingViewHolder holder, int position) {
-
     }
 
-    private void populateItemRows(ItemViewHolder holder, int position) {
+    private void populateItemRows(CustomViewHolder holder, int position) {
         String item = data.get(position);
         holder.setItem(item);
     }
 
-    private class ItemViewHolder extends RecyclerView.ViewHolder {
-        private TextView title;
-
-        public ItemViewHolder(@NonNull View itemView) {
-            super(itemView);
-            title = itemView.findViewById(R.id.title);
-        }
-
-        public void setItem(String item) {
-            title.setText(item);
-        }
-    }
 
     private class LoadingViewHolder extends RecyclerView.ViewHolder {
         private ProgressBar progressBar;
@@ -95,6 +81,12 @@ public class Search_Adapter extends RecyclerView.Adapter<Search_Adapter.CustomVi
     //adapter
     @Override
     public void onBindViewHolder(@NonNull Search_Adapter.CustomViewHolder holder, int position) {
+        if (holder instanceof CustomViewHolder) {
+            populateItemRows((CustomViewHolder) holder, position);
+        } else if (holder instanceof LoadingViewHolder) {
+            showLoadingView((LoadingViewHolder) holder, position);
+        }
+
         holder.reliability_icon.setImageResource(arrayList.get(position).getReliability_icon());
         holder.title.setText(arrayList.get(position).getTitle());
         holder.title.setTextColor(Color.parseColor(arrayList.get(position).getColor()));
@@ -174,7 +166,6 @@ public class Search_Adapter extends RecyclerView.Adapter<Search_Adapter.CustomVi
         protected ImageView reliability_icon;
         protected TextView title, content, url, date;
         protected ImageButton bookmark_icon, grade_icon;
-
 
         public CustomViewHolder(@NonNull View itemView) {
             super(itemView);
