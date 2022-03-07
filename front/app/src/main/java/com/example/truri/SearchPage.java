@@ -44,6 +44,7 @@ public class SearchPage extends AppCompatActivity implements AdapterView.OnItemS
     int bookmark_click = 0;
     int grade_click = 0;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,6 +60,10 @@ public class SearchPage extends AppCompatActivity implements AdapterView.OnItemS
 
         // 리사이클러뷰 설정
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+        populateData();
+        initAdapter();
+        initScrollListener();
+
         linearLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(linearLayoutManager);
 
@@ -66,70 +71,6 @@ public class SearchPage extends AppCompatActivity implements AdapterView.OnItemS
 
         adapter = new Search_Adapter(data);
         recyclerView.setAdapter(adapter);
-
-        //infinite-scroll
-        private void populateData() {
-            for (int i=0; i<30; i++) {
-                data.add("Item " + i);
-            }
-        }
-
-        private void initAdapter() {
-            adapter = new Search_Adapter(data);
-            LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-            recyclerView.setAdapter(adapter);
-            recyclerView.setLayoutManager(layoutManager);
-        }
-
-        private void initScrollListener() {
-            recyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
-                @Override
-                public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
-                    super.onScrollStateChanged(recyclerView, newState);
-                }
-
-                @Override
-                public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
-                    super.onScrolled(recyclerView, dx, dy);
-
-                    LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
-
-                    if (!isLoading) {
-                        if (layoutManager != null && layoutManager.findLastCompletelyVisibleItemPosition() == data.size() - 1) {
-                            //리스트 마지막
-                            loadMore();
-                            isLoading = true;
-                        }
-                    }
-                }
-            });
-        }
-
-        private void loadMore() {
-            data.add(null);
-            adapter.notifyItemInserted(data.size() - 1);
-
-            Handler handler = new Handler();
-            handler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    data.remove(data.size() - 1);
-                    int scrollPosition = data.size();
-                    adapter.notifyItemRemoved(scrollPosition);
-                    int currentSize = scrollPosition;
-                    int nextLimit = currentSize + 30;
-
-                    while (currentSize - 1 < nextLimit) {
-                        data.add("Item " + currentSize);
-                        currentSize++;
-                    }
-
-                    adapter.notifyDataSetChanged();
-                    isLoading = false;
-                }
-            }, 2000); //todo 스크롤 로딩시간 (현재 2초)
-        }
-
 
 
         //더미 데이터
@@ -227,8 +168,71 @@ public class SearchPage extends AppCompatActivity implements AdapterView.OnItemS
                 }
             }
         });
+    }
 
 
+
+    //infinite-scroll
+    private void populateData() {
+        for (int i=0; i<30; i++) {
+            data.add("Item " + i);
+        }
+    }
+
+    private void initAdapter() {
+        adapter = new Search_Adapter(data);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(layoutManager);
+    }
+
+    private void initScrollListener() {
+        recyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+            }
+
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+
+                LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
+
+                if (!isLoading) {
+                    if (layoutManager != null && layoutManager.findLastCompletelyVisibleItemPosition() == data.size() - 1) {
+                        //리스트 마지막
+                        loadMore();
+                        isLoading = true;
+                    }
+                }
+            }
+        });
+    }
+
+    private void loadMore() {
+        data.add(null);
+        adapter.notifyItemInserted(data.size() - 1);
+
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                data.remove(data.size() - 1);
+                int scrollPosition = data.size();
+                adapter.notifyItemRemoved(scrollPosition);
+                int currentSize = scrollPosition;
+                int nextLimit = currentSize + 30;
+
+                while (currentSize - 1 < nextLimit) {
+                    data.add("Item " + currentSize);
+                    currentSize++;
+                }
+
+                adapter.notifyDataSetChanged();
+                isLoading = false;
+            }
+        }, 2000); //todo 스크롤 로딩시간 (현재 2초)
     }
 
 

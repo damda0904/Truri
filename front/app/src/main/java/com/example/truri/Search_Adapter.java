@@ -148,10 +148,6 @@ public class Search_Adapter extends RecyclerView.Adapter<Search_Adapter.CustomVi
 //        });
     }
 
-    @Override
-    public int getItemCount() {
-        return (null != arrayList ? arrayList.size() : 0);
-    }
 
     public void remove(int position){
         try{
