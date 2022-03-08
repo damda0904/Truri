@@ -17,9 +17,7 @@ public class Search_data {
         this.color = color;
     }
 
-    public int getReliability_icon() {
-        return reliability_icon;
-    }
+    public int getReliability_icon() {return reliability_icon;}
 
     public String getLink() {
         return link;
@@ -41,9 +39,7 @@ public class Search_data {
         return color;
     }
 
-    public void setReliability_icon(int reliability_icon) {
-        this.reliability_icon = reliability_icon;
-    }
+    public void setReliability_icon(int reliability_icon) {this.reliability_icon = reliability_icon;}
 
     public void setLink(String link) {
         this.link = link;
