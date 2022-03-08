@@ -27,6 +27,7 @@ public interface BookmarkService {
 
     default BookmarkDTO entityToDTO(Bookmark bookmark) {
         BookmarkDTO bookmarkDTO = BookmarkDTO.builder()
+                .bookmarkId(bookmark.getBookmarkId())
                 .url(bookmark.getUrl())
                 .title(bookmark.getTitle())
                 .preview(bookmark.getPreview())

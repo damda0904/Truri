@@ -30,6 +30,7 @@ public interface OpinionService {
 
     default OpinionDTO entityToDTO(Opinion opinion) {
         OpinionDTO dto = OpinionDTO.builder()
+                .opinionId(opinion.getOpinionId())
                 .originalLevel(opinion.getOriginalLevel())
                 .url(opinion.getUrl())
                 .title(opinion.getTitle())
