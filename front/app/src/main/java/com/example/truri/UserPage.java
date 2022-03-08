@@ -11,6 +11,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -36,6 +37,8 @@ public class UserPage extends AppCompatActivity {
     ImageView[] circles = new ImageView[5];
     TextView[] review_contents = new TextView[5];
     RelativeLayout bookmark_layout, review_layout;
+    Button logout;
+
 
     Connector connector = new Connector();
     LevelCheck levelCheck = new LevelCheck();
@@ -64,6 +67,19 @@ public class UserPage extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         toolbar.setTitle("");
+
+        //로그아웃 버튼 설정
+        logout = (Button) findViewById(R.id.logout);
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SharedPreferences jwt =  getSharedPreferences("JWT", MODE_PRIVATE);
+                SharedPreferences.Editor editor = jwt.edit();
+                editor.remove("token");
+                editor.commit();
+                startActivity(new Intent(UserPage.this, MainActivity.class));
+            }
+        });
 
         //닉네임 표시
         userId = findViewById(R.id.userId);

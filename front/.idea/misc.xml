@@ -15,7 +15,7 @@
         <entry key="..\:/Truri/front/app/src/main/res/layout/activity_bookmark_items.xml" value="0.15602605863192182" />
         <entry key="..\:/Truri/front/app/src/main/res/layout/activity_bookmark_page.xml" value="0.15602605863192182" />
         <entry key="..\:/Truri/front/app/src/main/res/layout/activity_login_page.xml" value="0.16799999999999998" />
-        <entry key="..\:/Truri/front/app/src/main/res/layout/activity_main.xml" value="0.264" />
+        <entry key="..\:/Truri/front/app/src/main/res/layout/activity_main.xml" value="0.2" />
         <entry key="..\:/Truri/front/app/src/main/res/layout/activity_menu.xml" value="0.264" />
         <entry key="..\:/Truri/front/app/src/main/res/layout/activity_modify_review.xml" value="0.20185185185185187" />
         <entry key="..\:/Truri/front/app/src/main/res/layout/activity_review_grade_page.xml" value="0.2" />
@@ -24,6 +24,7 @@
         <entry key="..\:/Truri/front/app/src/main/res/layout/activity_search_items.xml" value="0.264" />
         <entry key="..\:/Truri/front/app/src/main/res/layout/activity_search_page.xml" value="0.15756578947368421" />
         <entry key="..\:/Truri/front/app/src/main/res/layout/activity_sign_up_page.xml" value="0.1" />
+        <entry key="..\:/Truri/front/app/src/main/res/layout/activity_user_page.xml" value="0.11306306306306306" />
         <entry key="..\:/Truri/front/app/src/main/res/layout/drawer.xml" value="0.31666666666666665" />
         <entry key="..\:/Truri/front/app/src/main/res/layout/search_sort_items.xml" value="0.15756578947368421" />
         <entry key="app/src/main/res/drawable/baseline_bookmark_24.xml" value="0.30185185185185187" />
