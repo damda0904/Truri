@@ -36,7 +36,7 @@ public class SearchPage extends AppCompatActivity implements AdapterView.OnItemS
     private SearchView search;
     private RecyclerView recyclerView;
     private LinearLayoutManager linearLayoutManager;
-    private ArrayList<Search_data> data;
+    private ArrayList<Search_data> data = new ArrayList<>();;
     private Search_Adapter adapter;
 
     private boolean isLoading = false;
@@ -68,9 +68,6 @@ public class SearchPage extends AppCompatActivity implements AdapterView.OnItemS
         recyclerView.setLayoutManager(linearLayoutManager);
 
         data = new ArrayList<>();
-
-        adapter = new Search_Adapter(data);
-        recyclerView.setAdapter(adapter);
 
 
         //더미 데이터
@@ -171,19 +168,28 @@ public class SearchPage extends AppCompatActivity implements AdapterView.OnItemS
     }
 
 
-
     //infinite-scroll
     private void populateData() {
         for (int i=0; i<30; i++) {
-            data.add("Item " + i);
+            data.add(new Search_data(R.drawable.baseline_verified_20,
+                    "http://localhost:8080",
+                    i+"번째 글",
+                    "2022.01.01",
+                    "더미더미더미더미더미더미더미더미더미더미더미더미더미더미더미더미더미더미더미더미...",
+                    "#13A6BA"));
         }
     }
 
+
     private void initAdapter() {
-        adapter = new Search_Adapter(data);
+        recyclerView.setAdapter(adapter);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
+
+        /*adapter = new Search_Adapter();
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setAdapter(adapter);
-        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setLayoutManager(layoutManager);*/
     }
 
     private void initScrollListener() {
@@ -225,7 +231,12 @@ public class SearchPage extends AppCompatActivity implements AdapterView.OnItemS
                 int nextLimit = currentSize + 30;
 
                 while (currentSize - 1 < nextLimit) {
-                    data.add("Item " + currentSize);
+                    data.add(new Search_data(R.drawable.baseline_verified_20,
+                            "http://localhost:8080",
+                            currentSize+"번째 글",
+                            "2022.01.01",
+                            "더미더미더미더미더미더미더미더미더미더미더미더미더미더미더미더미더미더미더미더미...",
+                            "#13A6BA"));
                     currentSize++;
                 }
 
