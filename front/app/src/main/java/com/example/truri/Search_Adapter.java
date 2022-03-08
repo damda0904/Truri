@@ -18,12 +18,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Search_Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class Search_Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
     private ArrayList<Search_data> arrayList;
     int bookmark_click = 0;
     int grade_click = 0;
-    int position = 0;
+    int position=0;
 
     private final int VIEW_TYPE_ITEM = 0;
     private final int VIEW_TYPE_LOADING = 1;
@@ -125,28 +125,28 @@ public class Search_Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     }
 
 
-    public void remove(int position) {
-        try {
+    public void remove(int position){
+        try{
             arrayList.remove(position);
             notifyItemRemoved(position);
-        } catch (IndexOutOfBoundsException exception) {
+        } catch(IndexOutOfBoundsException exception){
             exception.printStackTrace();
         }
     }
 
     void addItem(List<Search_data> data_list, int position) {
         try {
-            for (Search_data data : data_list) {
+            for(Search_data data : data_list) {
                 arrayList.add(data);
             }
             notifyItemRangeChanged(position, data_list.size());
-        } catch (Exception e) {
+        } catch(Exception e) {
             e.printStackTrace();
         }
     }
 
 
-    public class CustomViewHolder extends RecyclerView.ViewHolder {
+    public class CustomViewHolder extends RecyclerView.ViewHolder{
 
         protected ImageView reliability_icon;
         protected TextView title, content, url, date;
@@ -154,14 +154,14 @@ public class Search_Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
         public CustomViewHolder(@NonNull View itemView) {
             super(itemView);
-            this.reliability_icon = (ImageView) itemView.findViewById(R.id.reliability_icon);
+            this.reliability_icon=(ImageView) itemView.findViewById(R.id.reliability_icon);
             this.title = itemView.findViewById(R.id.title);
             this.content = itemView.findViewById(R.id.content);
             this.url = itemView.findViewById(R.id.url);
             this.date = itemView.findViewById(R.id.date);
             this.grade_icon = itemView.findViewById(R.id.grade_icon);
-            this.bookmark_icon = (ImageButton) itemView.findViewById(R.id.bookmark_icon);
-            this.grade_icon = (ImageButton) itemView.findViewById(R.id.grade_icon);
+            this.bookmark_icon = (ImageButton)itemView.findViewById(R.id.bookmark_icon);
+            this.grade_icon = (ImageButton)itemView.findViewById(R.id.grade_icon);
         }
     }
 
@@ -181,7 +181,7 @@ public class Search_Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         this.position = holder.getAdapterPosition();
 
         holder.itemView.setTag(position);
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
+        holder.itemView.setOnClickListener(new View.OnClickListener(){
 
             @Override
             public void onClick(View view) {
@@ -194,10 +194,13 @@ public class Search_Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             public void onClick(View v) {
 
 
-                if (bookmark_click == 0) {
+                if(bookmark_click == 0)
+                {
                     holder.bookmark_icon.setSelected(true);
                     bookmark_click = 1;
-                } else {
+                }
+                else
+                {
                     holder.bookmark_icon.setSelected(false);
                     bookmark_click = 0;
                 }
@@ -224,6 +227,6 @@ public class Search_Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             this.progressBar = itemView.findViewById((R.id.progressBar));
         }
     }
+
+
 }
-
-
