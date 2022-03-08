@@ -1,4 +1,4 @@
-package com.example.truri;
+package com.example.truri.middleware;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -15,6 +15,22 @@ public class ManageSharedPref {
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public Boolean setSearchHist(SharedPreferences share, String keyword) {
+
+        //히스토리 가져와 겹치는 게 있는지 비교
+        String[] history = getSearchHist(share);
+        boolean existed = false;
+        for(String word: history){
+            if(word.equals(keyword)){
+                existed = true;
+                break;
+            }
+        }
+
+        if(existed) {
+            return true;
+        }
+
+        //히스토리 새로 생성하기
         SharedPreferences.Editor editor = share.edit();
 
         String json = share.getString("search", null);

@@ -7,12 +7,25 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.LinearLayout;
 
+import com.example.truri.middleware.AsyncGet;
+import com.example.truri.middleware.LevelCheck;
+
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.concurrent.ExecutionException;
 
 public class BookmarkPage extends AppCompatActivity {
 
@@ -21,6 +34,25 @@ public class BookmarkPage extends AppCompatActivity {
     private Bookmark_Adapter adapter;
     private RecyclerView recyclerView;
     private LinearLayoutManager linearLayoutManager;
+
+    private String blue = "#13A6BA";
+    private String yellow = "#FBB743";
+    private String red = "#F33362";
+
+    private LevelCheck levelCheck = new LevelCheck();
+    private String token;
+
+    protected void getToken() {
+        //토큰 꺼내오기
+        if(token == null){
+            SharedPreferences prefs = getSharedPreferences("JWT", MODE_PRIVATE);
+            this.token = prefs.getString("token", "");
+            if(token.equals("")){
+                System.out.println("토큰이 없습니다.");
+                startActivity(new Intent(BookmarkPage.this, LoginPage.class));
+            }
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,12 +73,38 @@ public class BookmarkPage extends AppCompatActivity {
         adapter = new Bookmark_Adapter(data);
         recyclerView.setAdapter(adapter);
 
-        //더미 데이터
-        for(int i = 0; i < 10; i++) {
-            Bookmark_data dummy = new Bookmark_data(R.drawable.baseline_dangerous_24, "test_title",
-                    "안녕하세요 가은이에요- 최근 해산물이 당겨서 근방에서 알아준다는 신림 맛집으로 걸음했는데요. 청결한...",
-                    "#F33362");
-            data.add(dummy);
+        //토큰 꺼내오기
+        SharedPreferences prefs = getSharedPreferences("JWT", MODE_PRIVATE);
+        String token = prefs.getString("token", "");
+        if(token.equals("")){
+            System.out.println("토큰이 없습니다.");
+            startActivity(new Intent(BookmarkPage.this, LoginPage.class));
+        }
+
+        //데이터 가져오기
+        String url = "http://10.0.2.2:8080/bookmark/";
+        getToken();
+        JSONObject result = null;
+        try {
+            result = new AsyncGet().execute(url, token).get();
+
+            Iterator<String> keys = result.keys();
+
+            //가져온 데이터 변환해서 저장
+            while(keys.hasNext()) {
+                JSONObject item = (JSONObject) result.get(keys.next());
+
+                //아이콘 선택
+                String level = item.get("level").toString();
+                int icon = levelCheck.icon(level);
+                String color = levelCheck.stringColor(level);
+
+                Bookmark_data bookmark = new Bookmark_data(Long.valueOf(item.get("bookmarkId").toString()), icon, item.get("title").toString(),
+                        item.get("preview").toString(), color);
+                data.add(bookmark);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 

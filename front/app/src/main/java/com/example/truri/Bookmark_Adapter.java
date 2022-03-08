@@ -2,6 +2,7 @@ package com.example.truri;
 
 import android.content.DialogInterface;
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,15 +12,22 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
+import androidx.loader.content.AsyncTaskLoader;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.truri.middleware.Connector;
 
 import org.w3c.dom.Text;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 
 public class Bookmark_Adapter extends RecyclerView.Adapter<Bookmark_Adapter.CustomViewHolder>{
 
     private ArrayList<Bookmark_data> arrayList;
+
+    private Connector connector = new Connector();
 
     public Bookmark_Adapter(ArrayList<Bookmark_data> arrayList) {
         this.arrayList = arrayList;
@@ -62,16 +70,14 @@ public class Bookmark_Adapter extends RecyclerView.Adapter<Bookmark_Adapter.Cust
 
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        remove(holder.getAdapterPosition());
+                        System.out.println(arrayList.get(position).getId());
+                        remove(holder.getAdapterPosition(), arrayList.get(position).getId());
                     }
                 });
 
                 builder.setNegativeButton("아니오", new DialogInterface.OnClickListener(){
-
                     @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-
-                    }
+                    public void onClick(DialogInterface dialogInterface, int i) { }
                 });
 
                 builder.show();
@@ -86,13 +92,23 @@ public class Bookmark_Adapter extends RecyclerView.Adapter<Bookmark_Adapter.Cust
         return (null != arrayList ? arrayList.size() : 0);
     }
 
-    public void remove(int position){
-        try{
-            arrayList.remove(position);
-            notifyItemRemoved(position);
-        } catch(IndexOutOfBoundsException exception){
-            exception.printStackTrace();
-        }
+    public void remove(int position, long bno){
+
+        AsyncTask.execute(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    URL url = new URL("http://10.0.2.2:8080/bookmark?bno=" + bno);
+                    connector.delete(url);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    return;
+                }
+            }
+        });
+
+        arrayList.remove(position);
+        notifyItemRemoved(position);
     }
 
     public class CustomViewHolder extends RecyclerView.ViewHolder{

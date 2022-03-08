@@ -4,7 +4,6 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
 
-
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -13,6 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Truri"
         android:usesCleartextTraffic="true">
+        <activity
+            android:name=".Modify_Review"
+            android:exported="false" />
         <activity
             android:name=".Search_items"
             android:exported="true" />

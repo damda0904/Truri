@@ -24,37 +24,15 @@ import java.util.List;
 public class BookmarkController {
 
     private final BookmarkService bookmarkService;
-
-    protected JSONObject stringToJson(String text) {
-        JSONParser parser = new JSONParser();
-        JSONObject body;
-        try {
-            body = (JSONObject) parser.parse(text);
-            return body;
-        } catch(Exception e) {
-            e.printStackTrace();
-        }
-
-        return null;
-    }
-
-    protected String tokenToUserId(String token) {
-        JWTUtil jwtUtil = new JWTUtil();
-
-        try {
-            return jwtUtil.validateAndExtract(token);
-        } catch(Exception e) {
-            e.printStackTrace();
-            log.error(e.getMessage());
-            return null;
-        }
-    }
+    private final Middleware middleware;
 
     //내 북마크 가져오기
     @GetMapping(value="/")
     public ResponseEntity<JSONObject> getBookmark(@RequestHeader("Authorization") String token) throws Exception {
 
-        String userId = tokenToUserId(token);
+        log.info("북마크를 가져옵니다");
+
+        String userId = middleware.tokenToUserId(token);
 
         //토큰이 옳지 않을 경우
         if(userId == null) {
@@ -70,6 +48,7 @@ public class BookmarkController {
             BookmarkDTO item = list.get(i);
             JSONObject tmp = new JSONObject();
 
+            tmp.put("bookmarkId", item.getBookmarkId());
             tmp.put("url", item.getUrl());
             tmp.put("level", item.getLevel());
             tmp.put("title", item.getTitle());
@@ -84,9 +63,9 @@ public class BookmarkController {
     //북마크 등록
     @PostMapping(value="/")
     public ResponseEntity<Long> addBookmark(@RequestBody String request, @RequestHeader("Authorization") String token) {
-        JSONObject body = stringToJson(request);
+        JSONObject body = middleware.stringToJson(request);
 
-        String userId = tokenToUserId(token);
+        String userId = middleware.tokenToUserId(token);
 
         if(userId == null) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);

@@ -7,11 +7,23 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
 
+import com.example.truri.middleware.AsyncGet;
+import com.example.truri.middleware.Connector;
+import com.example.truri.middleware.LevelCheck;
+
+import org.json.JSONObject;
+
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.concurrent.ExecutionException;
 
 public class ReviewPage extends AppCompatActivity {
 
@@ -20,6 +32,21 @@ public class ReviewPage extends AppCompatActivity {
     private Review_adapter adapter;
     private RecyclerView recyclerView;
     private LinearLayoutManager linearLayoutManager;
+
+    LevelCheck levelCheck = new LevelCheck();
+    String token;
+
+    protected void getToken() {
+        //토큰 꺼내오기
+        if(token == null){
+            SharedPreferences prefs = getSharedPreferences("JWT", MODE_PRIVATE);
+            this.token = prefs.getString("token", "");
+            if(token.equals("")){
+                System.out.println("토큰이 없습니다.");
+                startActivity(new Intent(ReviewPage.this, LoginPage.class));
+            }
+        }
+    }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
@@ -38,16 +65,40 @@ public class ReviewPage extends AppCompatActivity {
 
         data = new ArrayList<>();
 
-        adapter = new Review_adapter(data);
+        adapter = new Review_adapter(getApplicationContext(), data);
         recyclerView.setAdapter(adapter);
 
-        //더미 데이터
-        for (int i = 0; i < 10; i++) {
-            Review_data dummy = new Review_data(R.drawable.baseline_verified_20, R.drawable.red_circle,
-                    "test title",
-                    "이것은 테스트 리뷰입니다",
-                    "#13A6BA");
-            data.add(dummy);
+        String url = "http://10.0.2.2:8080/opinion/";
+        JSONObject result = null;
+        getToken();
+        try {
+            result = new AsyncGet().execute(url, token).get();
+
+            System.out.println(result);
+
+            Iterator<String> keys = result.keys();
+
+            while(keys.hasNext()){
+                JSONObject item = (JSONObject) result.get(keys.next());
+
+                String origin = item.get("originalLevel").toString();
+                int icon = levelCheck.icon(origin);
+
+                String newLevel = item.get("newLevel").toString();
+                int circle = levelCheck.circle(newLevel);
+                String color = levelCheck.stringColor(newLevel);
+
+                Review_data review = new Review_data(
+                        Long.valueOf(item.get("opinionId").toString()),
+                        icon, circle,
+                        item.get("title").toString(),
+                        item.get("content").toString(),
+                        color);
+
+                data.add(review);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
