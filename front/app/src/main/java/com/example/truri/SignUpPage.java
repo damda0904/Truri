@@ -175,12 +175,9 @@ public class SignUpPage extends AppCompatActivity {
                                 StringBuilder builder = new StringBuilder();
 
                                 BufferedReader reader = new BufferedReader(new InputStreamReader(responseBody, "UTF-8"));
-                                String line;
-                                while ((line = reader.readLine()) != null) {
-                                    builder.append(line);
-                                }
-
-                                token = builder.toString();
+                                JSONObject data = new JSONObject(reader.readLine());
+                                token = data.get("token").toString();
+                                reader.close();
 
                                 System.out.println("Connection is Successful");
                                 System.out.println(token);

@@ -22,36 +22,12 @@ import java.util.List;
 public class OpinionController {
 
     private final OpinionService opinionService;
-
-    protected JSONObject stringToJson(String text) {
-        JSONParser parser = new JSONParser();
-        JSONObject body;
-        try {
-            body = (JSONObject) parser.parse(text);
-            return body;
-        } catch(Exception e) {
-            e.printStackTrace();
-        }
-
-        return null;
-    }
-
-    protected String tokenToUserId(String token) {
-        JWTUtil jwtUtil = new JWTUtil();
-
-        try {
-            return jwtUtil.validateAndExtract(token);
-        } catch(Exception e) {
-            e.printStackTrace();
-            log.error(e.getMessage());
-            return null;
-        }
-    }
+    private final Middleware middleware;
 
     //내 의견 가져오기
     @GetMapping(value="")
     public ResponseEntity<JSONObject> getOpinion(@RequestHeader("Authorization") String token) throws Exception {
-        String userId = tokenToUserId(token);
+        String userId = middleware.tokenToUserId(token);
 
         //토큰이 옳지 않을 경우
         if(userId == null) {
@@ -67,6 +43,7 @@ public class OpinionController {
             OpinionDTO item = list.get(i);
             JSONObject tmp = new JSONObject();
 
+            tmp.put("opinionId", item.getOpinionId());
             tmp.put("originalLevel", item.getOriginalLevel());
             tmp.put("url", item.getUrl());
             tmp.put("title", item.getTitle());
@@ -82,9 +59,9 @@ public class OpinionController {
     //의견 등록
     @PostMapping(value="")
     public ResponseEntity<Long> addOpinion(@RequestBody String request, @RequestHeader("Authorization") String token) {
-        JSONObject body = stringToJson(request);
+        JSONObject body = middleware.stringToJson(request);
 
-        String userId = tokenToUserId(token);
+        String userId = middleware.tokenToUserId(token);
 
         if(userId == null) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
@@ -107,7 +84,7 @@ public class OpinionController {
     //의견 업데이트
     @PutMapping(value="")
     public ResponseEntity<JSONObject> updateOpinion(@RequestBody String request){
-        JSONObject body = stringToJson(request);
+        JSONObject body = middleware.stringToJson(request);
 
         OpinionDTO opinionDTO = OpinionDTO.builder()
                 .opinionId(Long.valueOf(body.get("opinionId").toString()))

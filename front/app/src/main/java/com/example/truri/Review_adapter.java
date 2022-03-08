@@ -1,6 +1,10 @@
 package com.example.truri;
 
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -11,18 +15,26 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.truri.middleware.Connector;
 
 import org.w3c.dom.Text;
 
+import java.net.URL;
 import java.util.ArrayList;
 
 public class Review_adapter extends RecyclerView.Adapter<Review_adapter.CustomViewHolder>{
 
     private ArrayList<Review_data> arrayList;
+    private Context context;
+
+    private Connector connector = new Connector();
 
 
-    public Review_adapter(ArrayList<Review_data> arrayList) {
+    public Review_adapter(Context context, ArrayList<Review_data> arrayList) {
+        this.context = context;
         this.arrayList = arrayList;
     }
 
@@ -65,11 +77,30 @@ public class Review_adapter extends RecyclerView.Adapter<Review_adapter.CustomVi
                     public boolean onMenuItemClick(MenuItem item) {
                         switch (item.getItemId()) {
                             case R.id.modify:
-                                //추후 수정페이지로 이동
-                                Toast.makeText(holder.itemView.getContext(), "수정되었습니다", Toast.LENGTH_SHORT).show();
+                                //TODO: 리뷰 수정 페이지로 이동
+                                //context.startActivity(new Intent(view.getContext(), ReviewGradePage.class));
                                 return true;
                             case R.id.delete:
-                                remove(position);
+
+                                AlertDialog.Builder builder = new AlertDialog.Builder(holder.itemView.getContext());
+
+                                builder.setMessage("정말 삭제하시겠습니까?");
+                                builder.setPositiveButton("네", new DialogInterface.OnClickListener(){
+
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                                        remove(position, arrayList.get(position).getId());
+                                    }
+                                });
+
+                                builder.setNegativeButton("아니오", new DialogInterface.OnClickListener(){
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) { }
+                                });
+
+                                builder.show();
+
                                 return true;
                             default:
                                 return false;
@@ -91,13 +122,23 @@ public class Review_adapter extends RecyclerView.Adapter<Review_adapter.CustomVi
 
 
 
-    public void remove(int position){
-        try{
-            arrayList.remove(position);
-            notifyItemRemoved(position);
-        } catch(IndexOutOfBoundsException exception){
-            exception.printStackTrace();
-        }
+    public void remove(int position, long ono) {
+
+        AsyncTask.execute(new Runnable() {
+            @Override
+            public void run() {
+                try{
+                    URL url = new URL("http://10.0.2.2:8080/opinion?ono=" +  Long.toString(ono));
+                    connector.delete(url);
+                } catch(Exception exception){
+                    exception.printStackTrace();
+                    return;
+                }
+            }
+        });
+
+        arrayList.remove(position);
+        notifyItemRemoved(position);
     }
 
 

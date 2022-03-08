@@ -3,10 +3,12 @@ package com.example.truri;
 import android.graphics.drawable.Drawable;
 
 public class Review_data {
+    private long id;
     private int reliability_icon, circle_icon;
     private String title, review, color;
 
-    public Review_data(int reliability_icon, int circle_icon, String title, String review, String color) {
+    public Review_data(long id, int reliability_icon, int circle_icon, String title, String review, String color) {
+        this.id = id;
         this.reliability_icon = reliability_icon;
         this.circle_icon = circle_icon;
         this.title = title;
@@ -53,4 +55,6 @@ public class Review_data {
     public void setColor(String color) {
         this.color = color;
     }
+
+    public long getId(){ return id; }
 }

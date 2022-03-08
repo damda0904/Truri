@@ -5,11 +5,13 @@ import android.widget.TextView;
 
 public class Bookmark_data {
 
+    private long id;
     private int reliability_icon;
     private String title, content;
     private String color;
 
-    public Bookmark_data(int reliability_icon, String title, String content, String color) {
+    public Bookmark_data(long id, int reliability_icon, String title, String content, String color) {
+        this.id = id;
         this.reliability_icon = reliability_icon;
         this.title = title;
         this.content = content;
@@ -47,4 +49,6 @@ public class Bookmark_data {
     public void setColor(String color) {
         this.color = color;
     }
+
+    public long getId() { return this.id = id; }
 }
