@@ -146,8 +146,11 @@ def do_morphs(okt, tokenizer, my_model, s):
     s = [word for word in s if not word in stopwords] # 불용어 제거: 리스트로 반환
     s = tokenizer.texts_to_sequences([s])
     pad_new = pad_sequences(s, maxlen = 1000) #패딩
-    score=float(my_model.predict(pad_new)[0][0]) #소프트맥스를 통해 출력된 확률값
-    if (score > 0.5):
-        return round(score * 100, 0)
-    else:
-        return round((1 - score) * 100, 0)
+    score = float(my_model.predict(pad_new)[0][1]) #소프트맥스를 통해 출력된 확률값
+
+    return round(score * 100)
+
+    # if (score > 0.5):
+    #     return round(score * 100, 0)
+    # else:
+    #     return round((1 - score) * 100, 0)

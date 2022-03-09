@@ -178,7 +178,8 @@ public class  MainActivity extends AppCompatActivity {
 
                 //검색 히스토리 기록하기
                 ManageSharedPref manage = new ManageSharedPref();
-                manage.setSearchHist(history, keyword);
+                //TODO : 히스토리 없는 경우 예외처리
+//                manage.setSearchHist(history, keyword);
 
                 //TODO : 검색페이지의 검색창도 검색 히스토리 기록 기능 삽입하기
 

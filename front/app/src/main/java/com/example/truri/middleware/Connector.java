@@ -21,18 +21,27 @@ public class Connector {
             //헤더 설정
             conn.setRequestProperty("User-Agent", "truri-v0.1");
             conn.setRequestProperty("Authorization", token);
+            conn.setConnectTimeout(100000);
+            conn.setReadTimeout(100000);
             conn.setRequestMethod("GET");
             conn.setDoInput(true);
 
+
             //응답
             if (conn.getResponseCode() == 200) {
+
+                System.out.println("get Response!!");
 
                 //데이터 가져오기
                 InputStream responseBody = conn.getInputStream();
 
                 BufferedReader reader = new BufferedReader(new InputStreamReader(responseBody, "UTF-8"));
                 String line = reader.readLine();
+                conn.disconnect();
                 reader.close();
+
+                System.out.println("Connector-------------------");
+                System.out.println(line);
 
                 JSONObject result = new JSONObject(line);
 
@@ -43,6 +52,7 @@ public class Connector {
             } else {
                 System.out.println("Get - " + url + " : connection error--------------------");
                 System.out.println(conn.getResponseCode());
+                conn.disconnect();
 
             }
 
@@ -66,11 +76,13 @@ public class Connector {
             //응답
             if (conn.getResponseCode() == 200) {
                 System.out.println("delete - " + url + " : Connection is Successful");
+                conn.disconnect();
                 return true;
 
             } else {
                 System.out.println("delete - " + url + " : connection error--------------------");
                 System.out.println(conn.getResponseCode());
+                conn.disconnect();
             }
         } catch (Exception e) {
             e.printStackTrace();

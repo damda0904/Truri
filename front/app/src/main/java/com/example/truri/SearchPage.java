@@ -1,5 +1,6 @@
 package com.example.truri;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 
@@ -8,14 +9,28 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.truri.middleware.AsyncGet;
+import com.example.truri.middleware.LevelCheck;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.concurrent.ExecutionException;
 
 public class SearchPage extends AppCompatActivity {
     private RecyclerView recyclerView;
     private Search_Adapter adapter;
-    private ArrayList<String> items = new ArrayList<>();
+    private ArrayList<Search_data> items = new ArrayList<>();
+    private String keyword;
 
     private boolean isLoading = false;
+
+    private LevelCheck levelCheck = new LevelCheck();
+
+    private int page = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,14 +38,51 @@ public class SearchPage extends AppCompatActivity {
         setContentView(R.layout.activity_search_page);
 
         recyclerView = findViewById(R.id.recyclerView);
+
+        //검색 키워드 받아오기
+        Intent intent = getIntent();
+        this.keyword = intent.getStringExtra("keyword");
+
         populateData();
         initAdapter();
         initScrollListener();
     }
 
+    //데이터 불러오기
     private void populateData() {
-        for (int i=0; i<30; i++) {
-            items.add("Item " + i);
+        String url = "http://10.0.2.2:5000/search/" + keyword + "/" + page;
+        JSONObject result = null;
+        try {
+            result = new AsyncGet().execute(url, "").get();
+            System.out.println("----------------------");
+            System.out.println(result);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        Iterator<String> keys = result.keys();
+
+        while(keys.hasNext()) {
+            try {
+                JSONObject item = (JSONObject) result.get(keys.next());
+
+                int score = Integer.parseInt(item.get("score").toString());
+                int icon = levelCheck.icon(score);
+                String color = levelCheck.stringColor(score);
+
+                items.add(new Search_data(icon,
+                        item.get("link").toString(),
+                        item.get("title").toString(),
+                        item.get("date").toString(),
+                        item.get("preview").toString(),
+                        color));
+
+                page++;
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
         }
     }
 
@@ -79,10 +131,7 @@ public class SearchPage extends AppCompatActivity {
                 int currentSize = scrollPosition;
                 int nextLimit = currentSize + 30;
 
-                while (currentSize - 1 < nextLimit) {
-                    items.add("Item " + currentSize);
-                    currentSize++;
-                }
+                populateData();
 
                 adapter.notifyDataSetChanged();
                 isLoading = false;

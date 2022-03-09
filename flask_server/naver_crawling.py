@@ -1,9 +1,13 @@
+import os
+import sys
+
 import scrapy
-from scrapy.crawler import CrawlerRunner
+from scrapy.crawler import CrawlerRunner, CrawlerProcess
 from scrapy.linkextractors import LinkExtractor
 from scrapy.utils.log import configure_logging
 from twisted.internet import reactor
 import asyncio
+import time
 
 # 검색 rl
 url = []
@@ -90,9 +94,7 @@ class NaverSpider(scrapy.Spider):
                 one_content = one_content + line + " "
         content.append(one_content)
 
-def naver_crwaling(query, page):
-
-    print("naver start!")
+def naver_crawling(query, page):
 
     naver_page = (int(page) - 1) * 30 + 1
 
@@ -103,12 +105,16 @@ def naver_crwaling(query, page):
         "&dup_remove=1&post_blogurl=&post_blogurl_without=&nso=&nlu_query=%7B%22r_category%22%3A%2229%22%7D&dkey=0&source_query=&nx_search_query="
         + query + "&spq=0&_callback=viewMoreContents")
 
-    configure_logging({'LOG_FORMAT': '%(levelname)s: %(message)s'})
-    runner = CrawlerRunner()
-    runner.crawl(NaverSpider)
-    crawler = runner.join()
-    crawler.addBoth(lambda _: reactor.stop())
-    reactor.run()  # the script will block here until the crawling is finished
+    # configure_logging({'LOG_FORMAT': '%(levelname)s: %(message)s'})
+    # runner = CrawlerRunner()
+    # runner.crawl(NaverSpider)
+    # crawler = runner.join()
+    # crawler.addBoth(lambda _: reactor.stop())
+    # reactor.run()  # the script will block here until the crawling is finished
+
+    process = CrawlerProcess()
+    process.crawl(NaverSpider)
+    process.start()
 
     # 네이버 아이템 별로 데이터 정리
     for idx in range(0, 30):
@@ -120,6 +126,9 @@ def naver_crwaling(query, page):
 
         result[idx] = item
 
-    print("naver fisish---------------------------------")
-
     return result
+
+if __name__ == '__main__':
+    result = naver_crawling(sys.argv[1], sys.argv[2])
+    for item in result:
+        print(item)

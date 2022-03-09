@@ -22,9 +22,9 @@ public class Search_Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private final int VIEW_TYPE_ITEM = 0;
     private final int VIEW_TYPE_LOADING = 1;
 
-    private List<String> items;
+    private List<Search_data> items;
 
-    public Search_Adapter(List<String> items) {
+    public Search_Adapter(List<Search_data> items) {
         this.items = items;
     }
 
@@ -66,20 +66,29 @@ public class Search_Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     }
 
     private void populateItemRows(ItemViewHolder holder, int position) {
-        String item = items.get(position);
+        Search_data item = items.get(position);
         holder.setItem(item);
     }
 
     private class ItemViewHolder extends RecyclerView.ViewHolder {
-        private TextView title;
+        protected ImageView reliability_icon;
+        protected TextView title, content, url, date;
 
         public ItemViewHolder(@NonNull View itemView) {
             super(itemView);
             title = itemView.findViewById(R.id.title);
+            content = itemView.findViewById(R.id.content);
+            url = itemView.findViewById(R.id.url);
+            reliability_icon = itemView.findViewById(R.id.reliability_icon);
+            date = itemView.findViewById(R.id.date);
         }
 
-        public void setItem(String item) {
-            title.setText(item);
+        public void setItem(Search_data item) {
+            title.setText(item.getTitle());
+            content.setText(item.getContent());
+            url.setText(item.getLink());
+            reliability_icon.setImageResource(item.getReliability_icon());
+            date.setText(item.getDate());
         }
     }
 

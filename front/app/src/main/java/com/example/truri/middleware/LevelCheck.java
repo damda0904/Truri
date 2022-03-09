@@ -24,6 +24,12 @@ public class LevelCheck {
         }
     }
 
+    public int icon(int level) {
+        if(level <= 30) return R.drawable.baseline_dangerous_24;
+        else if( level <=60) return R.drawable.baseline_report_problem_24;
+        else return R.drawable.baseline_verified_20;
+    }
+
     public int intColor(String level) {
         int blue = Color.parseColor("#13A6BA");
         int yellow = Color.parseColor("#FBB743");
@@ -47,5 +53,16 @@ public class LevelCheck {
             case "2" : return yellow;
             default : return blue;
         }
+    }
+
+    public String stringColor(int level){
+
+        String blue = "#13A6BA";
+        String yellow = "#FBB743";
+        String red = "#F33362";
+
+        if(level <= 30) return blue;
+        else if(level <= 60) return yellow;
+        else return red;
     }
 }
