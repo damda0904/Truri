@@ -17,6 +17,7 @@ import android.os.Bundle;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.ForegroundColorSpan;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
@@ -24,6 +25,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.truri.middleware.ManageSharedPref;
 
@@ -34,8 +36,7 @@ public class  MainActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private TextView main_text;
     private TextView[] historyList = new TextView[7];
-    private Button info_btn, bookmark, review;
-    private Button signin_out, member;
+    private Button info_btn, bookmark, review, signin_out, member;
     private ImageButton search_btn;
     private EditText search;
 
@@ -176,16 +177,23 @@ public class  MainActivity extends AppCompatActivity {
                 search = findViewById(R.id.search);
                 String keyword = search.getText().toString();
 
-                //검색 히스토리 기록하기
-                ManageSharedPref manage = new ManageSharedPref();
-                //TODO : 히스토리 없는 경우 예외처리
+                //검색어가 존재하는지 확인
+                if(keyword.equals("")) {
+                    Toast toast = Toast.makeText(getApplicationContext(),"검색어를 입력해주세요", Toast.LENGTH_SHORT);
+                    toast.setGravity(Gravity.CENTER, 0, 0);
+                    toast.show();
+                } else {
+                    //검색 히스토리 기록하기
+                    ManageSharedPref manage = new ManageSharedPref();
+                    //TODO : 히스토리 없는 경우 예외처리
 //                manage.setSearchHist(history, keyword);
 
-                //TODO : 검색페이지의 검색창도 검색 히스토리 기록 기능 삽입하기
+                    //TODO : 검색페이지의 검색창도 검색 히스토리 기록 기능 삽입하기
 
-                Intent intent = new Intent(getApplicationContext(), SearchPage.class);
-                intent.putExtra("keyword", keyword);
-                startActivity(intent);
+                    Intent intent = new Intent(getApplicationContext(), SearchPage.class);
+                    intent.putExtra("keyword", keyword);
+                    startActivity(intent);
+                }
             }
         });
 

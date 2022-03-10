@@ -8,7 +8,6 @@ import time
 import asyncio
 import subprocess
 
-from naver_crawling import naver_crawling
 from detect_text import detect_text
 from runModel import runModel
 import json

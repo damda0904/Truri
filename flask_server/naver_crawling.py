@@ -2,13 +2,7 @@ import os
 import sys
 
 import scrapy
-from scrapy.crawler import CrawlerRunner, CrawlerProcess
-from scrapy.linkextractors import LinkExtractor
-from scrapy.utils.log import configure_logging
-from twisted.internet import reactor
-import asyncio
-import time
-
+from scrapy.crawler import CrawlerProcess
 # 검색 rl
 url = []
 
