@@ -44,6 +44,7 @@ def search(query, page):
     for item in result :
         if len(item) == 0 : continue
         tmp = ast.literal_eval(item)
+        print(tmp)
         print(type(tmp))
         items.append(tmp)
 

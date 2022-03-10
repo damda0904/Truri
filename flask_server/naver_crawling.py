@@ -117,7 +117,8 @@ def naver_crawling(query, page):
     process.start()
 
     # 네이버 아이템 별로 데이터 정리
-    for idx in range(0, 30):
+    size = len(result)
+    for idx in range(0, size):
         item = result[idx]
 
         item["content"] = content[idx]

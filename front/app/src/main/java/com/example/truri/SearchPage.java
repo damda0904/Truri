@@ -51,6 +51,7 @@ public class SearchPage extends AppCompatActivity {
     //데이터 불러오기
     private void populateData() {
         String url = "http://10.0.2.2:5000/search/" + keyword + "/" + page;
+        System.out.println("Get Data: " + url);
         JSONObject result = null;
         try {
             result = new AsyncGet().execute(url, "").get();
@@ -76,14 +77,13 @@ public class SearchPage extends AppCompatActivity {
                         item.get("date").toString(),
                         item.get("preview").toString(),
                         color));
-
-                page++;
-
             } catch (Exception e) {
                 e.printStackTrace();
             }
 
         }
+
+        page++;
     }
 
     private void initAdapter() {
