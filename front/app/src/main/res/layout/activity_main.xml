@@ -189,7 +189,7 @@
             android:letterSpacing="0"
             android:minWidth="0dp"
             android:minHeight="0dp"
-            android:onClick="onClickShowAlert"
+            android:onClick="showDescription"
             android:text="신뢰도 구분은 어떻게 하나요?"
             android:textSize="12.5dp"
             app:layout_constraintBottom_toBottomOf="parent"

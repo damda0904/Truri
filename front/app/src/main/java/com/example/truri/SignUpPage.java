@@ -14,7 +14,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.truri.middleware.AsyncPost;
+
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -22,6 +25,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.concurrent.ExecutionException;
 
 public class SignUpPage extends AppCompatActivity {
 
@@ -41,7 +45,6 @@ public class SignUpPage extends AppCompatActivity {
         toolbar.setTitle("");
 
         //제출 버튼
-        //추후 백엔드 연결
         submit = findViewById(R.id.submit);
         userId = findViewById(R.id.userId);
         passwd = findViewById(R.id.passwd);
@@ -84,129 +87,61 @@ public class SignUpPage extends AppCompatActivity {
                 }
 
                 //아이디가 이미 존재하는지 확인
-                AsyncTask.execute(new Runnable() {
-                    @Override
-                    public void run() {
-                        try{
-                            URL url = new URL("http://10.0.2.2:8080/auth/me");
+                JSONObject id_body = new JSONObject();
+                try {
+                    id_body.put("userId", userId_text);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                String id_body_string = id_body.toString();
 
-                            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                String url = "http://10.0.2.2:8080/auth/me";
+                JSONObject result = null;
+                try {
+                    result = new AsyncPost().execute(url, id_body_string, null).get();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
 
-                            //헤더 설정
-                            conn.setRequestProperty("User-Agent", "truri-v0.1");
-                            conn.setRequestProperty("Content-Type", "text/html");
-                            conn.setRequestMethod("POST");
-                            conn.setDoOutput(true);
-
-                            //아이디, 비밀번호 데이터
-                            JSONObject body = new JSONObject();
-                            body.put("userId", userId_text);
-                            String body_string = body.toString();
-
-                            //서버 연결 및 토큰 받아오기
-                            //파싱 후 전송
-                            conn.getOutputStream().write(body_string.getBytes());
-
-                            //TODO: 예외처리 - 서버연결불가
-
-                            //응답
-                            String response = null;
-                            if (conn.getResponseCode() == 200) {
-                                InputStream responseBody = conn.getInputStream();
-                                StringBuilder builder = new StringBuilder();
-
-                                BufferedReader reader = new BufferedReader(new InputStreamReader(responseBody, "UTF-8"));
-                                String line;
-                                while ((line = reader.readLine()) != null) {
-                                    builder.append(line);
-                                }
-
-                                response = builder.toString();
-
-                                System.out.println("Connection is Successful");
-                                System.out.println(response);
-
-                            } else {
-                                System.out.println("-----------------connector error");
-                                System.out.println(conn.getResponseCode());
-                            }
-
-                            if(response != null) {
-                                Toast toast = Toast.makeText(getApplicationContext(), "이미 존재하는 아이디입니다.", Toast.LENGTH_SHORT);
-                                toast.show();
-                                return;
-                            }
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                    }
-                });
+                if(result != null) {
+                    Toast toast = Toast.makeText(getApplicationContext(), "이미 존재하는 아이디입니다.", Toast.LENGTH_SHORT);
+                    toast.show();
+                    return;
+                }
 
                 //폼 데이터 전송
-                AsyncTask.execute(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            URL url = new URL("http://10.0.2.2:8080/auth/signup");
+                JSONObject form_body = new JSONObject();
+                try {
+                    form_body.put("userId", userId_text);
+                    form_body.put("password", passwd_text);
+                    form_body.put("nickname", nickname_text);
+                } catch(Exception e){
+                    e.printStackTrace();
+                }
+                String form_body_string = form_body.toString();
 
-                            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                String signup_url = "http://10.0.2.2:8080/auth/signup";
+                String token = null;
+                try {
+                    JSONObject signup_result = new AsyncPost().execute(signup_url, form_body_string, null).get();
+                    token = signup_result.get("token").toString();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
 
-                            //헤더 설정
-                            conn.setRequestProperty("User-Agent", "truri-v0.1");
-                            conn.setRequestProperty("Content-Type", "text/html");
-                            conn.setRequestMethod("POST");
-                            conn.setDoOutput(true);
+                System.out.println("token: " + token);
 
-                            //아이디, 비밀번호 데이터
-                            JSONObject body = new JSONObject();
-                            body.put("userId", userId_text);
-                            body.put("password", passwd_text);
-                            body.put("nickname", nickname_text);
-                            String body_string = body.toString();
+                if (token != null) {
 
-                            //서버 연결 및 토큰 받아오기
-                            //파싱 후 전송
-                            conn.getOutputStream().write(body_string.getBytes());
+                    //토큰 저장
+                    SharedPreferences sharedPreferences = getSharedPreferences("JWT", MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putString("token", token);
+                    editor.commit();
 
-                            //응답
-                            String token = null;
-                            if (conn.getResponseCode() == 200) {
-                                InputStream responseBody = conn.getInputStream();
-                                StringBuilder builder = new StringBuilder();
-
-                                BufferedReader reader = new BufferedReader(new InputStreamReader(responseBody, "UTF-8"));
-                                JSONObject data = new JSONObject(reader.readLine());
-                                token = data.get("token").toString();
-                                reader.close();
-
-                                System.out.println("Connection is Successful");
-                                System.out.println(token);
-
-                            } else {
-                                System.out.println("-----------------connector error");
-                                System.out.println(conn.getResponseCode());
-                            }
-
-                            System.out.println("token: " + token);
-
-                            if (token != null) {
-
-                                //토큰 저장
-                                SharedPreferences sharedPreferences = getSharedPreferences("JWT", MODE_PRIVATE);
-                                SharedPreferences.Editor editor = sharedPreferences.edit();
-                                editor.putString("token", token);
-                                editor.commit();
-
-                                //다음 페이지로 이동
-                                startActivity(new Intent(SignUpPage.this, MainActivity.class));
-                            }
-
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                    }
-                });
-
+                    //다음 페이지로 이동
+                    startActivity(new Intent(SignUpPage.this, MainActivity.class));
+                }
             }
         });
     }

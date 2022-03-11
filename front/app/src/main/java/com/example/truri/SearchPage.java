@@ -210,13 +210,23 @@ public class SearchPage extends AppCompatActivity {
             }
         });
 
-//        populateData();
-//        initAdapter();
-//        initScrollListener();
+        populateData();
+        initAdapter();
+        initScrollListener();
     }
 
     //데이터 불러오기
     private void populateData() {
+
+        //dummy
+//        items.add(new Search_data(R.drawable.baseline_dangerous_24,
+//                "https://www.naver.com",
+//                "dummy",
+//                "2022-03-11",
+//                "test data",
+//                "#F33362",
+//                1));
+
         String url = "http://10.0.2.2:5000/search/" + keyword + "/" + page;
         System.out.println("Get Data: " + url);
         JSONObject result = null;
@@ -234,16 +244,16 @@ public class SearchPage extends AppCompatActivity {
             try {
                 JSONObject item = (JSONObject) result.get(keys.next());
 
-                int score = Integer.parseInt(item.get("score").toString());
-                int icon = levelCheck.icon(score);
-                String color = levelCheck.stringColor(score);
+                int level = levelCheck.setLevel(item.get("score").toString());
+                int icon = levelCheck.icon(level);
+                String color = levelCheck.color(level);
 
                 items.add(new Search_data(icon,
                         item.get("link").toString(),
                         item.get("title").toString(),
                         item.get("date").toString(),
                         item.get("preview").toString(),
-                        color));
+                        color, level));
             } catch (Exception e) {
                 e.printStackTrace();
             }

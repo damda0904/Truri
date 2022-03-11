@@ -132,8 +132,9 @@ public class UserPage extends AppCompatActivity {
                     JSONObject bookmark = (JSONObject) bookmark_result.get(bookmark_keys.next());
                     bookmarks[i].setText(bookmark.get("title").toString());
 
-                    String level = bookmark.get("level").toString();
-                    bookmarks[i].setTextColor(levelCheck.intColor(level));
+                    int level = Integer.parseInt(bookmark.get("level").toString());
+                    int color = levelCheck.intColor(level);
+                    bookmarks[i].setTextColor(color);
 
                     bookmark_size++;
                 } catch (JSONException e) {
@@ -192,7 +193,7 @@ public class UserPage extends AppCompatActivity {
                 if(review_keys.hasNext()){
                     JSONObject item = (JSONObject) review_result.get(review_keys.next());
 
-                    String level = item.get("newLevel").toString();
+                    int level = Integer.parseInt(item.get("newLevel").toString());
                     int circle = levelCheck.circle(level);
 
                     review_titles[i].setText(item.get("title").toString());
