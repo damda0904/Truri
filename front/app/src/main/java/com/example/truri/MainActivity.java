@@ -29,6 +29,9 @@ import android.widget.Toast;
 
 import com.example.truri.middleware.ManageSharedPref;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+
 public class  MainActivity extends AppCompatActivity {
 
     private DrawerLayout drawerLayout;
@@ -185,8 +188,7 @@ public class  MainActivity extends AppCompatActivity {
                 } else {
                     //검색 히스토리 기록하기
                     ManageSharedPref manage = new ManageSharedPref();
-                    //TODO : 히스토리 없는 경우 예외처리
-//                manage.setSearchHist(history, keyword);
+                    manage.setSearchHist(history, keyword);
 
                     //TODO : 검색페이지의 검색창도 검색 히스토리 기록 기능 삽입하기
 
@@ -209,11 +211,15 @@ public class  MainActivity extends AppCompatActivity {
         historyList[6] = findViewById(R.id.history7);
 
         ManageSharedPref manage = new ManageSharedPref();
-        String[] searchHist = manage.getSearchHist(history);
-        for (int i = 0; i < 7; i++) {
-            historyList[i].setText(searchHist[6-i]);
+        JSONArray searchHist = manage.getSearchHist(history);
+        for (int i = 0; i < searchHist.length(); i++) {
+            try {
+                String hist = (String) searchHist.get(searchHist.length() - i - 1);
+                historyList[i].setText(hist);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         }
-
 
         //설명 버튼 설정
         info_btn = (Button)findViewById(R.id.info_btn);
