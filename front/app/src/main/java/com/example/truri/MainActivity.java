@@ -217,7 +217,12 @@ public class  MainActivity extends AppCompatActivity {
 
         //설명 버튼 설정
         info_btn = (Button)findViewById(R.id.info_btn);
-
+        info_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showDescription();
+            }
+        });
 
     }
 
