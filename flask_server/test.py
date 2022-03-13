@@ -4,16 +4,12 @@ import subprocess
 import sys
 import json
 
-from naver_crawling import naver_crawling
+if __name__ == '__main__':
 
-
-def subprocess_test():
-    result = subprocess.check_output([sys.executable, 'naver_crawling.py', "test", '4'], shell=True, encoding='utf-8')
-    print(result)
-
+    result = subprocess.check_output([sys.executable, 'naver_crawling.py', "test", '1'], shell=True, encoding='utf-8')
     result = result.split("\n")
 
-    print(len(result))
+    print(len(result[len(result)-1]))
 
     # items = []
     # for item in result:
@@ -26,12 +22,3 @@ def subprocess_test():
     #         print(e)
 
     print("subprocess finished")
-
-def naver_crawling_test():
-    result = naver_crawling("test", 3)
-    for item in result:
-        print(item)
-
-if __name__ == '__main__':
-    naver_crawling_test()
-    # subprocess_test()

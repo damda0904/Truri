@@ -145,7 +145,7 @@ public class Review_adapter extends RecyclerView.Adapter<Review_adapter.CustomVi
     public class CustomViewHolder extends RecyclerView.ViewHolder {
 
         protected ImageView reliability_icon, circle_icon, more;
-        protected TextView title, content, review, test;
+        protected TextView title, content, review;
 
         public CustomViewHolder(@NonNull View itemView) {
             super(itemView);

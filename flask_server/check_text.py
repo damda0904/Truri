@@ -5,9 +5,8 @@ def check_text(text):
 
     # 특정 글자 검사
     result = False
-    for filter in ads_filter:
-        if (text.find(filter) > -1):
-            print(filter)
+    for text in ads_filter:
+        if (text.find(text) > -1):
             result = True
             break
 

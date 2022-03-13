@@ -81,12 +81,12 @@ public class ReviewPage extends AppCompatActivity {
             while(keys.hasNext()){
                 JSONObject item = (JSONObject) result.get(keys.next());
 
-                int origin = Integer.parseInt(item.get("originalLevel").toString());
+                String origin = item.get("originalLevel").toString();
                 int icon = levelCheck.icon(origin);
 
-                int newLevel = Integer.parseInt(item.get("newLevel").toString());
+                String newLevel = item.get("newLevel").toString();
                 int circle = levelCheck.circle(newLevel);
-                String color = levelCheck.color(newLevel);
+                String color = levelCheck.stringColor(newLevel);
 
                 Review_data review = new Review_data(
                         Long.valueOf(item.get("opinionId").toString()),
