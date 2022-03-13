@@ -17,71 +17,69 @@ public class ManageSharedPref {
     public Boolean setSearchHist(SharedPreferences share, String keyword) {
 
         //히스토리 가져와 겹치는 게 있는지 비교
-        String[] history = getSearchHist(share);
-        boolean existed = false;
-        for(String word: history){
-            if(word.equals(keyword)){
-                existed = true;
-                break;
+        JSONArray history = getSearchHist(share);
+        for(int i = 0;  i < history.length(); i++) {
+            try {
+                if (history.get(i).equals(keyword)) {
+                    //존재한다면 순서를 바꾸고 반환
+                    changeOrder(share, history, i);
+                    return true;
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
-        }
-
-        if(existed) {
-            return true;
         }
 
         //히스토리 새로 생성하기
         SharedPreferences.Editor editor = share.edit();
-
-        String json = share.getString("search", null);
-
-        System.out.println("json : " + json);
         try {
-            JSONArray array;
-            if(json == null) {
-                array = new JSONArray();
-            } else {
-                array = new JSONArray(json);
+            if(history.length() == 7) {
+                history.remove(0);
             }
 
-            System.out.println("previous : " + array);
+            history.put(keyword);
 
-            if(array.length() == 7) {
-                array.remove(0);
-            }
-
-            array.put(keyword);
-
-            System.out.println("new : " + array.toString());
-
-            editor.putString("search", array.toString());
+            editor.putString("search", history.toString());
             editor.commit();
 
             return true;
-        } catch (JSONException e) {
+        } catch (Exception e) {
             e.printStackTrace();
 
             return false;
         }
     }
 
-    public String[] getSearchHist(SharedPreferences share) {
-        String[] history = new String[7];
+    public JSONArray getSearchHist(SharedPreferences share) {
         String json = share.getString("search", null);
+        JSONArray jsonArray = null;
 
-        if(json != null) {
-            try {
-                JSONArray jsonArray = new JSONArray(json);
-
-                for (int i = 0; i < history.length; i++) {
-                    history[i] = jsonArray.optString(i);
-                }
-
-                System.out.println("history : " + history.toString());
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
+        try {
+            jsonArray = new JSONArray(json);
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
-        return history;
+
+        return jsonArray;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    private void changeOrder(SharedPreferences share, JSONArray array, int idx) {
+        System.out.println("change!");
+
+        SharedPreferences.Editor editor = share.edit();
+
+        if(idx == array.length()-1) return;
+
+        try {
+            String target = array.get(idx).toString();
+            array.remove(idx);
+            array.put(target);
+
+            editor.putString("search", array.toString());
+            editor.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

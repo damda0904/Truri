@@ -9,6 +9,7 @@ import asyncio
 import subprocess
 
 from detect_text import detect_text
+from check_text import check_text
 from runModel import runModel
 import json
 
@@ -36,18 +37,24 @@ def dummy(query, page):
 def search(query, page):
     start = time.time()
 
+    # 크롤링
     result = subprocess.check_output([sys.executable, 'naver_crawling.py', query, str(page)], shell=True, encoding='utf-8')
     result = result.split("\n")
 
+    # 결과를 dict로 변환해 삽입
     items = []
     for item in result :
         if len(item) == 0 : continue
         tmp = ast.literal_eval(item)
         print(tmp)
-        print(type(tmp))
         items.append(tmp)
 
     print("subprocess finished")
+
+    # 텍스트 검색
+    for item in items:
+        item['check_text'] = check_text(item['content'])
+
 
     # 이미지 검사 수행
     loop = asyncio.new_event_loop()
@@ -57,19 +64,24 @@ def search(query, page):
     idx = 0
     for item in items:
         urls = item['last_images']
-        for url in urls:
+        for url in urls:    # 이미지가 있다면 이미지 검사 수행
             if url == "":
+                continue
+            elif item['check_text'] == True :   # 이미 텍스트에서 판명이 났다면 검사 패스
                 continue
             else:
                 tasks.append(detect_text(loop, url, idx))
         idx += 1
 
-    # image_result = loop.run_until_complete(asyncio.gather(*tasks)) # 멀티 스레드 수행
-    #
-    # for i in image_result:
-    #     if 'detect_result' not in items[i[0]]:
-    #         items[i[0]]['detect_result'] = [i[1]]
-    #     else: items[i[0]]['detect_result'].append(i[1])
+    image_result = loop.run_until_complete(asyncio.gather(*tasks)) # 멀티 스레드 수행
+    # image_result : (인덱스, 결과)
+
+    for i in image_result:
+        if 'detect_result' not in items[i[0]]:
+            items[i[0]]['detect_result'] = [i[1]]
+        else: items[i[0]]['detect_result'].append(i[1])
+
+
 
     # 모듈 수행
     result=[]
@@ -77,10 +89,15 @@ def search(query, page):
     for item in items:
 
         # 이미지 확인 후 이미 광고로 판명이 났다면 모듈 수행x
-        # if ('detect_result' in item):
-        #     if (True in item['detect_result']):
-        #         result.append(100.0)
-        #         continue
+        if ('detect_result' in item):
+            if (True in item['detect_result']):
+                result.append(100)
+                continue
+
+        # 텍스트 검사 후 이미 광고로 판명이 났다면 모듈 수행x
+        if(item['check_text'] == True) :
+            result.append(100)
+            continue
 
         result.append(-1.0)
         content_list.append(item['content'])
@@ -104,6 +121,7 @@ def search(query, page):
         items[i]['score'] = result[i]
         items[i].pop('content')
         items[i].pop('last_images')
+        items[i].pop('check_text')
 
         item = items[i]
         response[str(i)] = item
@@ -111,7 +129,9 @@ def search(query, page):
     end = time.time()
 
     print(f"\n총 걸린 시간은 {end - start} 초 입니다")
-    # 현재 크롤링 3초, ai분석 35초정도 소요됨.
+    # 30개 단위 기준 크롤링 3초, ai분석 35초정도 소요
+    # 10개로 쪼갠 기준 첫 로드 11초 두번째 로드 5초정도 소요(이미지 응답 제외)
+    # 이미지 응답포함시 1초 가량 증가
 
     return json.dumps(response)
 

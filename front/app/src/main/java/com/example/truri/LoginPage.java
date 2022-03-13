@@ -13,6 +13,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
+
+import com.example.truri.middleware.AsyncPost;
+import com.example.truri.middleware.Connector;
 
 import org.json.JSONObject;
 
@@ -57,7 +61,6 @@ public class LoginPage extends AppCompatActivity {
 
                 System.out.println("--------login------------------");
                 try {
-                    URL url = new URL("http://10.0.2.2:8080/auth/login");
 
                     //아이디, 비밀번호 데이터
                     JSONObject body = new JSONObject();
@@ -66,59 +69,22 @@ public class LoginPage extends AppCompatActivity {
                     String body_string = body.toString();
 
                     //서버 연결 및 토큰 받아오기
-//                    ApiConnector connector = new ApiConnector(url);
-//                    String token = connector.post(body_string);
+                    String url = "http://10.0.2.2:8080/auth/login";
+                    JSONObject result = new AsyncPost().execute(url, body_string, null).get();
+                    System.out.println(result);
+                    if(result == null) {
+                        Toast.makeText(getApplicationContext(), "아이디 혹은 비밀번호를 확인해주세요.", Toast.LENGTH_SHORT).show();
+                    } else {
+                        //토큰 저장
+                        String token = result.get("token").toString();
+                        SharedPreferences sharedPreferences= getSharedPreferences("JWT", MODE_PRIVATE);
+                        SharedPreferences.Editor editor= sharedPreferences.edit();
+                        editor.putString("token", token);
+                        editor.commit();
 
-                    AsyncTask.execute(new Runnable() {
-                        @Override
-                        public void run() {
-                            try {
-                                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-
-                                //헤더 설정
-                                conn.setRequestProperty("User-Agent", "truri-v0.1");
-                                conn.setRequestProperty("Content-Type", "text/html");
-                                conn.setRequestMethod("POST");
-                                conn.setDoOutput(true);
-
-                                //파싱 후 전송
-                                conn.getOutputStream().write(body_string.getBytes());
-
-                                //응답
-                                if (conn.getResponseCode() == 200) {
-                                    InputStream responseBody = conn.getInputStream();
-                                    StringBuilder builder = new StringBuilder();
-
-                                    BufferedReader reader = new BufferedReader(new InputStreamReader(responseBody, "UTF-8"));
-                                    String line;
-                                    while ((line = reader.readLine()) != null) {
-                                        builder.append(line);
-                                    }
-
-                                    String token = builder.toString();
-
-                                    System.out.println("Connection is Successful");
-                                    System.out.println("token : " + token);
-
-                                    //토큰 저장
-                                    SharedPreferences sharedPreferences= getSharedPreferences("JWT", MODE_PRIVATE);
-                                    SharedPreferences.Editor editor= sharedPreferences.edit();
-                                    editor.putString("token", token);
-                                    editor.commit();
-
-                                    //다음 페이지로 이동
-                                    startActivity(new Intent(LoginPage.this, MainActivity.class));
-
-                                } else {
-                                    System.out.println("-----------------connector error");
-                                    System.out.println(conn.getResponseCode());
-                                }
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
-                        }
-                    });
-
+                        //다음 페이지로 이동
+                        startActivity(new Intent(LoginPage.this, MainActivity.class));
+                    }
 
                     //TODO: 예외처리 - 서버연결불가, 일치하지 않음.
 
