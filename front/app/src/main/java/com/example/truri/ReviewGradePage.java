@@ -13,6 +13,7 @@ import android.text.style.ForegroundColorSpan;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 public class ReviewGradePage extends AppCompatActivity {
@@ -20,11 +21,13 @@ public class ReviewGradePage extends AppCompatActivity {
     private Toolbar toolbar;
     private TextView top_text;
     private Button next_btn;
+    int CHECK_NUM = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_review_grade_page);
+
 
         //뒤로가기 버튼 설정
         toolbar = findViewById(R.id.toolbar);
@@ -50,17 +53,52 @@ public class ReviewGradePage extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-    }
 
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch(item.getItemId()) {
-            case android.R.id.home: {
-                finish();
-                return true;
+        //평가버튼 클릭
+        Button btn1 = (Button) findViewById(R.id.btn_lv1);
+        btn1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (CHECK_NUM == 0) {
+                    btn1.setSelected(true);
+                    CHECK_NUM = 1;
+                } else
+                {
+                    btn1.setSelected(false);
+                    CHECK_NUM = 0;
+                }
             }
-        }
-        return super.onOptionsItemSelected(item);
-    }
+        });
 
+        Button btn2 = (Button) findViewById(R.id.btn_lv2);
+        btn2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (CHECK_NUM == 0) {
+                    btn2.setSelected(true);
+                    CHECK_NUM = 1;
+                } else
+                {
+                    btn2.setSelected(false);
+                    CHECK_NUM = 0;
+                }
+            }
+        });
+
+        Button btn3 = (Button) findViewById(R.id.btn_lv3);
+        btn3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (CHECK_NUM == 0) {
+                    btn3.setSelected(true);
+                    CHECK_NUM = 1;
+                } else
+                {
+                    btn3.setSelected(false);
+                    CHECK_NUM = 0;
+                }
+            }
+        });
+
+    }
 }

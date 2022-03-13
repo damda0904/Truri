@@ -17,18 +17,27 @@
 
 
     <TextView
-        android:id="@+id/top_text"
+        android:id="@+id/grade2_text1"
         style="@style/gradePage_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="31dp"
         android:layout_marginLeft="20dp"
         android:text=""
-        app:layout_constraintBottom_toTopOf="@+id/editText"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+
+    <TextView
+        android:id="@+id/grade1_text2"
+        style="@style/gradePage_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:text="이유를 알려주세요"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/grade2_text1" />
 
 
     <EditText
@@ -62,7 +71,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginBottom="100dp" />
+        android:layout_marginBottom="80dp" />
 
 
   </androidx.constraintlayout.widget.ConstraintLayout>
