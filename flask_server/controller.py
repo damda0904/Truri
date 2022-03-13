@@ -8,7 +8,7 @@ import time
 import asyncio
 import subprocess
 
-from detect_text import detect_text
+# from detect_text import detect_text
 from check_text import check_text
 from runModel import runModel
 import json
@@ -57,29 +57,29 @@ def search(query, page):
 
 
     # 이미지 검사 수행
-    loop = asyncio.new_event_loop()
-    asyncio.set_event_loop(loop)
-    tasks = []
+    # loop = asyncio.new_event_loop()
+    # asyncio.set_event_loop(loop)
+    # tasks = []
+    #
+    # idx = 0
+    # for item in items:
+    #     urls = item['last_images']
+    #     for url in urls:    # 이미지가 있다면 이미지 검사 수행
+    #         if url == "":
+    #             continue
+    #         elif item['check_text'] == True :   # 이미 텍스트에서 판명이 났다면 검사 패스
+    #             continue
+    #         else:
+    #             tasks.append(detect_text(loop, url, idx))
+    #     idx += 1
 
-    idx = 0
-    for item in items:
-        urls = item['last_images']
-        for url in urls:    # 이미지가 있다면 이미지 검사 수행
-            if url == "":
-                continue
-            elif item['check_text'] == True :   # 이미 텍스트에서 판명이 났다면 검사 패스
-                continue
-            else:
-                tasks.append(detect_text(loop, url, idx))
-        idx += 1
-
-    image_result = loop.run_until_complete(asyncio.gather(*tasks)) # 멀티 스레드 수행
-    # image_result : (인덱스, 결과)
-
-    for i in image_result:
-        if 'detect_result' not in items[i[0]]:
-            items[i[0]]['detect_result'] = [i[1]]
-        else: items[i[0]]['detect_result'].append(i[1])
+    # image_result = loop.run_until_complete(asyncio.gather(*tasks)) # 멀티 스레드 수행
+    # # image_result : (인덱스, 결과)
+    #
+    # for i in image_result:
+    #     if 'detect_result' not in items[i[0]]:
+    #         items[i[0]]['detect_result'] = [i[1]]
+    #     else: items[i[0]]['detect_result'].append(i[1])
 
 
 
@@ -88,11 +88,11 @@ def search(query, page):
     content_list = []
     for item in items:
 
-        # 이미지 확인 후 이미 광고로 판명이 났다면 모듈 수행x
-        if ('detect_result' in item):
-            if (True in item['detect_result']):
-                result.append(100)
-                continue
+        # # 이미지 확인 후 이미 광고로 판명이 났다면 모듈 수행x
+        # if ('detect_result' in item):
+        #     if (True in item['detect_result']):
+        #         result.append(100)
+        #         continue
 
         # 텍스트 검사 후 이미 광고로 판명이 났다면 모듈 수행x
         if(item['check_text'] == True) :
