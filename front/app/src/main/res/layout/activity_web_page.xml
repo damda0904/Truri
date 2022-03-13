@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/topBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:orientation="horizontal"
+        android:paddingLeft="10dp">
+
+        <ImageButton
+            android:id="@+id/exit_btn"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/ic_baseline_close_24" />
+
+    </LinearLayout>
+
+
+    <WebView
+        android:id="@+id/webView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/bottomBar"
+        android:layout_below="@+id/topBar" />
+
+
+    <LinearLayout
+        android:id="@+id/bottomBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:weightSum="2">
+
+        <LinearLayout
+            android:id="@+id/leftBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center">
+
+            <ImageButton
+                android:id="@+id/back_btn"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:layout_width="50dp"
+                android:layout_height="30dp"
+                android:background="@drawable/ic_baseline_arrow_left_24" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/rightBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center">
+
+            <ImageButton
+                android:id="@+id/forward_btn"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:layout_width="50dp"
+                android:layout_height="30dp"
+                android:background="@drawable/ic_baseline_arrow_right_24" />
+        </LinearLayout>
+    </LinearLayout>
+
+</RelativeLayout>
