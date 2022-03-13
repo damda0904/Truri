@@ -20,7 +20,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.truri.middleware.AsyncPost;
+import com.example.truri.middleware.AsyncGet;
 import com.example.truri.middleware.Connector;
 
 import org.json.JSONException;
@@ -36,10 +36,11 @@ public class Search_Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private final int VIEW_TYPE_LOADING = 1;
 
     private List<Search_data> items;
-    private Context context;
+    private Context context, mContext;
 
     public Search_Adapter(List<Search_data> items) {
         this.items = items;
+        this.mContext = context;
     }
 
 
@@ -63,6 +64,24 @@ public class Search_Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         } else if (holder instanceof LoadingViewHolder) {
             showLoadingView((LoadingViewHolder) holder, position);
         }
+
+
+        //todo 웹뷰 이동
+        holder.itemView.setTag(position); //커스텀 뷰의 각각의 리스트를 의미
+        //holder.url.setText(items.get(position).getLink());
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                //String item_url = (String) holder.url.getText().toString();
+
+                Intent intent;
+                intent = new Intent(context, WebPage.class); //웹뷰 화면 연결
+                //intent.putExtra("LINK", item_url); //변수값 인텐트로 넘기기
+                context.startActivity(intent);
+            }
+    });
     }
 
     public void onClickShowAlert() {
@@ -144,7 +163,7 @@ public class Search_Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     String url = "http://10.0.2.2:8080/bookmark/";
                     JSONObject result = null;
                     try {
-                        result = new AsyncPost().execute(url, body_string, token).get();
+                        result = new AsyncGet().execute(url, body_string, token).get();
 
                         //id 저장
                         items.get(position).setId(Long.valueOf(result.get("id").toString()));
@@ -192,10 +211,12 @@ public class Search_Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 context.startActivity(new Intent(context.getApplicationContext(), ReviewGradePage.class));
             }
         });
+
+
     }
 
     private class ItemViewHolder extends RecyclerView.ViewHolder {
-        protected ImageView reliability_icon;
+        protected ImageView reliability_icon, image;
         protected TextView title, content, url, date;
         protected ImageButton bookmark, review;
 
@@ -207,9 +228,23 @@ public class Search_Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             url = itemView.findViewById(R.id.url);
             reliability_icon = itemView.findViewById(R.id.reliability_icon);
             date = itemView.findViewById(R.id.date);
+            image = itemView.findViewById(R.id.image);
 
             this.bookmark = itemView.findViewById(R.id.bookmark_icon);
-            this.review = itemView.findViewById(R.id.review_icon);
+            this.review = itemView.findViewById(R.id.grade_icon);
+
+//            //웹뷰 이동
+//            itemView.setClickable(true);
+//            itemView.setOnClickListener(new View.OnClickListener(){
+//                @Override
+//                public void onClick(View v) {
+//                    int pos = getAdapterPosition();
+//                    if(pos != RecyclerView.NO_POSITION){
+//                        Intent intent= new Intent(mContext, WebPage.class);
+//                        mContext.startActivity(intent);
+//                    }
+//                }
+//            });
         }
 
         public void setItem(Search_data item) {
@@ -218,6 +253,7 @@ public class Search_Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             url.setText(item.getLink());
             reliability_icon.setImageResource(item.getReliability_icon());
             date.setText(item.getDate());
+            image.setImageResource(item.getImage());
         }
     }
 

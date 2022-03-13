@@ -13,7 +13,7 @@
         android:theme="@style/Theme.Truri"
         android:usesCleartextTraffic="true" >
         <activity
-            android:name=".WebViewActivity"
+            android:name=".WebPage"
             android:exported="false" />
         <activity
             android:name=".Modify_Review"

@@ -58,8 +58,6 @@
             android:scrollbarFadeDuration="0"
             android:layout_weight="1"
             android:backgroundTint="@color/background">
-
-
         </androidx.recyclerview.widget.RecyclerView>
 
     </LinearLayout>
