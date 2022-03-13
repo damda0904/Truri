@@ -20,7 +20,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.truri.middleware.AsyncPost;
+import com.example.truri.middleware.AsyncGet;
 import com.example.truri.middleware.Connector;
 
 import org.json.JSONException;
@@ -163,7 +163,7 @@ public class Search_Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     String url = "http://10.0.2.2:8080/bookmark/";
                     JSONObject result = null;
                     try {
-                        result = new AsyncPost().execute(url, body_string, token).get();
+                        result = new AsyncGet().execute(url, body_string, token).get();
 
                         //id 저장
                         items.get(position).setId(Long.valueOf(result.get("id").toString()));
@@ -231,7 +231,7 @@ public class Search_Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             image = itemView.findViewById(R.id.image);
 
             this.bookmark = itemView.findViewById(R.id.bookmark_icon);
-            this.review = itemView.findViewById(R.id.review_icon);
+            this.review = itemView.findViewById(R.id.grade_icon);
 
 //            //웹뷰 이동
 //            itemView.setClickable(true);

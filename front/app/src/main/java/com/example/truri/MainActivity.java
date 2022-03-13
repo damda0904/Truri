@@ -223,7 +223,12 @@ public class  MainActivity extends AppCompatActivity {
 
         //설명 버튼 설정
         info_btn = (Button)findViewById(R.id.info_btn);
-
+        info_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showDescription();
+            }
+        });
 
     }
 
@@ -249,17 +254,11 @@ public class  MainActivity extends AppCompatActivity {
         }
     };
 
-    public void onClickShowAlert(View view) {
+    public void showDescription() {
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
 
         builder.setMessage("원하는 키워드를 검색하면 빨간색, 노란색, 파란색 제목의 검색 결과가 나옵니다.\n빨간색은 '광고성 글, 신뢰 불가', 노란색은 '일부 신뢰', 파란색은 '신뢰 가능'을 뜻합니다.");
-        builder.setPositiveButton("알겠어요!", new DialogInterface.OnClickListener(){
-
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-
-            }
-        });
+        builder.setPositiveButton("알겠어요!", null);
 
         builder.show();
     }
