@@ -10,20 +10,23 @@
     android:background="@drawable/result_background_box"
     android:elevation="6dp"
     android:orientation="vertical"
-    android:padding= "15dp" >
+    android:paddingLeft="15dp"
+    android:paddingRight="15dp"
+    android:paddingTop="8dp"
+    android:paddingBottom="10dp">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="6dp">
+        android:layout_marginBottom="2dp">
 
         <ImageView
             android:id="@+id/reliability_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_gravity="center"
-            android:layout_marginRight="10dp"
+            android:layout_gravity="start"
+            android:layout_marginRight="5dp"
             android:src="@drawable/baseline_dangerous_24" />
 
         <TextView
@@ -32,9 +35,13 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_gravity="center"
+            android:layout_marginRight="5dp"
+            android:layout_toLeftOf="@+id/bookmark_icon"
             android:layout_toRightOf="@+id/reliability_icon"
+            android:ellipsize="end"
             android:includeFontPadding="false"
-            android:text="http://www.naver.com"
+            android:maxLines="1"
+            android:text="http://www.naver.comsdfdags.dgdfgdsgdsfsdfsd.fdsfdsfsdffdsfafd"
             android:textColor="#ACACAC"
             android:textSize="12dp" />
 
@@ -62,6 +69,17 @@
             android:src="@drawable/grade_btn_select" />
     </RelativeLayout>
 
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:includeFontPadding="false"
+        android:textSize="16dp"
+        android:textColor="@color/black"
+        android:text="광화문 맛집 광화문맛집,광화문,다하연,더플레이스,맛집,메밀국수,미진"
+        android:maxLines="2"
+        android:ellipsize="end" />
+
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -75,31 +93,24 @@
             android:layout_marginRight="10dp">
 
             <TextView
-                android:id="@+id/title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:includeFontPadding="false"
-                android:textSize="16dp" />
-
-            <TextView
                 android:id="@+id/date"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:includeFontPadding="false"
                 android:text="2021.5.18"
                 android:textColor="@color/black"
                 android:textSize="11dp"
-                android:layout_marginBottom="3dp" />
+                android:layout_marginTop="7dp"
+                android:layout_marginBottom="5dp" />
 
             <TextView
                 android:id="@+id/content"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
                 android:includeFontPadding="false"
                 android:maxLines="3"
-                android:text="맛집맛집맛집맛집맛집맛집맛집맛집맛집맛집맛집맛집맛집맛집맛집맛집맛집맛집맛집맛집맛집맛집맛집맛집맛집맛집맛집맛집맛집맛집맛집맛집맛집맛집맛집"
-                android:textColor="@color/black"
+                android:text="맛집맛집맛집맛집맛집맛집맛집맛집맛집맛집맛집맛집맛집맛집맛집맛집맛집맛집맛집맛집맛집맛집맛집맛집맛집맛집맛집맛집맛집맛집맛집맛집맛집맛집맛집맛집맛집맛집맛집맛집맛집맛집맛집맛집맛집맛집맛집맛집"
                 android:textSize="13dp" />
         </LinearLayout>
 
@@ -107,13 +118,15 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:layout_gravity="end">
-
+            android:layout_gravity="end"
+            >
             <ImageView
-                android:id="@+id/search_img1"
+                android:id="@+id/image"
                 android:layout_width="match_parent"
-                android:layout_height="88dp"
-                android:src="@drawable/food_image" />
+                android:layout_height="74dp"
+                android:layout_marginTop="7dp"
+                android:scaleType="centerCrop"
+                />
         </LinearLayout>
 
     </LinearLayout>

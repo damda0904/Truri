@@ -55,6 +55,7 @@ public class SearchPage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_page);
 
+
         recyclerView = findViewById(R.id.recyclerView);
 
         //sharedPreferences 불러오기
@@ -219,14 +220,18 @@ public class SearchPage extends AppCompatActivity {
     private void populateData() {
 
         //dummy
-//        items.add(new Search_data(R.drawable.baseline_dangerous_24,
-//                "https://www.naver.com",
-//                "dummy",
-//                "2022-03-11",
-//                "test data",
-//                "#F33362",
-//                1));
+        items.add(new Search_data(
+                R.drawable.baseline_verified_20,
+                "https://www.naver.com",
+                "dummy ",
+                "2022-03-11",
+                "test data",
+                "#F33362",
+                1,
+                R.drawable.restaurant
+                ));
 
+        /*
         String url = "http://10.0.2.2:5000/search/" + keyword + "/" + page;
         System.out.println("Get Data: " + url);
         JSONObject result = null;
@@ -253,7 +258,7 @@ public class SearchPage extends AppCompatActivity {
                         item.get("title").toString(),
                         item.get("date").toString(),
                         item.get("preview").toString(),
-                        color, level));
+                        color, level, image));
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -261,6 +266,7 @@ public class SearchPage extends AppCompatActivity {
         }
 
         page++;
+        */
     }
 
     private void initAdapter() {
