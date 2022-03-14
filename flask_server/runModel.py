@@ -92,6 +92,27 @@ class TokenAndPositionEmbedding(tf.keras.layers.Layer):
         return x + positions
 
 
+async def bridge(loop, okt, tokenizer, my_model, content) :
+    return await loop.run_in_executor(None, do_morphs, okt, tokenizer, my_model, content)
+
+
+def do_morphs(okt, tokenizer, my_model, s):
+    jpype.attachThreadToJVM()
+    stopwords = ['의','가','이','은','들','는','좀','잘','걍','과','도','를','으로','자','에','와','한','하다']
+    s = re.sub(r'[^ㄱ-ㅎㅏ-ㅣ가-힣 ]','', s)
+    s = okt.morphs(s, stem=True) # 토큰화
+    s = [word for word in s if not word in stopwords] # 불용어 제거: 리스트로 반환
+    s = tokenizer.texts_to_sequences([s])
+    pad_new = pad_sequences(s, maxlen = 1000) #패딩
+    score = float(my_model.predict(pad_new)[0][1]) #소프트맥스를 통해 출력된 확률값
+
+    return round(score * 100)
+
+    # if (score > 0.5):
+    #     return round(score * 100, 0)
+    # else:
+    #     return round((1 - score) * 100, 0)
+
 
 def runModel(content) :
 
@@ -134,23 +155,4 @@ def runModel(content) :
     return loop.run_until_complete(asyncio.gather(*tasks))
 
 
-async def bridge(loop, okt, tokenizer, my_model, content) :
-    return await loop.run_in_executor(None, do_morphs, okt, tokenizer, my_model, content)
 
-
-def do_morphs(okt, tokenizer, my_model, s):
-    jpype.attachThreadToJVM()
-    stopwords = ['의','가','이','은','들','는','좀','잘','걍','과','도','를','으로','자','에','와','한','하다']
-    s = re.sub(r'[^ㄱ-ㅎㅏ-ㅣ가-힣 ]','', s)
-    s = okt.morphs(s, stem=True) # 토큰화
-    s = [word for word in s if not word in stopwords] # 불용어 제거: 리스트로 반환
-    s = tokenizer.texts_to_sequences([s])
-    pad_new = pad_sequences(s, maxlen = 1000) #패딩
-    score = float(my_model.predict(pad_new)[0][1]) #소프트맥스를 통해 출력된 확률값
-
-    return round(score * 100)
-
-    # if (score > 0.5):
-    #     return round(score * 100, 0)
-    # else:
-    #     return round((1 - score) * 100, 0)
