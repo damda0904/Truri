@@ -271,7 +271,7 @@ public class SearchPage extends AppCompatActivity {
                 "2022-03-11",
                 "test data",
                 "#F33362",
-                1,
+                3,
                 "https://t1.daumcdn.net/cfile/tistory/994BEF355CD0313D05"
         ));
 

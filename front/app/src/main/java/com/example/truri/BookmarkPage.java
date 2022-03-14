@@ -95,7 +95,7 @@ public class BookmarkPage extends AppCompatActivity {
                 JSONObject item = (JSONObject) result.get(keys.next());
 
                 //아이콘 선택
-                int level = levelCheck.setLevel(item.get("level").toString());
+                int level = Integer.parseInt(item.get("level").toString());
                 int icon = levelCheck.icon(level);
                 String color = levelCheck.stringColor(level);
 
