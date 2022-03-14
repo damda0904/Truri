@@ -14,13 +14,13 @@ public class AsyncPost extends AsyncTask<String, Object, JSONObject> {
     @Override
     protected JSONObject doInBackground(String... params) {
 
-        try {
-            URL url = new URL(params[0]);
-            JSONObject result = connector.post(url, params[1], params[2]);
-            return result;
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            URL url = new URL(params[0]);
+//            JSONObject result = connector.post(url, params[1], params[2]);
+//            return result;
+//        } catch (MalformedURLException e) {
+//            e.printStackTrace();
+//        }
 
         return null;
     }
