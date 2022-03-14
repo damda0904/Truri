@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.Gravity;
@@ -15,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
@@ -184,6 +186,7 @@ public class SearchPage extends AppCompatActivity {
 
         //검색
         search.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.KITKAT)
             @Override
             public void onClick(View view) {
                 //검색어가 존재하는지 확인
@@ -194,8 +197,7 @@ public class SearchPage extends AppCompatActivity {
                 } else {
                     //검색 히스토리 기록하기
                     ManageSharedPref manage = new ManageSharedPref();
-                    //TODO : 히스토리 없는 경우 예외처리
-//                manage.setSearchHist(history, keyword);
+                    manage.setSearchHist(history, keyword);
 
                     Intent intent = new Intent(getApplicationContext(), SearchPage.class);
                     intent.putExtra("keyword", keyword);
@@ -270,7 +272,7 @@ public class SearchPage extends AppCompatActivity {
                 "test data",
                 "#F33362",
                 1,
-                R.drawable.restaurant
+                "https://t1.daumcdn.net/cfile/tistory/994BEF355CD0313D05"
         ));
 
         /*
@@ -300,7 +302,8 @@ public class SearchPage extends AppCompatActivity {
                         item.get("title").toString(),
                         item.get("date").toString(),
                         item.get("preview").toString(),
-                        color, level, image));
+                        color, level,
+                        item.get("preview_image").toString()));
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -312,7 +315,7 @@ public class SearchPage extends AppCompatActivity {
     }
 
     private void initAdapter() {
-        adapter = new Search_Adapter(items);
+        adapter = new Search_Adapter(items, getApplicationContext());
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(layoutManager);

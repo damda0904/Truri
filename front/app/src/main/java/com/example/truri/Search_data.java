@@ -1,8 +1,8 @@
 package com.example.truri;
 
 public class Search_data {
-    private int reliability_icon, image;
-    private String link, title, date, content, color;
+    private int reliability_icon;
+    private String link, title, date, content, color, image;
     private long id;
     private int level;
 
@@ -13,7 +13,7 @@ public class Search_data {
                        String content,
                        String color,
                        int level,
-                       int image
+                       String image
                        ) {
         this.reliability_icon = reliability_icon;
         this.link = link;
@@ -28,7 +28,7 @@ public class Search_data {
 
     public int getReliability_icon() {return reliability_icon;}
 
-    public int getImage() {return image;}
+    public String getImage() {return image;}
 
     public String getLink() {
         return link;

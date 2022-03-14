@@ -38,23 +38,5 @@ public class Search_items extends AppCompatActivity {
                 }
             }
         });
-
-        //평가버튼 클릭 설정
-        grade_icon = (ImageButton)findViewById(R.id.grade_icon);
-        grade_icon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-            }
-        });
-
-        //평가버튼 페이지 이동
-        grade_icon = findViewById(R.id.grade_icon);
-        grade_icon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), ReviewGradePage.class);
-                startActivity(intent);
-            }
-        });
     }
 }

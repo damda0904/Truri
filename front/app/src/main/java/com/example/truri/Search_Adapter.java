@@ -1,6 +1,7 @@
 package com.example.truri;
 
 import static android.content.Context.MODE_PRIVATE;
+import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -20,7 +21,9 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.truri.middleware.AsyncGet;
+import com.example.truri.middleware.AsyncPost;
 import com.example.truri.middleware.Connector;
 
 import org.json.JSONException;
@@ -36,11 +39,11 @@ public class Search_Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private final int VIEW_TYPE_LOADING = 1;
 
     private List<Search_data> items;
-    private Context context, mContext;
+    private Context context;
 
-    public Search_Adapter(List<Search_data> items) {
+    public Search_Adapter(List<Search_data> items, Context context) {
         this.items = items;
-        this.mContext = context;
+        this.context = context;
     }
 
 
@@ -118,8 +121,6 @@ public class Search_Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         Search_data item = items.get(position);
         holder.setItem(item);
 
-        context = holder.itemView.getContext();
-
         //sharedPreferences 불러오기
         SharedPreferences jwt =  context.getSharedPreferences("JWT", MODE_PRIVATE);
 
@@ -163,7 +164,7 @@ public class Search_Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     String url = "http://10.0.2.2:8080/bookmark/";
                     JSONObject result = null;
                     try {
-                        result = new AsyncGet().execute(url, body_string, token).get();
+                        result = new AsyncPost().execute(url, body_string, token).get();
 
                         //id 저장
                         items.get(position).setId(Long.valueOf(result.get("id").toString()));
@@ -208,7 +209,16 @@ public class Search_Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         holder.review.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                context.startActivity(new Intent(context.getApplicationContext(), ReviewGradePage.class));
+                Search_data data = items.get(position);
+
+                Intent intent = new Intent(context, ReviewGradePage.class);
+                intent.putExtra("level", Integer.toString(data.getLevel()));
+                intent.putExtra("link", data.getLink());
+                intent.putExtra("title", data.getTitle());
+                intent.putExtra("date", data.getDate());
+                intent.putExtra("content", data.getContent());
+                intent.putExtra("image", data.getImage());
+                context.startActivity(intent.addFlags(FLAG_ACTIVITY_NEW_TASK));
             }
         });
 
@@ -253,7 +263,7 @@ public class Search_Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             url.setText(item.getLink());
             reliability_icon.setImageResource(item.getReliability_icon());
             date.setText(item.getDate());
-            image.setImageResource(item.getImage());
+            Glide.with(context).load(item.getImage()).into(image);
         }
     }
 

@@ -15,11 +15,15 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.truri.middleware.LevelCheck;
+
 public class GradeTextPage extends AppCompatActivity {
 
     private Toolbar toolbar;
     private TextView top_text;
     private Button submit_btn;
+
+    LevelCheck levelCheck = new LevelCheck();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,18 +37,28 @@ public class GradeTextPage extends AppCompatActivity {
         toolbar.setTitle("");
 
         //상단 텍스트 '신뢰도' 설정
-        top_text = findViewById(R.id.top_text);
-        SpannableStringBuilder sp = new SpannableStringBuilder("신뢰 가능으로 평가하신");
+        Intent intent = getIntent();
+        int level = Integer.parseInt(intent.getStringExtra("level"));
 
-        ForegroundColorSpan color = new ForegroundColorSpan(Color.parseColor("#13A6BA"));
-        sp.setSpan(color, 0, 5, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        top_text.setText(sp);
+        String sb_text = null;
+        if(level == 3) sb_text = levelCheck.text(level) + " 으로 평가하신";
+        else sb_text = levelCheck.text(level) + " 로 평가하신";
+        SpannableStringBuilder sb = new SpannableStringBuilder(sb_text);
+
+        String color_string = levelCheck.stringColor(level);
+        ForegroundColorSpan color = new ForegroundColorSpan(Color.parseColor(color_string));
+        sb.setSpan(color, 0, 5, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+        top_text = findViewById(R.id.grade2_text1);
+        top_text.setText(sb);
 
         //완료버튼 페이지 이동
         submit_btn = findViewById(R.id.submit_btn);
         submit_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+
                 Intent intent = new Intent(getApplicationContext(), SearchPage.class);
                 startActivity(intent);
             }

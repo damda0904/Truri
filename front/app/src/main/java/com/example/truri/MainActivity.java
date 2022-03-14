@@ -31,6 +31,7 @@ import com.example.truri.middleware.ManageSharedPref;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.w3c.dom.Text;
 
 public class  MainActivity extends AppCompatActivity {
 
@@ -219,6 +220,25 @@ public class  MainActivity extends AppCompatActivity {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
+
+            historyList[i].setOnClickListener(new View.OnClickListener() {
+                @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+                @Override
+                public void onClick(View view) {
+                    TextView tv = (TextView) view;
+                    String keyword = tv.getText().toString();
+
+                    //검색 히스토리 기록하기
+                    ManageSharedPref manage = new ManageSharedPref();
+                    manage.setSearchHist(history, keyword);
+
+                    //TODO : 검색페이지의 검색창도 검색 히스토리 기록 기능 삽입하기
+
+                    Intent intent = new Intent(getApplicationContext(), SearchPage.class);
+                    intent.putExtra("keyword", keyword);
+                    startActivity(intent);
+                }
+            });
         }
 
         //설명 버튼 설정

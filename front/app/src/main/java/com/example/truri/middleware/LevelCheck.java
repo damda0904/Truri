@@ -6,51 +6,39 @@ import com.example.truri.R;
 
 public class LevelCheck {
 
+    //1: 신뢰 불가 2: 일부 신뢰 3: 신뢰 가능
+    public int setLevel(String input_score) {
+        int score = Integer.parseInt(input_score);
 
+        if(score <= 30) return 3;
+        else if(score <= 60) return 2;
+        else return 1;
+    }
 
-    public int circle(String level){
+    public int circle(int level){
         switch(level) {
-            case "1": return R.drawable.red_circle;
-            case "2": return R.drawable.yellow_circle;
+            case 1: return R.drawable.red_circle;
+            case 2: return R.drawable.yellow_circle;
             default:  return R.drawable.blue_circle;
         }
     }
 
-    public int icon(String level){
+    public int icon(int level){
         switch(level) {
-            case "1" : return R.drawable.baseline_dangerous_24;
-            case "2" : return R.drawable.baseline_report_problem_24;
+            case 1 : return R.drawable.baseline_dangerous_24;
+            case 2 : return R.drawable.baseline_report_problem_24;
             default : return R.drawable.baseline_verified_20;
         }
     }
 
-    public int icon(int level) {
-        if(level <= 30) return R.drawable.baseline_dangerous_24;
-        else if( level <=60) return R.drawable.baseline_report_problem_24;
-        else return R.drawable.baseline_verified_20;
-    }
-
-    public int intColor(String level) {
+    public int intColor(int level) {
         int blue = Color.parseColor("#13A6BA");
         int yellow = Color.parseColor("#FBB743");
         int red = Color.parseColor("#F33362");
 
         switch(level){
-            case "1" : return red;
-            case "2" : return yellow;
-            default : return blue;
-        }
-    }
-
-    public String stringColor(String level){
-
-        String blue = "#13A6BA";
-        String yellow = "#FBB743";
-        String red = "#F33362";
-
-        switch(level){
-            case "1" : return red;
-            case "2" : return yellow;
+            case 1 : return red;
+            case 2 : return yellow;
             default : return blue;
         }
     }
@@ -61,8 +49,18 @@ public class LevelCheck {
         String yellow = "#FBB743";
         String red = "#F33362";
 
-        if(level <= 30) return blue;
-        else if(level <= 60) return yellow;
-        else return red;
+        switch(level){
+            case 1 : return red;
+            case 2 : return yellow;
+            default : return blue;
+        }
+    }
+
+    public String text(int level) {
+        switch(level){
+            case 1: return "신뢰 불가";
+            case 2: return "약간 신뢰";
+            default: return "신뢰 가능";
+        }
     }
 }
