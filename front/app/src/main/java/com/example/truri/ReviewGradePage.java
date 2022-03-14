@@ -45,7 +45,6 @@ public class ReviewGradePage extends AppCompatActivity {
 
         //앞 페이지에서 데이터 가져오기
         Intent intent = getIntent();
-        System.out.println(intent.getStringExtra("level"));
         int level = Integer.parseInt(intent.getStringExtra("level"));
         String link = intent.getStringExtra("link");
         String title_text = intent.getStringExtra("title");
@@ -90,7 +89,10 @@ public class ReviewGradePage extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "신뢰도를 평가해주세요", Toast.LENGTH_SHORT).show();
                 } else {
                     Intent intent = new Intent(getApplicationContext(), GradeTextPage.class);
-                    intent.putExtra("level", Integer.toString(newLevel));
+                    intent.putExtra("url", link);
+                    intent.putExtra("title", title_text);
+                    intent.putExtra("originalLevel", Integer.toString(level));
+                    intent.putExtra("newLevel", Integer.toString(newLevel));
                     startActivity(intent);
                 }
             }

@@ -58,7 +58,7 @@ public class OpinionController {
 
     //의견 등록
     @PostMapping(value="")
-    public ResponseEntity<Long> addOpinion(@RequestBody String request, @RequestHeader("Authorization") String token) {
+    public ResponseEntity<JSONObject> addOpinion(@RequestBody String request, @RequestHeader("Authorization") String token) {
         JSONObject body = middleware.stringToJson(request);
 
         String userId = middleware.tokenToUserId(token);
@@ -78,7 +78,10 @@ public class OpinionController {
 
         Long ono = opinionService.addOpinion(opinionDTO);
 
-        return new ResponseEntity<Long>(ono, HttpStatus.OK);
+        JSONObject response = new JSONObject();
+        response.put("id", ono);
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     //의견 업데이트
