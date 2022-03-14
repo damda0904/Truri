@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -71,20 +72,19 @@ public class Search_Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
         //todo 웹뷰 이동
         holder.itemView.setTag(position); //커스텀 뷰의 각각의 리스트를 의미
-        //holder.url.setText(items.get(position).getLink());
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                //String item_url = (String) holder.url.getText().toString();
-
-                Intent intent;
-                intent = new Intent(context, WebPage.class); //웹뷰 화면 연결
-                //intent.putExtra("LINK", item_url); //변수값 인텐트로 넘기기
-                context.startActivity(intent);
-            }
-    });
+//        holder.itemView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//
+//                String item_url = (String) holder.url.getText().toString();
+//
+//                Intent intent;
+//                intent = new Intent(context, WebPage.class); //웹뷰 화면 연결
+//                intent.putExtra("link", item_url); //변수값 인텐트로 넘기기
+//                context.startActivity(intent.addFlags(FLAG_ACTIVITY_NEW_TASK));
+//            }
+//        });
     }
 
     public void onClickShowAlert() {
@@ -127,7 +127,6 @@ public class Search_Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         //토큰 불러오기
         String token = jwt.getString("token", "");
 
-        //TODO 북마크 테스트
         //북마크버튼 클릭 설정
         holder.bookmark.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -135,7 +134,6 @@ public class Search_Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
                 if(!holder.bookmark.isSelected())
                 {
-                    //TODO 이미 북마크 되어있는지 확인
                     //북마크 추가
                     //토큰이 존재하는지 확인
                     if(token.equals("")) {
@@ -222,6 +220,20 @@ public class Search_Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             }
         });
 
+        //웹뷰 이동
+        holder.layout.setClickable(true);
+        holder.layout.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                if(position != RecyclerView.NO_POSITION){
+                    String link = holder.url.getText().toString();
+
+                    Intent intent= new Intent(context, WebPage.class);
+                    intent.putExtra("link", link);
+                    context.startActivity(intent.addFlags(FLAG_ACTIVITY_NEW_TASK));
+                }
+            }
+        });
 
     }
 
@@ -229,6 +241,7 @@ public class Search_Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         protected ImageView reliability_icon, image;
         protected TextView title, content, url, date;
         protected ImageButton bookmark, review;
+        protected LinearLayout layout;
 
         public ItemViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -239,22 +252,10 @@ public class Search_Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             reliability_icon = itemView.findViewById(R.id.reliability_icon);
             date = itemView.findViewById(R.id.date);
             image = itemView.findViewById(R.id.image);
+            layout = itemView.findViewById(R.id.linearLayout);
 
             this.bookmark = itemView.findViewById(R.id.bookmark_icon);
             this.review = itemView.findViewById(R.id.grade_icon);
-
-//            //웹뷰 이동
-//            itemView.setClickable(true);
-//            itemView.setOnClickListener(new View.OnClickListener(){
-//                @Override
-//                public void onClick(View v) {
-//                    int pos = getAdapterPosition();
-//                    if(pos != RecyclerView.NO_POSITION){
-//                        Intent intent= new Intent(mContext, WebPage.class);
-//                        mContext.startActivity(intent);
-//                    }
-//                }
-//            });
         }
 
         public void setItem(Search_data item) {

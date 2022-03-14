@@ -33,12 +33,11 @@ public class WebPage extends AppCompatActivity {
         webView.getSettings().setAppCacheEnabled(true);
         webView.setWebViewClient(new WebViewClient());
 
-        webView.loadUrl(url);
-
         //adapter에서 링크 받아오기
         intent = getIntent();// 인텐트 받아오기
-        url = intent.getStringExtra("LINK");
+        url = intent.getStringExtra("link");
 
+        webView.loadUrl(url);
 
         //뒤로
         final ImageButton back_btn = (ImageButton) findViewById(R.id.back_btn);
