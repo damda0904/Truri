@@ -101,6 +101,7 @@ def search(query, page):
 
         result.append(-1.0)
         content_list.append(item['content'])
+        print("set model")
 
     scores = runModel(content_list)
 
@@ -128,12 +129,14 @@ def search(query, page):
 
     end = time.time()
 
+    print(response)
+
     print(f"\n총 걸린 시간은 {end - start} 초 입니다")
     # 30개 단위 기준 크롤링 3초, ai분석 35초정도 소요
     # 10개로 쪼갠 기준 첫 로드 11초 두번째 로드 5초정도 소요(이미지 응답 제외)
     # 이미지 응답포함시 1초 가량 증가
 
-    return json.dumps(response)
+    return response
 
 if __name__ == '__main__':
     app.run(debug=True)
