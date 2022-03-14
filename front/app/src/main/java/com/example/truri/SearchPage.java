@@ -264,18 +264,18 @@ public class SearchPage extends AppCompatActivity {
     private void populateData() {
 
         //dummy
-        items.add(new Search_data(
-                R.drawable.baseline_verified_20,
-                "https://www.naver.com",
-                "dummy ",
-                "2022-03-11",
-                "test data",
-                "#F33362",
-                3,
-                "https://t1.daumcdn.net/cfile/tistory/994BEF355CD0313D05"
-        ));
+//        items.add(new Search_data(
+//                R.drawable.baseline_verified_20,
+//                "https://www.naver.com",
+//                "dummy ",
+//                "2022-03-11",
+//                "test data",
+//                "#F33362",
+//                3,
+//                "https://t1.daumcdn.net/cfile/tistory/994BEF355CD0313D05"
+//        ));
 
-        /*
+
         String url = "http://10.0.2.2:5000/search/" + keyword + "/" + page;
         System.out.println("Get Data: " + url);
         JSONObject result = null;
@@ -295,7 +295,7 @@ public class SearchPage extends AppCompatActivity {
 
                 int level = levelCheck.setLevel(item.get("score").toString());
                 int icon = levelCheck.icon(level);
-                String color = levelCheck.color(level);
+                String color = levelCheck.stringColor(level);
 
                 items.add(new Search_data(icon,
                         item.get("link").toString(),
@@ -311,7 +311,7 @@ public class SearchPage extends AppCompatActivity {
         }
 
         page++;
-        */
+
     }
 
     private void initAdapter() {
