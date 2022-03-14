@@ -1,7 +1,9 @@
 package com.example.truri;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.Gravity;
@@ -36,7 +38,8 @@ public class SearchPage extends AppCompatActivity {
     private Toolbar toolbar;
     private DrawerLayout drawerLayout;
     private View drawerView;
-    private Button info_btn, bookmark, review, signin_out, member;;
+    private Button info_btn, bookmark, review, signin_out, member;
+    ;
     private RecyclerView recyclerView;
     private Search_Adapter adapter;
     private ArrayList<Search_data> items = new ArrayList<>();
@@ -59,7 +62,7 @@ public class SearchPage extends AppCompatActivity {
         recyclerView = findViewById(R.id.recyclerView);
 
         //sharedPreferences 불러오기
-        SharedPreferences jwt =  getSharedPreferences("JWT", MODE_PRIVATE);
+        SharedPreferences jwt = getSharedPreferences("JWT", MODE_PRIVATE);
         SharedPreferences history = getSharedPreferences("History", MODE_PRIVATE);
 
 
@@ -68,8 +71,8 @@ public class SearchPage extends AppCompatActivity {
 
         //drawer-------------------------------
         //drawer 설정
-        drawerLayout = (DrawerLayout)findViewById(R.id.drawer);
-        drawerView = (View)findViewById(R.id.menu);
+        drawerLayout = (DrawerLayout) findViewById(R.id.drawer);
+        drawerView = (View) findViewById(R.id.menu);
 
         drawerLayout.setDrawerListener(listener);
         drawerView.setOnTouchListener(new View.OnTouchListener() {
@@ -80,8 +83,8 @@ public class SearchPage extends AppCompatActivity {
         });
 
         //drawer 열기 기능 설정
-        toolbar = (Toolbar)findViewById(R.id.toolbar);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener(){
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 drawerLayout.openDrawer(drawerView);
@@ -89,11 +92,11 @@ public class SearchPage extends AppCompatActivity {
         });
 
         //북마크 페이지 이동
-        bookmark = (Button)findViewById(R.id.bookmark);
+        bookmark = (Button) findViewById(R.id.bookmark);
         bookmark.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(token.equals("")) {
+                if (token.equals("")) {
                     startActivity(new Intent(SearchPage.this, LoginPage.class));
                 } else {
                     startActivity(new Intent(SearchPage.this, BookmarkPage.class));
@@ -102,11 +105,11 @@ public class SearchPage extends AppCompatActivity {
         });
 
         //평가 관리 페이지 이동
-        review = (Button)findViewById(R.id.review);
+        review = (Button) findViewById(R.id.review);
         review.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(token.equals("")) {
+                if (token.equals("")) {
                     startActivity(new Intent(SearchPage.this, LoginPage.class));
                 } else {
                     startActivity(new Intent(SearchPage.this, ReviewPage.class));
@@ -115,8 +118,8 @@ public class SearchPage extends AppCompatActivity {
         });
 
         //토큰이 있을 경우 로그인, 없을 경우 로그아웃 버튼으로 전환
-        signin_out = (Button)findViewById(R.id.signin_out);
-        if(token.equals("")) {
+        signin_out = (Button) findViewById(R.id.signin_out);
+        if (token.equals("")) {
             signin_out.setText("로그인");
         } else {
             signin_out.setText("로그아웃");
@@ -125,7 +128,7 @@ public class SearchPage extends AppCompatActivity {
         signin_out.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(token.equals("")) {
+                if (token.equals("")) {
                     startActivity(new Intent(SearchPage.this, LoginPage.class));
                 } else {
                     SharedPreferences.Editor editor = jwt.edit();
@@ -137,8 +140,8 @@ public class SearchPage extends AppCompatActivity {
         });
 
         //토큰이 있을 경우 회원가입, 없을 경우 회원탈퇴 버튼으로 전환
-        member = (Button)findViewById(R.id.member);
-        if(token.equals("")) {
+        member = (Button) findViewById(R.id.member);
+        if (token.equals("")) {
             member.setText("회원가입");
         } else {
             member.setText("회원탈퇴");
@@ -146,7 +149,7 @@ public class SearchPage extends AppCompatActivity {
         member.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(token.equals("")) {
+                if (token.equals("")) {
                     startActivity(new Intent(SearchPage.this, SignUpPage.class));
                 } else {
                     //TODO:회원탈퇴 구현
@@ -161,7 +164,7 @@ public class SearchPage extends AppCompatActivity {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
 
-                if(token.equals("")) {
+                if (token.equals("")) {
                     startActivity(new Intent(SearchPage.this, LoginPage.class));
                 } else {
                     startActivity(new Intent(SearchPage.this, UserPage.class));
@@ -184,8 +187,8 @@ public class SearchPage extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //검색어가 존재하는지 확인
-                if(keyword.equals("")) {
-                    Toast toast = Toast.makeText(getApplicationContext(),"검색어를 입력해주세요", Toast.LENGTH_SHORT);
+                if (keyword.equals("")) {
+                    Toast toast = Toast.makeText(getApplicationContext(), "검색어를 입력해주세요", Toast.LENGTH_SHORT);
                     toast.setGravity(Gravity.TOP, 0, 0);
                     toast.show();
                 } else {
@@ -214,7 +217,46 @@ public class SearchPage extends AppCompatActivity {
         populateData();
         initAdapter();
         initScrollListener();
+
+        //todo --------ProgressDialog 로딩 화면
+        LoadingTask task = new LoadingTask();
+        task.execute();
     }
+
+    //todo ----------ProgressDialog 로딩 화면
+    private class LoadingTask extends AsyncTask<Void, Void, Void> {   //AsyncTask 클래스
+
+        ProgressDialog asyncDialog = new ProgressDialog(
+                SearchPage.this);
+
+        @Override
+        protected void onPreExecute() {         //ProgressDialog 생성, 시작
+            asyncDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            asyncDialog.setMessage("검색 결과를 가져오고 있습니다.");
+
+            asyncDialog.show();
+            super.onPreExecute();
+        }
+
+        @Override
+        protected Void doInBackground(Void... arg0) {       //ProgressDialog 진행 정도
+            try {
+                for (int i = 0; i < 5; i++) {
+                    Thread.sleep(500);
+                }
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void result) {         //ProgressDialog 종료
+            asyncDialog.dismiss();
+            super.onPostExecute(result);
+        }
+    }
+
 
     //데이터 불러오기
     private void populateData() {
@@ -229,7 +271,7 @@ public class SearchPage extends AppCompatActivity {
                 "#F33362",
                 1,
                 R.drawable.restaurant
-                ));
+        ));
 
         /*
         String url = "http://10.0.2.2:5000/search/" + keyword + "/" + page;
