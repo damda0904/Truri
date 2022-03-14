@@ -90,4 +90,97 @@ public class Connector {
 
         return false;
     }
+
+    public JSONObject post(URL url, String body, String token) {
+        try{
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+
+            //헤더 설정
+            conn.setRequestProperty("User-Agent", "truri-v0.1");
+            conn.setRequestProperty("Content-Type", "text/html");
+            conn.setRequestProperty("Authorization", token);
+            conn.setRequestMethod("POST");
+            conn.setDoOutput(true);
+
+            //서버 연결 및 토큰 받아오기
+            //파싱 후 전송
+            conn.getOutputStream().write(body.getBytes());
+
+            //TODO: 예외처리 - 서버연결불가
+
+            //응답
+            String response = null;
+            if (conn.getResponseCode() == 200) {
+                InputStream responseBody = conn.getInputStream();
+                StringBuilder builder = new StringBuilder();
+
+                BufferedReader reader = new BufferedReader(new InputStreamReader(responseBody, "UTF-8"));
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    builder.append(line);
+                }
+
+                response = builder.toString();
+
+                System.out.println("Post - "+ url + " : Connection is Successful");
+
+                JSONObject result = new JSONObject(response);
+
+                return result;
+
+            } else {
+                System.out.println("Post - " + url + " : connection error--------------------");
+                System.out.println(conn.getResponseCode());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    public JSONObject login(URL url, String body, String nullToken) {
+        try {
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+
+            //헤더 설정
+            conn.setRequestProperty("User-Agent", "truri-v0.1");
+            conn.setRequestProperty("Content-Type", "text/html");
+            conn.setRequestMethod("POST");
+            conn.setDoOutput(true);
+
+            //서버 연결 및 토큰 받아오기
+            //파싱 후 전송
+            conn.getOutputStream().write(body.getBytes());
+
+            //TODO: 예외처리 - 서버연결불가
+
+            //응답
+            if (conn.getResponseCode() == 200) {
+                InputStream responseBody = conn.getInputStream();
+                StringBuilder builder = new StringBuilder();
+
+                BufferedReader reader = new BufferedReader(new InputStreamReader(responseBody, "UTF-8"));
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    builder.append(line);
+                }
+
+                String token = builder.toString();
+
+                JSONObject response = new JSONObject();
+                response.put("token", token);
+
+                return response;
+
+            } else {
+                System.out.println("Post - " + url + " : connection error--------------------");
+                System.out.println(conn.getResponseCode());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
 }
