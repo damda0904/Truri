@@ -9,7 +9,7 @@ if __name__ == '__main__':
     result = subprocess.check_output([sys.executable, 'naver_crawling.py', "test", '1'], shell=True, encoding='utf-8')
     result = result.split("\n")
 
-    print(len(result[len(result)-1]))
+    print(len(result))
 
     # items = []
     # for item in result:
