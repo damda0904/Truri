@@ -67,7 +67,7 @@ def search(query, page):
         for url in urls:    # 이미지가 있다면 이미지 검사 수행
             if url == "":
                 continue
-            elif item['check_text'] == True :   # 이미 텍스트에서 판명이 났다면 검사 패스
+            elif item['check_text'] == 0 or item['check_text'] == 1 :   # 이미 텍스트에서 판명이 났다면 검사 패스
                 continue
             else:
                 tasks.append(detect_text(loop, url, idx))
@@ -90,22 +90,30 @@ def search(query, page):
 
         # 이미지 확인 후 이미 광고로 판명이 났다면 모듈 수행x
         if ('detect_result' in item):
-            if (True in item['detect_result']):
+            if (1 in item['detect_result']):
                 result.append(100)
+                continue
+            elif (0 in item['detect_result']):
+                result.append(0)
                 continue
 
         # 텍스트 검사 후 이미 광고로 판명이 났다면 모듈 수행x
-        if(item['check_text'] == True) :
+        if(item['check_text'] == 0) :
+            result.append(0)
+            continue
+        elif(item['check_text'] == 1) :
             result.append(100)
+            continue
+
+        # 만약 본문 크롤링을 못해왔을 경우 모듈 수행x
+        if(item['content'] == ""):
+            result.append(50)
             continue
 
         result.append(-1.0)
         content_list.append(item['content'])
-        print("set model")
 
     scores = runModel(content_list)
-
-    print("scores------------------")
     print(scores)
 
     idx = 0
@@ -116,9 +124,13 @@ def search(query, page):
             result[i] = scores[idx]
             idx += 1
 
+    print("scores------------------")
+    print(result)
+
     # items에 score 결과값 저장 및 response 용으로 정리
     response = {}
     for i in range(0, size):
+        print(items[i]['link'])
         items[i]['score'] = result[i]
         items[i].pop('content')
         items[i].pop('last_images')
@@ -128,8 +140,6 @@ def search(query, page):
         response[str(i)] = item
 
     end = time.time()
-
-    print(response)
 
     print(f"\n총 걸린 시간은 {end - start} 초 입니다")
     # 30개 단위 기준 크롤링 3초, ai분석 35초정도 소요

@@ -34,6 +34,8 @@ class NaverSpider(scrapy.Spider):
 
     def parse(self, response):
 
+        items = []
+
         #링크 크롤링
         link_data = response.css('.api_txt_lines').xpath("@href").extract()
 
@@ -46,6 +48,7 @@ class NaverSpider(scrapy.Spider):
         #날짜 크롤링
         date_data = response.css(".sub_time::text").extract()
 
+        #서치할 영역 정하기
         if (search_page[0]-1) % 3 == 0:
             start = 0
             end = 10
@@ -55,52 +58,61 @@ class NaverSpider(scrapy.Spider):
         else:
             start = 20
             end = 30
-        search_url = []
+
 
         # print(str(start) + " ~ " + str(end))
         # print(len(link_data))
         # print(str(start) + " ~ " + str(end))
 
-        #기존 : for idx in range(0, 30)
-        for idx in range(start, end):
+        #하나의 아이템으로 묶어 저장하기
+        search_url = []
+        for idx in range(start, end):         #기존 : for idx in range(0, 30)
             item = {}
             item["link"] = link_data[idx]
             item["title"] = title_data[idx]
             item["preview"] = preview_data[idx]
             item["date"] = date_data[idx]
+            items.append(item)
             search_url.append(link_data[idx])
-
-            result.append(item)
 
         # print("search_url: " + str(len(search_url)))
         # 테스트용
         # yield scrapy.Request(url=link_data[0], callback=self.parse_detail)
 
         # 기존 : for url in link_data
-        for url in search_url:
-            yield scrapy.Request(url=url, callback=self.parse_detail)
+        for i in range(0, len(search_url)):
+            url = search_url[i]
+            item = items[i]
+            yield scrapy.Request(url=url, callback=self.parse_detail, cb_kwargs=dict(item=item))
 
-    def parse_detail(self, response):
+    def parse_detail(self, response, item):
 
+        # iframe 링크 크롤링
         iframe = response.css('#mainFrame::attr(src)').extract()
         if(len(iframe) > 0) :
-            yield scrapy.Request(url="https://blog.naver.com/" + iframe[0], callback=self.parse_iframe)
+            yield scrapy.Request(url="https://blog.naver.com/" + iframe[0], callback=self.parse_iframe,
+                                 cb_kwargs=dict(item=item))
+        # iframe이 없으면 result에 저장
         else :
-            content.append("")
-            preview_image.append("")
-            last_images.append(["", ""])
+            item['content'] = ""
+            item['preview_image'] = ""
+            item['last_images'] = ["", ""]
+            result.append(item)
 
-    def parse_iframe(self, response):
-        image = response.css(".se-image-resource").xpath("@src").extract()
+    def parse_iframe(self, response, item):
+        image = response.css(".se-image-resource").xpath("@src").extract();
+        sticker = response.css(".se-sticker-image").xpath("@src").extract()
 
         # 이미지가 있을 경우/ 없을 경우
         if len(image) != 0:
-            preview_image.append(image[0])
-
-            last_images.append([image[len(image) - 2], image[len(image) - 1]])
+            item['preview_image'] = image[0]
         else :
-            preview_image.append("")
-            last_images.append(["", ""])
+            item['preview_image'] = ""
+
+        if len(sticker) != 0:
+            item['last_images'] = [sticker[len(sticker) - 2], sticker[len(sticker) - 1]]
+        else:
+            item['last_images'] = ["", ""]
 
         # 본문 크롤링
         content_data = response.css(".se-main-container").xpath(".//span//text()").getall()
@@ -109,7 +121,8 @@ class NaverSpider(scrapy.Spider):
             if line != "\u200b" :
                 one_content = one_content + line + " "
 
-        content.append(one_content)
+        item['content'] = one_content
+        result.append(item)
 
 def naver_crawling(query, page):
 
@@ -135,23 +148,6 @@ def naver_crawling(query, page):
     process = CrawlerProcess()
     process.crawl(NaverSpider)
     process.start()
-
-    # 네이버 아이템 별로 데이터 정리
-    size = len(result)
-    for idx in range(0, size):
-        item = result[idx]
-
-        if len(content) > idx: item["content"] = content[idx]
-        else: item["content"] = ""
-
-        if len(preview_image) > idx: item["preview_image"] = preview_image[idx]
-        else: item["preview_image"] = ""
-
-        if len(last_images) > idx: item["last_images"] = last_images[idx]
-        else: item["last_images"] = ["", ""]
-
-
-        result[idx] = item
 
     return result
 

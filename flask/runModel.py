@@ -93,7 +93,7 @@ class TokenAndPositionEmbedding(tf.keras.layers.Layer):
 
 
 
-def runModel(content) :
+def runModel(contents) :
 
     vocab_size = 30000  # 빈도수 상위 2만개의 단어만 사용
     max_len = 1000  # 문장의 최대 길이
@@ -128,7 +128,7 @@ def runModel(content) :
     asyncio.set_event_loop(loop)
 
     tasks = []
-    for c in content :
+    for c in contents :
         tasks.append(bridge(loop, okt, tokenizer, my_model, c))
 
     return loop.run_until_complete(asyncio.gather(*tasks))
