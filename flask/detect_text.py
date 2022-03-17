@@ -16,7 +16,6 @@ async def detect_text(loop, uri, num):
     texts = response.text_annotations
 
     if len(texts) > 0 :
-        print(texts[0].description)
         result = check_text(texts[0].description)
     else : result = -1
 

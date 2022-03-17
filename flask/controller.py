@@ -16,7 +16,7 @@ import json
 WSGIRequestHandler.protocol_version = "HTTP/1.1"
 app = Flask(__name__)
 
-@app.route('/test', methods=['GET', 'POST'])
+@app.route('/', methods=['GET', 'POST'])
 def test():
     if(request.method == 'POST'):
         print(request.get_json())
@@ -48,8 +48,6 @@ def search(query, page):
         tmp = ast.literal_eval(item)
         print(tmp)
         items.append(tmp)
-
-    print("subprocess finished")
 
     # 텍스트 검색
     for item in items:

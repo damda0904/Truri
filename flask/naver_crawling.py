@@ -59,11 +59,6 @@ class NaverSpider(scrapy.Spider):
             start = 20
             end = 30
 
-
-        # print(str(start) + " ~ " + str(end))
-        # print(len(link_data))
-        # print(str(start) + " ~ " + str(end))
-
         #하나의 아이템으로 묶어 저장하기
         search_url = []
         for idx in range(start, end):         #기존 : for idx in range(0, 30)
@@ -75,7 +70,6 @@ class NaverSpider(scrapy.Spider):
             items.append(item)
             search_url.append(link_data[idx])
 
-        # print("search_url: " + str(len(search_url)))
         # 테스트용
         # yield scrapy.Request(url=link_data[0], callback=self.parse_detail)
 
@@ -153,7 +147,6 @@ def naver_crawling(query, page):
 
 if __name__ == '__main__':
     result = naver_crawling(sys.argv[1], sys.argv[2])
-    # print(len(result))
 
     for item in result:
         print(item)
