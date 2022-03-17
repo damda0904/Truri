@@ -18,17 +18,23 @@ public class ManageSharedPref {
 
         //히스토리 가져와 겹치는 게 있는지 비교
         JSONArray history = getSearchHist(share);
-        for(int i = 0;  i < history.length(); i++) {
-            try {
-                if (history.get(i).equals(keyword)) {
-                    //존재한다면 순서를 바꾸고 반환
-                    changeOrder(share, history, i);
-                    return true;
+        if(history != null) {
+            for(int i = 0;  i < history.length(); i++) {
+                try {
+                    if (history.get(i).equals(keyword)) {
+                        //존재한다면 순서를 바꾸고 반환
+                        changeOrder(share, history, i);
+                        return true;
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
-            } catch (JSONException e) {
-                e.printStackTrace();
             }
+        } else {
+            history = new JSONArray();
         }
+
+        System.out.println("History create!");
 
         //히스토리 새로 생성하기
         SharedPreferences.Editor editor = share.edit();
@@ -39,8 +45,12 @@ public class ManageSharedPref {
 
             history.put(keyword);
 
+            System.out.println(history);
+
             editor.putString("search", history.toString());
             editor.commit();
+
+            System.out.println(getSearchHist(share));
 
             return true;
         } catch (Exception e) {
@@ -54,8 +64,11 @@ public class ManageSharedPref {
         String json = share.getString("search", null);
         JSONArray jsonArray = null;
 
+
         try {
-            jsonArray = new JSONArray(json);
+            if(json != null){
+                jsonArray = new JSONArray(json);
+            }
         } catch (JSONException e) {
             e.printStackTrace();
         }

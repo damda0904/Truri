@@ -213,32 +213,34 @@ public class  MainActivity extends AppCompatActivity {
 
         ManageSharedPref manage = new ManageSharedPref();
         JSONArray searchHist = manage.getSearchHist(history);
-        for (int i = 0; i < searchHist.length(); i++) {
-            try {
-                String hist = (String) searchHist.get(searchHist.length() - i - 1);
-                historyList[i].setText(hist);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-            historyList[i].setOnClickListener(new View.OnClickListener() {
-                @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-                @Override
-                public void onClick(View view) {
-                    TextView tv = (TextView) view;
-                    String keyword = tv.getText().toString();
-
-                    //검색 히스토리 기록하기
-                    ManageSharedPref manage = new ManageSharedPref();
-                    manage.setSearchHist(history, keyword);
-
-                    //TODO : 검색페이지의 검색창도 검색 히스토리 기록 기능 삽입하기
-
-                    Intent intent = new Intent(getApplicationContext(), SearchPage.class);
-                    intent.putExtra("keyword", keyword);
-                    startActivity(intent);
+        if(searchHist != null){
+            for (int i = 0; i < searchHist.length(); i++) {
+                try {
+                    String hist = (String) searchHist.get(searchHist.length() - i - 1);
+                    historyList[i].setText(hist);
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
-            });
+
+                historyList[i].setOnClickListener(new View.OnClickListener() {
+                    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+                    @Override
+                    public void onClick(View view) {
+                        TextView tv = (TextView) view;
+                        String keyword = tv.getText().toString();
+
+                        //검색 히스토리 기록하기
+                        ManageSharedPref manage = new ManageSharedPref();
+                        manage.setSearchHist(history, keyword);
+
+                        //TODO : 검색페이지의 검색창도 검색 히스토리 기록 기능 삽입하기
+
+                        Intent intent = new Intent(getApplicationContext(), SearchPage.class);
+                        intent.putExtra("keyword", keyword);
+                        startActivity(intent);
+                    }
+                });
+            }
         }
 
         //설명 버튼 설정
@@ -277,7 +279,7 @@ public class  MainActivity extends AppCompatActivity {
     public void showDescription() {
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
 
-        builder.setMessage("원하는 키워드를 검색하면 빨간색, 노란색, 파란색 제목의 검색 결과가 나옵니다.\n빨간색은 '광고성 글, 신뢰 불가', 노란색은 '일부 신뢰', 파란색은 '신뢰 가능'을 뜻합니다.");
+        builder.setMessage("원하는 키워드를 검색하면 검색 결과가 빨간색, 노란색, 파란색 아이콘과 함께 나옵니다.\n빨간색은 '광고성 글, 신뢰 불가', 노란색은 '일부 신뢰', 파란색은 '신뢰 가능'을 뜻합니다.");
         builder.setPositiveButton("알겠어요!", null);
 
         builder.show();

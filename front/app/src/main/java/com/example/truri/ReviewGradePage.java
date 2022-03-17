@@ -51,6 +51,7 @@ public class ReviewGradePage extends AppCompatActivity {
         String date_text = intent.getStringExtra("date");
         String content_text = intent.getStringExtra("content");
         String image_url = intent.getStringExtra("image");
+        String keyword = intent.getStringExtra("keyword");
 
         //상단 텍스트 '신뢰도' 설정
         String sb_text = levelCheck.text(level) + " 입니다";
@@ -93,6 +94,7 @@ public class ReviewGradePage extends AppCompatActivity {
                     intent.putExtra("title", title_text);
                     intent.putExtra("originalLevel", Integer.toString(level));
                     intent.putExtra("newLevel", Integer.toString(newLevel));
+                    intent.putExtra("keyword", keyword);
                     startActivity(intent);
                 }
             }

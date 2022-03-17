@@ -7,15 +7,15 @@ public class Bookmark_data {
 
     private long id;
     private int reliability_icon;
-    private String title, content;
-    private String color;
+    private String title, content, color, url;
 
-    public Bookmark_data(long id, int reliability_icon, String title, String content, String color) {
+    public Bookmark_data(long id, int reliability_icon, String title, String content, String color, String url) {
         this.id = id;
         this.reliability_icon = reliability_icon;
         this.title = title;
         this.content = content;
         this.color = color;
+        this.url = url;
     }
 
     public int getReliability_icon() {
@@ -51,4 +51,12 @@ public class Bookmark_data {
     }
 
     public long getId() { return this.id = id; }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
 }

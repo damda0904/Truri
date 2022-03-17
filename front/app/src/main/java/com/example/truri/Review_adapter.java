@@ -18,6 +18,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.truri.Network.ServerHost;
 import com.example.truri.middleware.Connector;
 
 import org.w3c.dom.Text;
@@ -128,7 +129,8 @@ public class Review_adapter extends RecyclerView.Adapter<Review_adapter.CustomVi
             @Override
             public void run() {
                 try{
-                    URL url = new URL("http://10.0.2.2:8080/opinion?ono=" +  Long.toString(ono));
+                    String localhost = new ServerHost().getHost_url("spring");
+                    URL url = new URL(localhost + "/opinion?ono=" +  Long.toString(ono));
                     connector.delete(url);
                 } catch(Exception exception){
                     exception.printStackTrace();

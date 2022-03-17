@@ -16,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.example.truri.Network.ServerHost;
 import com.example.truri.middleware.AsyncGet;
 import com.example.truri.middleware.Connector;
 import com.example.truri.middleware.LevelCheck;
@@ -85,7 +86,8 @@ public class UserPage extends AppCompatActivity {
         userId = findViewById(R.id.userId);
         getToken();
 
-        String nickname_url = "http://10.0.2.2:8080/auth/nickname";
+        String localhost = new ServerHost().getHost_url("spring");
+        String nickname_url = localhost + "/auth/nickname";
         JSONObject nickname_result = null;
         String nickname = null;
         try {
@@ -115,7 +117,7 @@ public class UserPage extends AppCompatActivity {
         bookmarks[4] = findViewById(R.id.bookmark_content5);
 
 
-        String bookmark_url = "http://10.0.2.2:8080/bookmark/";
+        String bookmark_url = localhost + "/bookmark/";
         JSONObject bookmark_result = null;
         try {
             bookmark_result = new AsyncGet().execute(bookmark_url, token).get();
@@ -176,7 +178,7 @@ public class UserPage extends AppCompatActivity {
         review_contents[3] = findViewById(R.id.review_content4_text);
         review_contents[4] = findViewById(R.id.review_content5_text);
 
-        String review_url = "http://10.0.2.2:8080/opinion";
+        String review_url = localhost + "/opinion";
         JSONObject review_result = null;
         int review_size = 0;
         try {

@@ -17,6 +17,7 @@ public class AsyncPost extends AsyncTask<String, Object, JSONObject> {
 
         try {
             URL url = new URL(params[0]);
+            System.out.println("Post Connecting - " + url);
             JSONObject result;
             if(params[0].contains("login")){
                 result = connector.login(url, params[1], params[2]);

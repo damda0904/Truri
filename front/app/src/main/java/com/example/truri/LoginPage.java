@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.truri.Network.ServerHost;
 import com.example.truri.middleware.AsyncGet;
 import com.example.truri.middleware.AsyncPost;
 
@@ -60,7 +61,8 @@ public class LoginPage extends AppCompatActivity {
                     String body_string = body.toString();
 
                     //서버 연결 및 토큰 받아오기
-                    String url = "http://10.0.2.2:8080/auth/login";
+                    String localhost = new ServerHost().getHost_url("spring");
+                    String url = localhost + "/auth/login";
                     JSONObject result = new AsyncPost().execute(url, body_string, null).get();
                     System.out.println(result);
                     if(result == null) {

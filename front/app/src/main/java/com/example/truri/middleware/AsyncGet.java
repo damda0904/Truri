@@ -16,6 +16,8 @@ public class AsyncGet extends AsyncTask<String, Object, JSONObject> {
 
         try {
             URL url = new URL(params[0]);
+            System.out.println("GET Connecting - " + url);
+
             JSONObject result = connector.get(url, params[1]);
             return result;
         } catch (MalformedURLException e) {

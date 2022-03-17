@@ -14,6 +14,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.truri.Network.ServerHost;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -88,7 +90,8 @@ public class SignUpPage extends AppCompatActivity {
                     @Override
                     public void run() {
                         try{
-                            URL url = new URL("http://10.0.2.2:8080/auth/me");
+                            String localhost = new ServerHost().getHost_url();
+                            URL url = new URL(localhost + ":8080/auth/me");
 
                             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 
@@ -147,7 +150,8 @@ public class SignUpPage extends AppCompatActivity {
                     @Override
                     public void run() {
                         try {
-                            URL url = new URL("http://10.0.2.2:8080/auth/signup");
+                            String localhost = new ServerHost().getHost_url("spring");
+                            URL url = new URL(localhost + "/auth/signup");
 
                             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 

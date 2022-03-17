@@ -24,6 +24,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.truri.Network.ServerHost;
 import com.example.truri.middleware.AsyncGet;
 import com.example.truri.middleware.LevelCheck;
 import com.example.truri.middleware.ManageSharedPref;
@@ -216,10 +217,10 @@ public class SearchPage extends AppCompatActivity {
             }
         });
 
-        populateData();
-        initAdapter();
-        initScrollListener();
-
+//        populateData();
+//        initAdapter();
+//        initScrollListener();
+//
         //todo --------ProgressDialog 로딩 화면
         LoadingTask task = new LoadingTask();
         task.execute();
@@ -228,8 +229,7 @@ public class SearchPage extends AppCompatActivity {
     //todo ----------ProgressDialog 로딩 화면
     private class LoadingTask extends AsyncTask<Void, Void, Void> {   //AsyncTask 클래스
 
-        ProgressDialog asyncDialog = new ProgressDialog(
-                SearchPage.this);
+        ProgressDialog asyncDialog = new ProgressDialog(SearchPage.this);
 
         @Override
         protected void onPreExecute() {         //ProgressDialog 생성, 시작
@@ -242,18 +242,14 @@ public class SearchPage extends AppCompatActivity {
 
         @Override
         protected Void doInBackground(Void... arg0) {       //ProgressDialog 진행 정도
-            try {
-                for (int i = 0; i < 5; i++) {
-                    Thread.sleep(500);
-                }
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
             return null;
         }
 
         @Override
         protected void onPostExecute(Void result) {         //ProgressDialog 종료
+            populateData();
+            initAdapter();
+            initScrollListener();
             asyncDialog.dismiss();
             super.onPostExecute(result);
         }
@@ -262,7 +258,6 @@ public class SearchPage extends AppCompatActivity {
 
     //데이터 불러오기
     private void populateData() {
-
         //dummy
 //        items.add(new Search_data(
 //                R.drawable.baseline_verified_20,
@@ -275,14 +270,11 @@ public class SearchPage extends AppCompatActivity {
 //                "https://t1.daumcdn.net/cfile/tistory/994BEF355CD0313D05"
 //        ));
 
-
-        String url = "http://10.0.2.2:5000/search/" + keyword + "/" + page;
-        System.out.println("Get Data: " + url);
+        String localhost = new ServerHost().getHost_url("flask");
+        String url = localhost + "/search/" + keyword + "/" + page;
         JSONObject result = null;
         try {
             result = new AsyncGet().execute(url, "").get();
-            System.out.println("----------------------");
-            System.out.println(result);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -315,7 +307,7 @@ public class SearchPage extends AppCompatActivity {
     }
 
     private void initAdapter() {
-        adapter = new Search_Adapter(items, getApplicationContext());
+        adapter = new Search_Adapter(items, getApplicationContext(), search.getQueryHint().toString());
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(layoutManager);

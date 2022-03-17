@@ -13,6 +13,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.MenuItem;
 
+import com.example.truri.Network.ServerHost;
 import com.example.truri.middleware.AsyncGet;
 import com.example.truri.middleware.LevelCheck;
 
@@ -70,7 +71,7 @@ public class BookmarkPage extends AppCompatActivity {
 
         data = new ArrayList<>();
 
-        adapter = new Bookmark_Adapter(data);
+        adapter = new Bookmark_Adapter(data, getApplicationContext());
         recyclerView.setAdapter(adapter);
 
         //토큰 꺼내오기
@@ -82,7 +83,8 @@ public class BookmarkPage extends AppCompatActivity {
         }
 
         //데이터 가져오기
-        String url = "http://10.0.2.2:8080/bookmark/";
+        String localhost = new ServerHost().getHost_url("spring");
+        String url = localhost + "/bookmark/";
         getToken();
         JSONObject result = null;
         try {
@@ -100,7 +102,7 @@ public class BookmarkPage extends AppCompatActivity {
                 String color = levelCheck.stringColor(level);
 
                 Bookmark_data bookmark = new Bookmark_data(Long.valueOf(item.get("bookmarkId").toString()), icon, item.get("title").toString(),
-                        item.get("preview").toString(), color);
+                        item.get("preview").toString(), color, item.get("url").toString());
                 data.add(bookmark);
             }
         } catch (Exception e) {

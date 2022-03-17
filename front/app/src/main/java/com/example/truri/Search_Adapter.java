@@ -20,6 +20,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -41,10 +42,12 @@ public class Search_Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     private List<Search_data> items;
     private Context context;
+    private String keyword;
 
-    public Search_Adapter(List<Search_data> items, Context context) {
+    public Search_Adapter(List<Search_data> items, Context context, String keyword) {
         this.items = items;
         this.context = context;
+        this.keyword = keyword;
     }
 
 
@@ -72,19 +75,6 @@ public class Search_Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
         //todo 웹뷰 이동
         holder.itemView.setTag(position); //커스텀 뷰의 각각의 리스트를 의미
-
-//        holder.itemView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//
-//                String item_url = (String) holder.url.getText().toString();
-//
-//                Intent intent;
-//                intent = new Intent(context, WebPage.class); //웹뷰 화면 연결
-//                intent.putExtra("link", item_url); //변수값 인텐트로 넘기기
-//                context.startActivity(intent.addFlags(FLAG_ACTIVITY_NEW_TASK));
-//            }
-//        });
     }
 
     public void onClickShowAlert() {
@@ -216,6 +206,7 @@ public class Search_Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 intent.putExtra("date", data.getDate());
                 intent.putExtra("content", data.getContent());
                 intent.putExtra("image", data.getImage());
+                intent.putExtra("keyword", keyword);
                 context.startActivity(intent.addFlags(FLAG_ACTIVITY_NEW_TASK));
             }
         });
@@ -242,6 +233,7 @@ public class Search_Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         protected TextView title, content, url, date;
         protected ImageButton bookmark, review;
         protected LinearLayout layout;
+        protected SearchView search;
 
         public ItemViewHolder(@NonNull View itemView) {
             super(itemView);

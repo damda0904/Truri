@@ -18,6 +18,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.truri.Network.ServerHost;
 import com.example.truri.middleware.AsyncPost;
 import com.example.truri.middleware.LevelCheck;
 
@@ -75,11 +76,15 @@ public class GradeTextPage extends AppCompatActivity {
                 SharedPreferences jwt = getSharedPreferences("JWT", MODE_PRIVATE);
                 SharedPreferences history = getSharedPreferences("History", MODE_PRIVATE);
 
+                Intent preIntent = getIntent();
+                String keyword = preIntent.getStringExtra("keyword");
+
                 //토큰 불러오기
                 String token = jwt.getString("token", "");
 
                 //의견 제출
-                String url = "http://10.0.2.2:8080/opinion/";
+                String localhost = new ServerHost().getHost_url("spring");
+                String url = localhost + "/opinion/";
                 EditText et = findViewById(R.id.editText);
                 String content = et.getText().toString();
 
@@ -94,7 +99,9 @@ public class GradeTextPage extends AppCompatActivity {
 
                     JSONObject result = new AsyncPost().execute(url, body_string, token).get();
                     if(result != null){
-                        onBackPressed();
+                        Intent intent = new Intent(getApplicationContext(), SearchPage.class);
+                        intent.putExtra("keyword", keyword);
+                        startActivity(intent);
                     } else {
                         Toast.makeText(getApplicationContext(), "의견 등록에 실패했습니다.", Toast.LENGTH_SHORT).show();
                     }
@@ -102,8 +109,7 @@ public class GradeTextPage extends AppCompatActivity {
                     e.printStackTrace();
                 }
 
-                Intent intent = new Intent(getApplicationContext(), SearchPage.class);
-                startActivity(intent);
+
             }
         });
     }
