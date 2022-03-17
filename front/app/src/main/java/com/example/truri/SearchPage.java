@@ -186,22 +186,25 @@ public class SearchPage extends AppCompatActivity {
         search.setQueryHint(keyword);
 
         //검색
-        search.setOnClickListener(new View.OnClickListener() {
+        search.setOnClickListener(new View.OnClickListener(){
             @RequiresApi(api = Build.VERSION_CODES.KITKAT)
             @Override
             public void onClick(View view) {
+                SearchView search = (SearchView) view;
+
                 //검색어가 존재하는지 확인
-                if (keyword.equals("")) {
+                String newKeyword = search.getQuery().toString();
+                if (newKeyword.equals("")) {
                     Toast toast = Toast.makeText(getApplicationContext(), "검색어를 입력해주세요", Toast.LENGTH_SHORT);
                     toast.setGravity(Gravity.TOP, 0, 0);
                     toast.show();
                 } else {
                     //검색 히스토리 기록하기
                     ManageSharedPref manage = new ManageSharedPref();
-                    manage.setSearchHist(history, keyword);
+                    manage.setSearchHist(history, newKeyword);
 
                     Intent intent = new Intent(getApplicationContext(), SearchPage.class);
-                    intent.putExtra("keyword", keyword);
+                    intent.putExtra("keyword", newKeyword);
                     startActivity(intent);
                 }
             }
@@ -217,16 +220,12 @@ public class SearchPage extends AppCompatActivity {
             }
         });
 
-//        populateData();
-//        initAdapter();
-//        initScrollListener();
-//
-        //todo --------ProgressDialog 로딩 화면
+
         LoadingTask task = new LoadingTask();
         task.execute();
     }
 
-    //todo ----------ProgressDialog 로딩 화면
+    //ProgressDialog 로딩 화면
     private class LoadingTask extends AsyncTask<Void, Void, Void> {   //AsyncTask 클래스
 
         ProgressDialog asyncDialog = new ProgressDialog(SearchPage.this);
