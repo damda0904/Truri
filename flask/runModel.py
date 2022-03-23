@@ -8,7 +8,7 @@ import json
 import jpype
 import asyncio
 
-class multiHeadAttention(tf.keras.layers.Layer):
+class multiHeadAttention(tf.keras.layers.Layer):#멀티헤드 어텐션
     def __init__(self, embedding_dim, num_heads=8):
         super(multiHeadAttention, self).__init__()
         self.embedding_dim = embedding_dim # d_model
@@ -57,7 +57,7 @@ class multiHeadAttention(tf.keras.layers.Layer):
         outputs = self.dense(concat_attention)
         return outputs
 
-class TransformerBlock(tf.keras.layers.Layer):
+class TransformerBlock(tf.keras.layers.Layer): #트랜스포머 구조(인코더 부분만 사용)
     def __init__(self, embedding_dim, num_heads, dff, rate=0.1):
         super(TransformerBlock, self).__init__()
         self.att = multiHeadAttention(embedding_dim, num_heads)
