@@ -37,4 +37,4 @@ out/
 .vscode/
 
 ### 사용자 지정 ###
-application.properties
+src/main/java/resources/application.properties
