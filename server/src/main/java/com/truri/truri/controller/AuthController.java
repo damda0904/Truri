@@ -20,6 +20,13 @@ public class AuthController {
     private final MemberService memberService;
     private final Middleware middleware;
 
+    @GetMapping(value="/connection")
+    public ResponseEntity<String> connectionText(){
+        log.info("----------connection test-------------");
+
+        return new ResponseEntity<String>("connected!", HttpStatus.OK);
+    }
+
     @PostMapping(value= "/signup")
     public ResponseEntity<JSONObject> signup(@RequestBody String request) {
         log.info("-------------signup----------------------");
@@ -33,8 +40,6 @@ public class AuthController {
                     .nickname(body.get("nickname").toString())
                     .role("MEMBER")
                     .build();
-
-            log.info(memberDTO);
 
             String token = memberService.signup(memberDTO);
 

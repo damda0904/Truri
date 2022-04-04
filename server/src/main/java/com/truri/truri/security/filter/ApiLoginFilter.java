@@ -86,9 +86,9 @@ public class ApiLoginFilter extends AbstractAuthenticationProcessingFilter {
             throws IOException, ServletException {
 
         log.info("--------------ApiLoginFilter--------------------------");
-        log.info("successfulAuthentication: " + authResult);
+        log.info("successfulAuthentication");
 
-        log.info(authResult.getPrincipal());
+        //log.info(authResult.getPrincipal());
 
         String userId = authResult.getName();
 
@@ -98,8 +98,6 @@ public class ApiLoginFilter extends AbstractAuthenticationProcessingFilter {
 
             response.setContentType("text/plain");
             response.getOutputStream().write(token.getBytes());
-
-            log.info("token : " + token);
         } catch(Exception e) {
             e.printStackTrace();
         }

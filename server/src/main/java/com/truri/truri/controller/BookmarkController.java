@@ -30,8 +30,6 @@ public class BookmarkController {
     @GetMapping(value = "/")
     public ResponseEntity<JSONObject> getBookmark(@RequestHeader("Authorization") String token) throws Exception {
 
-        log.info("북마크를 가져옵니다");
-
         String userId = middleware.tokenToUserId(token);
 
         //토큰이 옳지 않을 경우

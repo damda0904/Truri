@@ -37,9 +37,6 @@ public class MemberServiceImpl implements MemberService{
 
         Member member = dtoToEntity(memberDTO);
 
-        log.info("======================");
-        log.info(member);
-
         memberRepository.save(member);
 
         String userId = member.getUserId();
