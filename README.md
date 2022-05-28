@@ -58,6 +58,6 @@
 # Server
 1. 서버는 Flask와 Spring Boot를 사용하여 2가지 서버를 구축하였습니다.
 2. Docker 및 AWS EC2를 이용하여 배포됩니다.
-3. Python2와 Java 15 버전을 기준으로 합니다.
+3. Python 3.9와 Java 15 버전을 기준으로 합니다.
 4. Flask 서버는 검색 기능을, Spring boot 서버는 사용자 편의 기능을 제공합니다.
 5. MariaDB(AWS RDS)와 연결됩니다.
